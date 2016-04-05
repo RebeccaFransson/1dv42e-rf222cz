@@ -4,7 +4,8 @@
   "description": "Mitt självständiga arbete i kursen 1dv42e",
   "main": "index.js",
   "dependencies": {
-    "node": "^0.0.0"
+    "node": "^0.0.0",
+    "webpack": "^1.12.14"
   },
   "devDependencies": {},
   "scripts": {
