@@ -1,0 +1,23 @@
+{
+  "name": "1dv42e-rf222cz",
+  "version": "1.0.0",
+  "description": "Mitt självständiga arbete i kursen 1dv42e",
+  "main": "index.js",
+  "dependencies": {
+    "node": "^0.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RebeccaFransson/1dv42e-rf222cz.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RebeccaFransson/1dv42e-rf222cz/issues"
+  },
+  "homepage": "https://github.com/RebeccaFransson/1dv42e-rf222cz#readme"
+}
