@@ -15,10 +15,12 @@
     "node": "^0.0.0",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
-    "webpack": "^1.12.14"
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
   },
   "devDependencies": {},
   "scripts": {
+    "dev": "./node_modules/.bin/webpack-dev-server --content-base TestApplication --inline --hot",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
