@@ -2,6 +2,7 @@
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
+import com.facebook.FacebookSdk;
 
 import React, {
   AppRegistry,
