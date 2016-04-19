@@ -15,6 +15,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;     // <--- import
+import com.facebook.FacebookSdk;
 
 public class MainActivity extends ReactActivity {
     CallbackManager mCallbackManager;

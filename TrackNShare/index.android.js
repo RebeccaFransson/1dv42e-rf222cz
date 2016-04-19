@@ -1,9 +1,18 @@
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-import com.facebook.FacebookSdk;
 
+ const FBSDK = require('react-native-fbsdk');
+
+ import Test from "./components/Test";
+console.log(Test);
+ const {
+   LoginButton,
+ } = FBSDK;
+
+console.log(LoginButton);
 import React, {
   AppRegistry,
   Component,
@@ -15,16 +24,25 @@ import React, {
 class TrackNShare extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!!!!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
+      <View>
+      <Test />
+      <Text>
+      Oh hello there
+      </Text>
+        <LoginButton
+          publishPermissions={["publish_actions"]}
+          onLoginFinished={
+            (error, result) => {
+              if (error) {
+                alert("login has error: " + result.error);
+              } else if (result.isCancelled) {
+                alert("login is cancelled.");
+              } else {
+                alert("login has finished with permissions: " + result.grantedPermissions)
+              }
+            }
+          }
+          onLogoutFinished={() => alert("logout.")}/>
       </View>
     );
   }
