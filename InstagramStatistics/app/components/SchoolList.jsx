@@ -1,7 +1,7 @@
 var React = require("react");
 var SchoolInfo = require("./SchoolInfo.jsx");
 var AddSchool = require("./AddSchool.jsx");
-var Login = require("./Login.jsx");
+
 
 module.exports = React.createClass({
    render:function(){

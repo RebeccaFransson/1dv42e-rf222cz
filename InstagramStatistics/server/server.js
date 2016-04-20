@@ -3,6 +3,11 @@ var path = require("path");
 
 var app = express();
 app.use(express.static(path.join(__dirname,"../app/dist")));
+
+app.get("/", function(req, res) {
+  res.sendFile(__dirname + '../index.html')
+})
+
 app.listen(7777,function(){
     console.log("Started listening on port", 7777);
 })
