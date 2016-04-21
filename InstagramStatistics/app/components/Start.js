@@ -1,16 +1,18 @@
-var React = require("react");
-var LoggedIn = require("./LoggedIn.js");
-var Login = require("./Login.js");
+
+import React from 'react';
+import LoggedIn from './LoggedIn';
+import Login from './Login';
 
 const Auth0Lock = require('auth0-lock');
 
-module.exports = React.createClass({
-
-  componentWillMount: function() {
+export default class Start extends React.Component{
+//kanske const?
+  componentWillMount(){
     this.lock = new Auth0Lock('WIv6wHA65nPGI6XJI96JO6oHAYv2RuiV', 'ymafransson.eu.auth0.com');
-    this.setState({idToken: this.getIdToken()})
-  },
-  getIdToken: function() {
+    console.log(this);
+    this.setState({idToken: null});//this.getIdToken()
+  }
+  getIdToken(){
     var idToken = localStorage.getItem('userToken');
     var authHash = this.lock.parseHash(window.location.hash);
     if (!idToken && authHash) {
@@ -24,14 +26,14 @@ module.exports = React.createClass({
       }
     }
     return idToken;
-  },
-  render: function() {
-    console.log('hej');
+  }
+  render(){
     if (this.state.idToken) {
-      return (<LoggedIn lock={this.lock} idToken={this.state.idToken} />);
+      //return (<LoggedIn lock={this.lock} idToken={this.state.idToken} />);
+      return (<Login lock={this.lock} />);
     } else {
 
       return (<Login lock={this.lock} />);
     }
   }
-});
+};

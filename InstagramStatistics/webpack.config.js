@@ -3,7 +3,7 @@ var webpack = require('webpack');
 
 module.exports = {
   context: __dirname,
-  devtool: debug ? "inline-sourcemap" : null,
+  devtool: "inline-source-map",//debug ? "inline-sourcemap" : null,
   entry: "./app/main.js",
   module: {
     loaders: [
@@ -18,7 +18,7 @@ module.exports = {
         test: /node_modules[\\\/]auth0-lock[\\\/].*\.ejs$/,
         loader: 'transform-loader/cacheable?ejsify'
       },
-      { 
+      {
         test: /\.json$/,
         loader: 'json-loader'
       },
@@ -34,7 +34,7 @@ module.exports = {
     ]
   },
   output: {
-    path: __dirname + "/app",
+    path: __dirname + "/app/dist",
     filename: "main.min.js"
   },
   plugins: debug ? [] : [

@@ -1,10 +1,9 @@
-
-var React = require("react");
-var ReactDOM = require("react-dom");
+import React from 'react';
+import ReactDOM from 'react-dom';
 //var SchoolsList = require("./components/SchoolList.jsx");
 //var SchoolStore = require("./stores/SchoolStore");
-var Start = require("./components/Start.js");
-
+//var Start = require("./components/Start.js");
+import Start from './components/Start';
 /*
 var _schools = SchoolStore.getSchools();
 SchoolStore.onChange(function(schools){
