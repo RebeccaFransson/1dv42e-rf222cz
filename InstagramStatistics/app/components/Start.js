@@ -9,11 +9,11 @@ export default class Start extends React.Component{
 //kanske const?
   componentWillMount(){
     this.lock = new Auth0Lock('WIv6wHA65nPGI6XJI96JO6oHAYv2RuiV', 'ymafransson.eu.auth0.com');
-    console.log(this);
-    this.setState({idToken: null});//this.getIdToken()
+    this.setState({idToken: this.getIdToken()});//this.getIdToken()
   }
   getIdToken(){
-    var idToken = localStorage.getItem('userToken');
+    //var idToken = localStorage.getItem('userToken');
+    var idToken = null;
     var authHash = this.lock.parseHash(window.location.hash);
     if (!idToken && authHash) {
       if (authHash.id_token) {
@@ -29,8 +29,8 @@ export default class Start extends React.Component{
   }
   render(){
     if (this.state.idToken) {
-      //return (<LoggedIn lock={this.lock} idToken={this.state.idToken} />);
-      return (<Login lock={this.lock} />);
+      return (<LoggedIn lock={this.lock} idToken={this.state.idToken} />);
+      //return (<Login lock={this.lock} />);
     } else {
 
       return (<Login lock={this.lock} />);

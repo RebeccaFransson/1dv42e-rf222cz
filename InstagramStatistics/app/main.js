@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 //var SchoolStore = require("./stores/SchoolStore");
 //var Start = require("./components/Start.js");
 import Start from './components/Start';
+
+import About from './components/About';
 /*
 var _schools = SchoolStore.getSchools();
 SchoolStore.onChange(function(schools){
@@ -13,7 +15,7 @@ SchoolStore.onChange(function(schools){
 */
 
 function render(){
-    //ReactDOM.render(<SchoolsList schools={_schools} />, document.getElementById("container"));
+    ReactDOM.render(<About />, document.getElementById("navigation"));
     ReactDOM.render( <Start />, document.getElementById("container"));
 }
 

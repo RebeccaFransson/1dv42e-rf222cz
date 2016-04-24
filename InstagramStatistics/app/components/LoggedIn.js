@@ -14,7 +14,7 @@ export default class LoggedIn extends React.Component{
         return;
       }
       this.setState({profile: profile});
-      //console.log(profile);
+      console.log(profile);
     }.bind(this));
   }
 

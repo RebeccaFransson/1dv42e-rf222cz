@@ -7,15 +7,13 @@ export default class Login extends React.Component{
     props.lock.show();
   }
 
-  render() {
+  render() {// class="col-md-4 btn btn-block btn-social btn-lg btn-instagram"
     console.log(this);
     return (
-    <div class="">
-      <div class="col-md-4"></div>
-      <a onClick={this.showLock(this.props)} class="col-md-4 btn btn-block btn-social btn-lg btn-instagram">
-        <span class="fa fa-instagram"></span> Sign in with Instagram
+    <div class="col-md-12 start">
+      <a onClick={this.showLock(this.props)} class="start-btn">
+        <span class="fa fa-instagram"></span> Get your statistics
       </a>
-      <div class="col-md-4"></div>
     </div>
   );
   }
