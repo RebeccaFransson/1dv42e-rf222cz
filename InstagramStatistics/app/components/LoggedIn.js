@@ -1,27 +1,22 @@
 import React from 'react';
+import actions from '../../redux/actions'
 
 export default class LoggedIn extends React.Component{
-  constructor(props) {
-    super(props);
-    this.state = {profile: null};
-  }
+
   componentDidMount() {
-    // In this case, the lock and token are retrieved from the parent component
-    // If these are available locally, use `this.lock` and `this.idToken`
     this.props.lock.getProfile(this.props.idToken, function (err, profile) {
       if (err) {
         console.log("Error loading the Profile", err);
         return;
       }
-      this.setState({profile: profile});
-      console.log(profile);
+      this.props.dispatch(actions.saveProfile(profile));
     }.bind(this));
   }
 
   render() {
-    if (this.state.profile) {
+    if (this.props.profile) {
       return (
-        <h2>Welcome {this.state.profile.nickname}</h2>
+        <h2>Welcome {this.props.profile.nickname}</h2>
       );
     } else {
       return (

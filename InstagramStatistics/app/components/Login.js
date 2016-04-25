@@ -2,19 +2,21 @@ import React from 'react';
 
 export default class Login extends React.Component{
 
-  showLock(props) {
-    console.log(this);
-    props.lock.show();
+   handleShowLock(){
+    this.props.lock.show();
   }
 
-  render() {// class="col-md-4 btn btn-block btn-social btn-lg btn-instagram"
-    console.log(this);
+  render() {
     return (
-    <div class="col-md-12 start">
-      <a onClick={this.showLock(this.props)} class="start-btn">
-        <span class="fa fa-instagram"></span> Get your statistics
-      </a>
-    </div>
-  );
+      <div class="col-md-12 start">
+        <a class="start-btn">
+            <button onClick={this.handleShowLock.bind(this)} class="login-btn">
+            <span class="fa fa-instagram pic-in-span"></span>
+            Calculate
+            <span class="fa fa-line-chart pic-in-span"></span>
+          </button>
+        </a>
+      </div>
+    );
   }
 };

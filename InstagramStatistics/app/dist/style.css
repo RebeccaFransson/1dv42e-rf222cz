@@ -3,6 +3,9 @@ body{
   height: 100%;
   background: #0d0d0d;
 }
+.container{
+  width: 100% !important;
+}
 .start-btn{
   font-size: 40px;
 }
@@ -12,8 +15,12 @@ body{
 
 
 /*ABOUT*/
+.nav-container{
+  background-color: #151414;
+  height: 148px;
+}
 .nav{
-  padding: 60px !important;
+  padding: 35px 50px !important;
   float: right !important;
 }
 .nav-text{
@@ -29,6 +36,20 @@ body{
   color: #334656;
 }
 
+/*LOGIN*/
+.login-btn{
+  background-color: #DEDEDE;
+  padding: 10px 20px 10px 20px;
+  border: none;
+  color: #4D4D4D;
+  border-radius: 2%;
+}
+.login-btn:hover{
+  background-color: #2D506D;
+}
+.pic-in-span{
+  padding: 0 20px 0 20px;
+}
 .btn-instagram{
   background-color: #3F729B;
   color: white;

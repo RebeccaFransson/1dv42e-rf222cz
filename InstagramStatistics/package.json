@@ -5,15 +5,7 @@
   "main": "index.js",
   "license": "ISC",
   "dependencies": {
-    "browserify": "^13.0.0",
-    "express": "^4.13.4",
-    "guid": "0.0.12",
-    "gulp": "^3.9.1",
-    "react": "^15.0.1",
-    "react-dom": "^15.0.1",
-    "reactify": "^1.1.1",
-    "vinyl-source-stream": "^1.1.0",
-
+    "auth0-lock": "^9.0.4",
     "babel-loader": "^6.2.0",
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-react-html-attrs": "^2.0.0",
@@ -21,7 +13,21 @@
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
-    "babel-preset-stage-0": "^6.3.13"
+    "babel-preset-stage-0": "^6.3.13",
+    "bootstrap": "^3.3.6",
+    "browserify": "^13.0.0",
+    "express": "^4.13.4",
+    "guid": "0.0.12",
+    "gulp": "^3.9.1",
+    "json-loader": "^0.5.4",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
+    "react-redux": "^4.4.5",
+    "reactify": "^1.1.1",
+    "redux": "^3.5.2",
+    "transform-loader": "^0.2.3",
+    "vinyl-source-stream": "^1.1.0",
+    "webpack": "^1.13.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -35,7 +41,6 @@
     "url": "git+https://github.com/RebeccaFransson/1dv42e-rf222cz.git"
   },
   "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/RebeccaFransson/1dv42e-rf222cz/issues"
   },
