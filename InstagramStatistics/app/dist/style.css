@@ -5,6 +5,7 @@ body{
 }
 .container{
   width: 100% !important;
+  min-height: 600px;
 }
 .start-btn{
   font-size: 40px;
@@ -19,11 +20,14 @@ body{
   background-color: #151414;
   height: 148px;
 }
+.open{
+  height: 400px;
+}
 .nav{
   padding: 35px 50px !important;
   float: right !important;
 }
-.nav-text{
+.nav-titel{
   font-size: 25px;
   padding: 25px 25px 0 0;
   float: left;
@@ -34,6 +38,17 @@ body{
 }
 .about-circle:hover{
   color: #334656;
+}
+.about-container{
+  height: 60%;
+}
+.about-text{
+  font-size: 25px;
+}
+/*ABOUT ANIMATION*/
+@keyframes example {
+    from {background-color: red;}
+    to {background-color: yellow;}
 }
 
 /*LOGIN*/
