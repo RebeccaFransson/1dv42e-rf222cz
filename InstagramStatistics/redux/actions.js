@@ -20,6 +20,11 @@ let actions = {
       type: 'SAVE_PROFILE',
       profile: profile
     }
+  },
+  logout: function(){
+    return{
+      type: 'LOGOUT'
+    }
   }
 }
 export default actions;

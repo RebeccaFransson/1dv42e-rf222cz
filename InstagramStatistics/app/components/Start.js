@@ -13,14 +13,16 @@ class Start extends React.Component{
 //kanske constructor?
   componentWillMount(){
     this.lock = new Auth0Lock('WIv6wHA65nPGI6XJI96JO6oHAYv2RuiV', 'ymafransson.eu.auth0.com');
-    this.props.dispatch(actions.saveIdToken(this.getIdToken()));
+    //fullösning måste fixas
+    if(localStorage.getItem('userToken')){
+      console.log('inne');
+      this.props.dispatch(actions.saveIdToken(this.getIdToken()));
+    }else{
+      this.getIdToken();
+    }
+
   }
-  /*
-  componentWillMount(){
-    this.lock = new Auth0Lock('WIv6wHA65nPGI6XJI96JO6oHAYv2RuiV', 'ymafransson.eu.auth0.com');
-    this.setState({idToken: this.getIdToken()});//this.getIdToken()
-  }
-  */
+
   getIdToken(){
     var idToken = localStorage.getItem('userToken');
     var authHash = this.lock.parseHash(window.location.hash);

@@ -22,7 +22,14 @@ export default function reducer(currState, action){
           idToken: currState.user.idToken,
           profile: action.profile
         }
-      })
+      });
+    case 'LOGOUT':
+      return Object.assign({}, currState, {
+        user: {
+          profile: null,
+          idToken: null
+        }
+      });
     default:
       return currState;
   }
