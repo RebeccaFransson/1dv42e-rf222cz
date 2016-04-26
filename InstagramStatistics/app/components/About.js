@@ -1,43 +1,34 @@
 import React from 'react';
 import actions from '../../redux/actions'
-import move from 'move-js'
+
 
 export default class About extends React.Component{
 
   handleShowAbout() {
     this.props.dispatch(actions.showAbout(!this.props.showAbout));
-    var hej = document.querySelector(".nav-container");
-    console.log(hej);
-    move(".about-circle").rotate(180).end();
     if(this.props.showAbout){
-      move(".nav-container").set('height', '148px').end();
+      document.querySelector('.nav-container').style.bottom = '0px';
+      document.querySelector('.about-circle').className = ' fa about-circle fa-arrow-circle-up';
     }else{
-      move(".nav-container").set('height', '400px').end();
+      document.querySelector('.nav-container').style.bottom = '300px';
+      document.querySelector('.about-circle').className = ' fa about-circle fa-arrow-circle-down';
     }
-
   }
 
-  render() {// class="col-md-4 btn btn-block btn-social btn-lg btn-instagram"
-    if(this.props.showAbout){
+  render() {
       return (
         <div class="nav-container">
           <AboutText/>
-            <div class="nav">
-                <div class="nav-titel">Close</div>
-                <div onClick={this.handleShowAbout.bind(this)} class="fa fa-arrow-circle-up about-circle" aria-hidden="true"></div>
+            <div class="nav-button">
+                <div class="nav-titel">{this.getTitel}</div>
+                {this.props.showAbout ?
+                   <div class="nav-titel">About</div> :
+                   <div class="nav-titel">Close</div>
+                 }
+                <div onClick={this.handleShowAbout.bind(this)} class="fa about-circle fa-arrow-circle-down" aria-hidden="true"></div>
             </div>
         </div>
       );
-    }else{
-      return (
-        <div class="nav-container">
-          <div class="nav">
-              <div class="nav-titel" >About</div>
-              <div onClick={this.handleShowAbout.bind(this)} class="fa fa-arrow-circle-up about-circle" aria-hidden="true"></div>
-          </div>
-        </div>
-      );
-    }
   }
 };
 

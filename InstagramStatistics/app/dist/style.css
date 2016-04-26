@@ -18,14 +18,34 @@ body{
 /*ABOUT*/
 .nav-container{
   background-color: #151414;
-  height: 148px;
+  position: relative;
+  bottom: 0px;
+  overflow-y: hidden;
+	max-height: 445px; /* approximate max height */
+
+	transition-property: bottom;
+	transition-duration: 1s;
+	transition-timing-function: ease-in;
+}
+.nav-container.closed-container {
+	bottom: 300px;
 }
 .open{
   height: 400px;
 }
-.nav{
+
+.nav-button{
+  cursor: pointer;
+  position: relative;
   padding: 35px 50px !important;
   float: right !important;
+
+  transition-property: bottom;
+	transition-duration: 1s;
+	transition-timing-function: ease-in;
+}
+.nav-button.closed-button{
+
 }
 .nav-titel{
   font-size: 25px;
@@ -40,15 +60,11 @@ body{
   color: #334656;
 }
 .about-container{
-  height: 60%;
+  height: 61%;
 }
 .about-text{
+  padding: 20px 0;
   font-size: 25px;
-}
-/*ABOUT ANIMATION*/
-@keyframes example {
-    from {background-color: red;}
-    to {background-color: yellow;}
 }
 
 /*LOGIN*/
