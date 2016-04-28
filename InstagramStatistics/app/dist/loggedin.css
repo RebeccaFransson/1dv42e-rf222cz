@@ -1,0 +1,36 @@
+.loggedin-top h1{
+  text-align: center;
+  color: white;
+  font-size: 4vw;
+  padding: 50px 0 30px 0;
+}
+.logout-btn{
+  font-size: 20px;
+  background-color: Transparent;
+  padding: 6px 12px 6px 12px;
+  border: 2.5px white solid;
+  color: white;
+  border-radius: 2%;
+  float: right;
+  margin-top: 40px;
+
+  transition-property: all;
+	transition-duration: 0.2s;
+	transition-timing-function: ease-in;
+}
+.logout-btn:hover{
+  background-color: rgba(32, 32, 32, 0.8);
+}
+
+
+/*LOADING*/
+.loading-scen h3{
+  color: white;
+  text-align: center;
+}
+.loader{
+  background-position: center;
+  padding: 50px;
+  background-image: url('loading.gif');
+  background-repeat: no-repeat;
+}

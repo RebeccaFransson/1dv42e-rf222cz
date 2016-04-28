@@ -22,15 +22,36 @@ export default class LoggedIn extends React.Component{
   render() {
     if (this.props.profile) {
       return (
-        <div>
-          <h2>Welcome {this.props.profile.nickname}</h2>
-          <button class="fa fa-sign-out btn btn-secondary" onClick={this.handleLogout.bind(this)}>Logout</button>
+        <div class="col-md-12 loggedin-top">
+          <div class="col-md-2"></div>
+          <h1 class="col-md-8">Welcome {this.props.profile.nickname}</h1>
+          <div class="col-md-2">
+            <button class="fa fa-sign-out btn btn-secondary logout-btn" onClick={this.handleLogout.bind(this)}>Logout</button>
+          </div>
+          
         </div>
       );
     } else {
       return (
-        <div className="loading">Loading profile</div>
+        <div class="col-md-12 loggedin-wrapper">
+          <div class="col-md-2"></div>
+          <h1 class="col-md-8">Loading profile...</h1>
+          <div class="col-md-2"></div>
+        </div>
       );
     }
   }
 };
+
+class loading extends React.Component{
+  render(){
+    <div class="col-md-12 loading-scen">
+      <div class="col-md-4"></div>
+      <h3 class="col-md-4">
+        <div class="loader"></div>
+        Gathering information
+      </h3>
+      <div class="col-md-4"></div>
+    </div>
+  }
+}

@@ -14,6 +14,7 @@ class Start extends React.Component{
   componentWillMount(){
     this.lock = new Auth0Lock('WIv6wHA65nPGI6XJI96JO6oHAYv2RuiV', 'ymafransson.eu.auth0.com');
     //fullösning måste fixas
+    console.log(localStorage.getItem('userToken'));
     if(localStorage.getItem('userToken')){
       console.log('inne');
       this.props.dispatch(actions.saveIdToken(this.getIdToken()));
