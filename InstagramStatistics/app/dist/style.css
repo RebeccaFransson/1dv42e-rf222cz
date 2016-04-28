@@ -1,11 +1,13 @@
 body{
   font-family: 'Ubuntu', sans-serif;
   height: 100%;
-  background: #0d0d0d;
+  background: white;
 }
+/*#0d0d0d;*/
 .container{
+  background-image: url('background.jpg');
   width: 100% !important;
-  min-height: 600px;
+  height: 100vh;
 }
 .start-btn{
   font-size: 40px;
@@ -17,9 +19,9 @@ body{
 
 /*ABOUT*/
 .nav-container{
-  background-color: #151414;
+  background-color: rgba(0, 0, 0, 0.68);;
   position: relative;
-  bottom: 0px;
+  bottom: 300px;
   overflow-y: hidden;
 	max-height: 445px; /* approximate max height */
 
@@ -68,20 +70,29 @@ body{
 }
 
 /*LOGIN*/
+.start h1{
+  font-size: 8vw;
+  font-family: 'Grand Hotel', cursive;
+  color: white;
+  padding: 80px 0 70px 0;
+}
 .login-btn{
-  background-color: #DEDEDE;
+  font-size: 2vw;
+  background-color: Transparent;
   padding: 10px 20px 10px 20px;
-  border: none;
-  color: #4D4D4D;
+  border: 3px white solid;
+  color: white;
   border-radius: 2%;
+
+  transition-property: all;
+	transition-duration: 0.2s;
+	transition-timing-function: ease-in;
 }
 .login-btn:hover{
-  background-color: #2D506D;
+  background-color: rgba(32, 32, 32, 0.8);
 }
-.pic-in-span{
-  padding: 0 20px 0 20px;
-}
-.btn-instagram{
-  background-color: #3F729B;
+.info{
+  padding: 0 0 5vw 0;
+  font-size: 1vw;
   color: white;
 }

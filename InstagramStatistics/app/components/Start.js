@@ -44,13 +44,13 @@ class Start extends React.Component{
     } else {
       return (
         <div>
-          <About dispatch={this.props.dispatch} showAbout={this.props.showAbout}/>
+
           <Login lock={this.lock} />
         </div>);
     }
   }
 };
-
+//<About dispatch={this.props.dispatch} showAbout={this.props.showAbout}/>
 
 function mapStateToProps(state){
   return state;

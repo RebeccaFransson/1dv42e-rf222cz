@@ -6,6 +6,8 @@ export default class About extends React.Component{
 
   handleShowAbout() {
     this.props.dispatch(actions.showAbout(!this.props.showAbout));
+    //hämta height on
+    let windowHeight = window.innerHeight;
     if(this.props.showAbout){
       document.querySelector('.nav-container').style.bottom = '0px';
       document.querySelector('.about-circle').className = ' fa about-circle fa-arrow-circle-up';
