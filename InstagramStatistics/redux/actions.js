@@ -1,3 +1,5 @@
+var $ = require("jquery");
+var promise = require("es6-promise");
 
 let actions = {
   showAbout: function(show){
@@ -13,23 +15,18 @@ let actions = {
     }
   },
   saveProfile: function(profile){
-    return{
-      type: 'SAVE_PROFILE',
-      profile: profile
-    }
-  },
-  saveProfileDB: function(profile){
-    console.log(profile);
-    return{
-    type: 'SAVE_PROFILE_DB',
-    data: $.ajax({
+    $.ajax({
       method: "POST",
       url: "/"+profile.nickname,
       dataType: "json",
       data: {
         id: profile.id,
         nickname: profile.nickname
-      }
+        }
+      })
+    return{
+      type: 'SAVE_PROFILE',
+      profile: profile
     }
   },
   logout: function(){

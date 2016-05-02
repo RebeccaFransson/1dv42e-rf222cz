@@ -16,6 +16,9 @@ function getUserInformation(req, res) {
 }
 
 function addUser(req, res) {
+  console.log(req.body);
+  console.log('adduser');
+  /*
     var user = new User(_.extend({}, req.body));
     user.save(function (err) {
         if (err)
@@ -23,6 +26,7 @@ function addUser(req, res) {
         else
             res.json(school);
     });
+    */
 }
 
 //update userinformation
