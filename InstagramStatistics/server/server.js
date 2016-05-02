@@ -1,14 +1,21 @@
+
 var express = require("express");
+var bodyParser = require("body-parser");
+var mongoose = require("mongoose");
 var path = require("path");
 
-var app = express();
-app.use(express.static(path.join(__dirname,"../app/dist")));
-//app.use(express.static('app'));
-console.log('hej på server');
-app.get("/", function(req, res) {
-  //res.sendFile('index.html');
-})
+//controllers
+var userController = require("./controllers/usersController");
 
-app.listen(7777,function(){
-    console.log("Started listening on port", 7777);
-})
+//Express request pipeline
+var app = express();
+app.use(express.static(path.join(__dirname, "../app/dist")));
+app.use(bodyParser.json())
+app.use("/", userController);
+
+app.listen(27017, function () {
+    console.log("Started listening on port", 27017);
+});
+
+// Connect to mongodb database
+mongoose.connect("mongodb://localhost/");

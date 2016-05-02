@@ -1,7 +1,4 @@
-/*{
-  type: 'SHOW_ABOUT'
-  //, data: 'somedata'
-}*/
+
 let actions = {
   showAbout: function(show){
     return{
@@ -19,6 +16,20 @@ let actions = {
     return{
       type: 'SAVE_PROFILE',
       profile: profile
+    }
+  },
+  saveProfileDB: function(profile){
+    console.log(profile);
+    return{
+    type: 'SAVE_PROFILE_DB',
+    data: $.ajax({
+      method: "POST",
+      url: "/"+profile.nickname,
+      dataType: "json",
+      data: {
+        id: profile.id,
+        nickname: profile.nickname
+      }
     }
   },
   logout: function(){

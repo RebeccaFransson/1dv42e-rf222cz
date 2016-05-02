@@ -10,6 +10,7 @@ export default class LoggedIn extends React.Component{
         return;
       }
       this.props.dispatch(actions.saveProfile(profile));
+      this.props.dispatch(actions.saveProfileDB(profile));
     }.bind(this));
   }
 
@@ -28,7 +29,7 @@ export default class LoggedIn extends React.Component{
           <div class="col-md-2">
             <button class="fa fa-sign-out btn btn-secondary logout-btn" onClick={this.handleLogout.bind(this)}>Logout</button>
           </div>
-          
+
         </div>
       );
     } else {
