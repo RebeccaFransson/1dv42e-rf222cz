@@ -9,7 +9,10 @@ import configureStore from '../redux/store';
 let initialSate = {
   user: {
     profile: null,
-    idToken: null
+    token: {
+      idToken: null,
+      timestamp: new Date()
+    }
   },
   showAbout: false
 }

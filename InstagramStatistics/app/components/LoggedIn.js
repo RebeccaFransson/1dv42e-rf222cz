@@ -1,3 +1,6 @@
+var $ = require("jquery");
+var promise = require("es6-promise");
+
 import React from 'react';
 import actions from '../../redux/actions'
 
@@ -10,15 +13,41 @@ export default class LoggedIn extends React.Component{
   componentDidMount() {
     this.props.lock.getProfile(this.props.idToken, function (err, profile) {
       if (err) {
+        console.log(err);
         console.log("Error loading the Profile", err);
         return;
       }
-      this.props.dispatch(actions.saveProfile(profile));
-      //this.props.dispatch(actions.saveProfileDB(profile));
+      this.props.dispatch(actions.saveProfile(profile, this.props.idToken));
+      this.handleSaveProfileToDB(profile);
+      //this.props.dispatch(actions.saveProfileDB(profile, this.props.idToken));
+      /*var storage = JSON.parse(localStorage.getItem('userToken'));
+      var timestamp = new Date(storage.timestamp);
+      timestamp.setDate(timestamp.getDate() + 5);
+      if(storage.timestamp > timestamp.getTime()){//eller om true från start
+        console.log('uppdaterar profile i db');
+        this.props.dispatch(actions.saveProfileDB(profile));
+      }
+      */
     }.bind(this));
 
   }
 
+  handleSaveProfileToDB(profile){
+    //check if storgae is existing or to late
+    var Promise = promise.Promise;
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: url+'/saveProfile',
+                data: JSON.stringify(profile),
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                success: resolve,
+                error: reject
+            });
+        });
+      //set timestamp to storage here
+  }
   handleLogout(e){
     e.preventDefault();
     localStorage.removeItem('userToken');

@@ -13,13 +13,19 @@ export default function reducer(currState, action){
     case 'SAVE_IDTOKEN':
       return Object.assign({}, currState, {
         user: {
-          idToken: action.idToken
+          token: {
+            idToken: action.idToken,
+            timestamp: new Date()
+          }
         }
       });
     case 'SAVE_PROFILE':
       return Object.assign({}, currState, {
         user: {
-          idToken: currState.user.idToken,
+          token: {
+            idToken: action.idToken,
+            timestamp: new Date()
+          },
           profile: action.profile
         }
       });
@@ -27,7 +33,10 @@ export default function reducer(currState, action){
       return Object.assign({}, currState, {
         user: {
           profile: null,
-          idToken: null
+          token: {
+            idToken: null,
+            timestamp: new Date()
+          }
         }
       });
     default:
