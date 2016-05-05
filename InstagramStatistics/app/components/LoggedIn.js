@@ -18,9 +18,12 @@ export default class LoggedIn extends React.Component{
         return;
       }
       this.props.dispatch(actions.saveProfile(profile, this.props.idToken));
-      this.handleSaveProfileToDB(profile);
+      this.handleSaveProfileToDB(profile).then(function(ja, nej){
+        console.log(ja,nej);
+      })
+
       //this.props.dispatch(actions.saveProfileDB(profile, this.props.idToken));
-      /*var storage = JSON.parse(localStorage.getItem('userToken'));
+      /*var storage = JSON.parse(sessionStorage.getItem('userToken'));
       var timestamp = new Date(storage.timestamp);
       timestamp.setDate(timestamp.getDate() + 5);
       if(storage.timestamp > timestamp.getTime()){//eller om true från start
@@ -33,25 +36,24 @@ export default class LoggedIn extends React.Component{
   }
 
   handleSaveProfileToDB(profile){
-    //check if storgae is existing or to late
+    //check if last_save is existing or to late
     var Promise = promise.Promise;
-        return new Promise(function (resolve, reject) {
-            $.ajax({
+        //return new Promise(function (resolve, reject) {
+            return $.ajax({
                 url: url+'/saveProfile',
                 data: JSON.stringify(profile),
                 method: "POST",
                 dataType: "json",
-                contentType: "application/json",
-                success: resolve,
-                error: reject
-            });
-        });
-      //set timestamp to storage here
+                contentType: "application/json"
+            })
+      //  });
+
   }
   handleLogout(e){
     e.preventDefault();
-    localStorage.removeItem('userToken');
+    sessionStorage.removeItem('userToken');
     this.props.dispatch(actions.logout());
+    //redirect
   }
 
   render() {

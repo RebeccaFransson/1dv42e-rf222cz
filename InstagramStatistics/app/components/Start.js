@@ -14,8 +14,8 @@ class Start extends React.Component{
   componentWillMount(){
     this.lock = new Auth0Lock('WIv6wHA65nPGI6XJI96JO6oHAYv2RuiV', 'ymafransson.eu.auth0.com');
     //fullösning måste fixas
-    //console.log(localStorage.getItem('userToken'));
-    //if(localStorage.getItem('userToken')){
+    //console.log(sessionStorage.getItem('userToken'));
+    //if(sessionStorage.getItem('userToken')){
       //console.log('inne');
     this.props.dispatch(actions.saveIdToken(this.getIdToken()));
 
@@ -34,22 +34,20 @@ class Start extends React.Component{
   }
 
   getIdToken(){
-    var idToken = JSON.parse(localStorage.getItem('userToken'));
+    var idToken = sessionStorage.getItem('userToken');
     var authHash = this.lock.parseHash(window.location.hash);
-    if (!idToken.token && authHash) {
-    console.log('inne');
-      if (authHash.id_token) {//om id token finns, om localStorage.timestamp är för sen
-        idToken.token = authHash.id_token
-        console.log('sätter storage');
-        let userTokenProps = JSON.stringify({token: authHash.id_token, timestamp: new Date().getTime()});
-        localStorage.setItem('userToken', userTokenProps);
+    if (!idToken && authHash) {
+      if (authHash.id_token) {
+        idToken = authHash.id_token
+        //let userTokenProps = JSON.stringify({token: authHash.id_token});
+        sessionStorage.setItem('userToken', authHash.id_token);
       }
       if (authHash.error) {
         console.log("Error signing in", authHash);
         return null;
       }
     }
-    return idToken.token;
+    return idToken;
   }
   render(){
     if (this.props.user.token.idToken) {

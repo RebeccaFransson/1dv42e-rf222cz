@@ -1,3 +1,4 @@
+"use strict";
 var mongoose = require('mongoose');
 var User = require('../data/users');
 var _ = require('underscore');
@@ -22,21 +23,28 @@ function getUserInformation(req, res) {
 function addUser(req, res) {
   console.log(req.body);
   console.log('adduser');
-  /*
+
   //hämta all statistik och skcika tillbaka
-  Promise.all([getAPI.twitter(name),
+  /*Promise.all([getAPI.twitter(name),
                 getAPI.spotify(name),
                 getAPI.tumblr(name)]).then(function(data){
                   res.send(JSON.stringify(data));
-    });
-    var user = new User(_.extend({}, req.body));
+    });*/
+    let userInfo = req.body;
+    var user = new User(_.extend({}, {
+      user_id: userInfo.user_id,
+      nickname: userInfo.nickname,
+      last_save: new Date()
+    }
+    ));
     user.save(function (err) {
         if (err)
             res.send(err);
         else
-            res.json(school);
+        console.log(user);
+            res.send(user);
     });
-    */
+
 }
 
 //update userinformation
