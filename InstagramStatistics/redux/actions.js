@@ -1,4 +1,4 @@
-
+"use strict";
 
 let actions = {
   showAbout: function(show){
@@ -7,17 +7,17 @@ let actions = {
       showAbout: show
     }
   },
-  saveIdToken: function(idToken){
+  saveTokens: function(tokens){
     return{
-      type: 'SAVE_IDTOKEN',
-      idToken: idToken
+      type: 'SAVE_TOKENS',
+      tokens: tokens
     }
   },
-  saveProfile: function(profile, idToken){
+  saveProfile: function(profile, tokens){
     return{
       type: 'SAVE_PROFILE',
       profile: profile,
-      idToken: idToken
+      tokens: tokens
     }
   },
   /*

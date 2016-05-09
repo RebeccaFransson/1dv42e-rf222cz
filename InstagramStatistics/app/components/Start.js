@@ -1,4 +1,4 @@
-
+"use strict";
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -17,7 +17,7 @@ class Start extends React.Component{
     //console.log(sessionStorage.getItem('userToken'));
     //if(sessionStorage.getItem('userToken')){
       //console.log('inne');
-    this.props.dispatch(actions.saveIdToken(this.getIdToken()));
+    this.props.dispatch(actions.saveTokens(this.getTokens()));
 
     //måste kolla om den är äldre än 2 dagar, om så - sätt ny storage
     /*console.log(this.props.user);
@@ -33,25 +33,29 @@ class Start extends React.Component{
 
   }
 
-  getIdToken(){
-    var idToken = sessionStorage.getItem('userToken');
+  getTokens(){
+    var tokens = sessionStorage.getItem('userTokens');
     var authHash = this.lock.parseHash(window.location.hash);
-    if (!idToken && authHash) {
+    let accessToken = null;
+    let idToken = null;
+    if (!tokens && authHash) {
       if (authHash.id_token) {
-        idToken = authHash.id_token
-        //let userTokenProps = JSON.stringify({token: authHash.id_token});
-        sessionStorage.setItem('userToken', authHash.id_token);
+        idToken = authHash.id_token;
+        accessToken = authHash.access_token;
+        let userTokens = JSON.stringify({idToken: idToken, accessToken: accessToken});
+        sessionStorage.setItem('userTokens', userTokens);
       }
       if (authHash.error) {
         console.log("Error signing in", authHash);
         return null;
       }
     }
-    return idToken;
+    return {idToken: idToken, accessToken: accessToken};
   }
   render(){
-    if (this.props.user.token.idToken) {
-      return (<LoggedIn dispatch={this.props.dispatch} profile={this.props.user.profile} lock={this.lock} idToken={this.props.user.token.idToken} />);
+    console.log(this.props);
+    if (this.props.user.tokens.idToken) {
+      return (<LoggedIn dispatch={this.props.dispatch} profile={this.props.user.profile} lock={this.lock} tokens={this.props.user.tokens}/>);
     } else {
       return (
         <div>

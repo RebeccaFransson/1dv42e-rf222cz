@@ -1,3 +1,4 @@
+"use strict";
 /*
 Tar gamla staten, kopierar den och ändrar på kopian
 */
@@ -10,11 +11,13 @@ export default function reducer(currState, action){
         showAbout: action.showAbout
       });
 
-    case 'SAVE_IDTOKEN':
+    case 'SAVE_TOKENS':
+    console.log(action.tokens);
       return Object.assign({}, currState, {
         user: {
-          token: {
-            idToken: action.idToken,
+          tokens: {
+            idToken: action.tokens.idToken,
+            accessToken: action.tokens.accessToken,
             timestamp: new Date()
           }
         }
@@ -22,8 +25,9 @@ export default function reducer(currState, action){
     case 'SAVE_PROFILE':
       return Object.assign({}, currState, {
         user: {
-          token: {
-            idToken: action.idToken,
+          tokens: {
+            idToken: action.tokens.idToken,
+            accessToken: action.tokens.accessToken,
             timestamp: new Date()
           },
           profile: action.profile
@@ -35,6 +39,7 @@ export default function reducer(currState, action){
           profile: null,
           token: {
             idToken: null,
+            accessToken: null,
             timestamp: new Date()
           }
         }

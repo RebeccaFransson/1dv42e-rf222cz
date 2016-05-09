@@ -9,8 +9,9 @@ import configureStore from '../redux/store';
 let initialSate = {
   user: {
     profile: null,
-    token: {
+    tokens: {
       idToken: null,
+      accessToken: null,
       timestamp: new Date()
     }
   },
