@@ -34,10 +34,10 @@ class Start extends React.Component{
   }
 
   getTokens(){
-    var tokens = sessionStorage.getItem('userTokens');
-    var authHash = this.lock.parseHash(window.location.hash);
-    let accessToken = null;
-    let idToken = null;
+    let tokens = sessionStorage.getItem('userTokens');
+    let authHash = this.lock.parseHash(window.location.hash);
+    let accessToken = JSON.parse(tokens).accessToken || null;
+    let idToken = JSON.parse(tokens).idToken || null;
     if (!tokens && authHash) {
       if (authHash.id_token) {
         idToken = authHash.id_token;

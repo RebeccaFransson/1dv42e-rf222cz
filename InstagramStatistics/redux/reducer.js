@@ -12,7 +12,6 @@ export default function reducer(currState, action){
       });
 
     case 'SAVE_TOKENS':
-    console.log(action.tokens);
       return Object.assign({}, currState, {
         user: {
           tokens: {
