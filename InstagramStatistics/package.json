@@ -26,6 +26,7 @@
     "react-redux": "^4.4.5",
     "reactify": "^1.1.1",
     "redux": "^3.5.2",
+    "request": "^2.72.0",
     "transform-loader": "^0.2.3",
     "underscore": "^1.8.3",
     "vinyl-source-stream": "^1.1.0",

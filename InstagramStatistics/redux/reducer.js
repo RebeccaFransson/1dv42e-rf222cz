@@ -36,7 +36,7 @@ export default function reducer(currState, action){
       return Object.assign({}, currState, {
         user: {
           profile: null,
-          token: {
+          tokens: {
             idToken: null,
             accessToken: null,
             timestamp: new Date()

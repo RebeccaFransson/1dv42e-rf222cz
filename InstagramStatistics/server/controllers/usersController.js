@@ -18,9 +18,14 @@ function getUserInformation(req, res) {
     });
 }
 function getSavedUser(id) {
-    User.find({ user_id: id }, function (err, user) {
-      return user;
+  return new Promise(function(resolve, reject){
+    User.findOne({ user_id: id }, function (err, user) {
+      console.log('error: ');
+      console.log(err);
+      console.log(user);
+      resolve(user);
     });
+  });
 }
 
 function addUser(req, res) {
@@ -32,33 +37,37 @@ function addUser(req, res) {
                   res.send(JSON.stringify(data));
     });*/
     //let allLikes = statisticsController.getAllLikes();
-    let savedUser = getSavedUser(req.body.profile.user_id);
-    console.log(req.body);
-    console.log(savedUser);
-    if(savedUser){
-      //hämta statistik och skriv över
-      let mediaAndFollowedBy = statisticsController.mediaAndFollowedBy(savedUser.user_id, savedUser.mediaOverTime, savedUser.followed_byOverTime, req.body.access_token);
-      console.log(mediaAndFollowedBy);
-      var user = new User(_.extend({}, {
-        user_id: req.body.profile.user_id,
-        nickname: req.body.profile.nickname,
-        last_save: new Date(),
-        mediaOverTime: [],
-        followed_byOverTime: []
+    console.log('start');
+    getSavedUser(req.body.user_id).then(
+      function(savedUser){
+        console.log('inne i then');
+        console.log(savedUser);
+      if(savedUser != undefined){
+        //hämta statistik och skriv över
+        let mediaAndFollowedBy = statisticsController.mediaAndFollowedBy(savedUser.user_id, savedUser.mediaOverTime, savedUser.followed_byOverTime);
+        console.log(mediaAndFollowedBy);
+        var user = new User(_.extend({}, {
+          user_id: req.body.profile.user_id,
+          nickname: req.body.profile.nickname,
+          last_save: new Date(),
+          mediaOverTime: [],
+          followed_byOverTime: []
+        }
+        ));
+        /*user.save(function (err) {
+            if (err)
+                res.send(err);
+            else
+            console.log(user);
+                res.send(user);
+        });*/
+      }else{
+        //hämta statistik och spara ny user
+        console.log('finns ingen saves user');
+        let mediaAndFollowedBy = statisticsController.mediaAndFollowedBy(req.body.identities[0].access_token, [], []);
+        console.log(mediaAndFollowedBy);
       }
-      ));
-      /*user.save(function (err) {
-          if (err)
-              res.send(err);
-          else
-          console.log(user);
-              res.send(user);
-      });*/
-    }else{
-      //hämta statistik och spara ny user
-      let mediaAndFollowedBy = statisticsController.mediaAndFollowedBy(req.body.user_id, [], []);
-      console.log(mediaAndFollowedBy);
-    }
+    });//then
 
 
 }

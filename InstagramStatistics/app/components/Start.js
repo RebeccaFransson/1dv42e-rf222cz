@@ -25,6 +25,8 @@ class Start extends React.Component{
     timestamp.setDate(timestamp.getDate() + 5);
     if(this.props.user.token.timestamp > timestamp.getTime()){
 
+https://api.instagram.com/oauth/authorize/?client_id=WIv6wHA65nPGI6XJI96JO6oHAYv2RuiV&redirect_uri=http://localhost:27017/&response_type=token
+
     }
     */
     /*}else{
@@ -36,8 +38,16 @@ class Start extends React.Component{
   getTokens(){
     let tokens = sessionStorage.getItem('userTokens');
     let authHash = this.lock.parseHash(window.location.hash);
-    let accessToken = JSON.parse(tokens).accessToken || null;
-    let idToken = JSON.parse(tokens).idToken || null;
+    console.log(authHash);
+    if(tokens != null){
+      console.log('skapa');
+      var accessToken = JSON.parse(tokens).accessToken;
+      var idToken = JSON.parse(tokens).idToken;
+    }else{
+      console.log('skapa null');
+      var accessToken = null;
+      var idToken = null;
+    }
     if (!tokens && authHash) {
       if (authHash.id_token) {
         idToken = authHash.id_token;
@@ -53,7 +63,6 @@ class Start extends React.Component{
     return {idToken: idToken, accessToken: accessToken};
   }
   render(){
-    console.log(this.props);
     if (this.props.user.tokens.idToken) {
       return (<LoggedIn dispatch={this.props.dispatch} profile={this.props.user.profile} lock={this.lock} tokens={this.props.user.tokens}/>);
     } else {

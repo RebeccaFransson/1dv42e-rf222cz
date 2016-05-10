@@ -17,7 +17,6 @@ export default class LoggedIn extends React.Component{
         console.log("Error loading the Profile", err);
         return;
       }
-      console.log(this.props.tokens);
       this.props.dispatch(actions.saveProfile(profile, this.props.tokens));
       this.handleSaveProfileToDB(profile).then(function(ja){
         console.log(ja);
@@ -27,18 +26,30 @@ export default class LoggedIn extends React.Component{
   }
 
   handleSaveProfileToDB(profile){
-    console.log(this.props);
+    /*return fetch(url+'/saveProfile', {
+      data: JSON.stringify({profile: profile, access_token: this.props.tokens.accessToken}),
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('userToken')
+      },
+      dataType: "json",
+      contentType: "application/json",
+      method: 'POST',
+      cache: false
+    });*/
     return $.ajax({
         url: url+'/saveProfile',
-        data: JSON.stringify({profile: profile, access_token: this.props.tokens.accessToken}),
+        data: JSON.stringify(profile),
         method: "POST",
         dataType: "json",
-        contentType: "application/json"
+        contentType: "application/json",
+        headers: {
+          'Authorization': 'Bearer ' + JSON.parse(sessionStorage.getItem('userTokens')).idToken
+        }
     })
   }
   handleLogout(e){
     e.preventDefault();
-    sessionStorage.removeItem('userToken');
+    sessionStorage.removeItem('userTokens');
     this.props.dispatch(actions.logout());
     //redirect
   }
