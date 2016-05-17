@@ -1,16 +1,22 @@
-#statistics-wrapper{
-  border: black solid 1px;
+#statistics{
+  font-family: 'Ubuntu', sans-serif;
 }
 #statistics-background{
   background: white;
   margin: 30px;
+  padding: 25px;
 }
-.topTenPicture{
+.topTwelvePicture{
   float: left;
   list-style: none;
   padding: 10px 41px 10px 41px;
   width: 33%;
+  color: #4E4D4D;
 }
-.topTenPicture img{
+.topTwelvePicture img{
   width: 100%;
+}
+.topTwelvePicture span{
+  font-size: 20px;
+  padding: 5px 0 0 8px;
 }

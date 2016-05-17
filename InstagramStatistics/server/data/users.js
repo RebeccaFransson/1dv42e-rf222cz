@@ -7,7 +7,7 @@ var usersSchema = mongoose.Schema({
     profile_picture: String,
     last_save: Date,
     counts: Object,
-    topTen: Array,
+    topTwelve: Array,
     access_token: String
 });
 

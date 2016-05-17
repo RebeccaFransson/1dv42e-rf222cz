@@ -45,7 +45,7 @@ export default class LoggedIn extends React.Component{
     this.props.dispatch(actions.logout());
     //redirect
   }
-//.statistics.topTen[0].likes
+//.statistics.topTwelve[0].likes
   render() {
     if (this.props.profile) {
       return (
@@ -59,7 +59,7 @@ export default class LoggedIn extends React.Component{
           </div>
           <div class="col-md-12">
             <div class="col-md-3"></div>
-            <div class="col-md-6" id="statistics-wrapper">
+            <div class="col-md-6" id="statistics-background">
               <Statistics statistics={this.props.statistics}/>
             </div>
             <div class="col-md-3"></div>
@@ -88,13 +88,13 @@ class Statistics extends React.Component{
           </h3>
       );
     }else{
-      console.log(this.props.statistics.topTen);
+      console.log(this.props.statistics.topTwelve);
         return(
-            <div id="statistics-background">
-              {this.props.statistics.topTen.map(function(image, index){
+          <div id="statistics">
+              {this.props.statistics.topTwelve.map(function(image, index){
                 return (
-                    <li key={index} class="topTenPicture">
-                      <img src={image.picture}/>
+                    <li key={index} class="topTwelvePicture">
+                      <img src={image.url}/>
                       <span class="fa fa-heart">{image.likes}</span>
                     </li>
                 )

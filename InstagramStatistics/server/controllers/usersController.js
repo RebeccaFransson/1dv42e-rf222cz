@@ -41,10 +41,11 @@ function addUser(req, res) {
       if(savedUser != null){
         console.log('finns sparad användare');
         //hämta statistik och skriv över
+
         getAllStatistics(savedUser.access_token, savedUser.counts.mediaOverTime, savedUser.counts.followed_byOverTime, savedUser.counts.followsOverTime)
         .then(function(data){
-          var update = _.extend(data[0], data[1].topTen, {last_save: new Date()});
-          //Uppdatera existerande användare
+        //Uppdatera existerande användare
+          var update = _.extend(data[0], data[1].topTwelve, {last_save: new Date()});
           savedUser.update({_id: savedUser._id}, {$set: update}, function (err, numAffected) {
               if (err)
                   res.send(err);
@@ -58,7 +59,7 @@ function addUser(req, res) {
         console.log('finns ingen saved user');
         getAllStatistics(req.body.identities[0].access_token, [], [], [])
         .then(function(data){
-          //console.log(data);
+          console.log(data);
           //Skapa ny användare
           var user = new User(_.extend({}, {
             user_id: req.body.user_id,
@@ -70,7 +71,7 @@ function addUser(req, res) {
               followed_byOverTime: data[0].followed_by,
               followsOverTime: data[0].follows
             },
-            topTen: data[1].topTen,
+            topTwelve: data[1].topTwelve,
             access_token: req.body.identities[0].access_token
           }));
           //Spara ny användare
@@ -90,7 +91,7 @@ function addUser(req, res) {
 }
 function getAllStatistics(access_token, media, followed, follows){
   return Promise.all([statisticsController.mediaAndFollowedBy(access_token, media, followed, follows),
-                      statisticsController.getTenMostLikedPictures(access_token)])
+                      statisticsController.getTwelveMostLikedPictures(access_token)])
 }
 //update userinformation
 function deleteSchool(req, res) {

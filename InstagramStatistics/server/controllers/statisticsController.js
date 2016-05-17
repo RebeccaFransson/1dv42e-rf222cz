@@ -23,57 +23,50 @@ module.exports = {
 
     });
   },
-  getTenMostLikedPictures: function(token){
+  getTwelveMostLikedPictures: function(token){
     console.log('getTenMostLikedPictures');
     return new Promise(function(resolve, reject){
       var max_id = '';
       request('https://api.instagram.com/v1/users/self/media/recent/?access_token='+token+'&max_id='+max_id,
       function (error, response, body) {
-        var topTen = [];
+        var topTwelve = [];
         var responseArray = JSON.parse(body).data;
         //Räkna ut bilden med minst likes
-        function indexOfSmallest(a){
-         var lowest = 0;
-         for (var i = 1; i < a.length; i++) {
-          if (a[i].likes < a[lowest].likes) lowest = i;
-         }
-         return lowest;
-        }
 
         if (!error && response.statusCode == 200) {
           for (let i = 0; i < responseArray.length; i++) {
-            //sortera topten, kolla om nya är mer eller mindre än sista(minsta) värdet i arrayen såfall ersätt
-            topTen.sort(function(a, b){
+            //sortera topTwelve, kolla om nya är mer eller mindre än sista(minsta) värdet i arrayen såfall ersätt
+            topTwelve.sort(function(a, b){
               var x = a['likes']; var y = b['likes'];
               return ((x < y) ? -1 : ((x > y) ? 1 : 0))});
-            if(topTen.length < 10){
-              topTen.push({
-                picture: responseArray[i].images.thumbnail.url,
+            if(topTwelve.length < 12){
+              topTwelve.push({
+                url: responseArray[i].images.thumbnail.url,
                 likes: responseArray[i].likes.count
               });
             }else{
               //Jamför och ersätt om minsta värdet är mindre än nya värdet
-              if(topTen[0].likes < responseArray[i].likes.count){
-                topTen.splice(0, 1);
-                topTen.push({
-                  picture: responseArray[i].images.thumbnail.url,
+              if(topTwelve[0].likes < responseArray[i].likes.count){
+                topTwelve.splice(0, 1);
+                topTwelve.push({
+                  url: responseArray[i].images.thumbnail.url,
                   likes: responseArray[i].likes.count
                 });
               }
             }
           }
           //Måste fråga en gång till och ändra max_id
-          topTen.sort(function(a, b){
+          topTwelve.sort(function(a, b){
             var x = a['likes']; var y = b['likes'];
-            return ((x < y) ? -1 : ((x > y) ? 1 : 0))});
-          //console.log(topTen);
+            return ((x < y) ? 1 : ((x > y) ? -1 : 0))});
+          //console.log(topTwelve);
           //Spara bilden och antal likes
           //Jämföra med andra bilder ta ut den som är minst och jämför med den nya
 
 
 
           //Skicka tillbaka array med tio populäraste
-          resolve({topTen: topTen});
+          resolve({topTwelve: topTwelve});
         }else{
           console.log('error');
           reject(error);
