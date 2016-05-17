@@ -42,8 +42,9 @@ function addUser(req, res) {
         console.log('finns sparad användare');
         //hämta statistik och skriv över
         //console.log(savedUser);
-        getAllStatistics(savedUser.access_token, savedUser.mediaOverTime, savedUser.followed_byOverTime)
+        getAllStatistics(savedUser.access_token, savedUser.counts.mediaOverTime, savedUser.counts.followed_byOverTime, savedUser.counts.followsOverTime)
         .then(function(data){
+          
           var update = _.extend(data[0], {last_save: new Date()});
           //Uppdatera existerande användare
           savedUser.update({_id: savedUser._id}, {$set: update}, function (err, numAffected) {
@@ -56,15 +57,19 @@ function addUser(req, res) {
       }else{
         //hämta statistik och spara ny user
         console.log('finns ingen saved user');
-        getAllStatistics(req.body.identities[0].access_token, [{count: 10, date: new Date()}], [])
+        getAllStatistics(req.body.identities[0].access_token, [], [], [])
         .then(function(data){
           //Skapa ny användare
           var user = new User(_.extend({}, {
             user_id: req.body.user_id,
             nickname: req.body.nickname,
+            profile_picture: req.body.profile_picture,
             last_save: new Date(),
-            mediaOverTime: data[0].media,
-            followed_byOverTime: data[0].followed_by,
+            counts: {
+              mediaOverTime: data[0].media,
+              followed_byOverTime: data[0].followed_by,
+              followsOverTime: data[0].follows
+            },
             access_token: req.body.identities[0].access_token
           }));
           //Spara ny användare
@@ -82,8 +87,8 @@ function addUser(req, res) {
 
 
 }
-function getAllStatistics(access_token, media, followed){
-  return Promise.all([statisticsController.mediaAndFollowedBy(access_token, media, followed)])
+function getAllStatistics(access_token, media, followed, follows){
+  return Promise.all([statisticsController.mediaAndFollowedBy(access_token, media, followed, follows)])
 }
 //update userinformation
 function deleteSchool(req, res) {

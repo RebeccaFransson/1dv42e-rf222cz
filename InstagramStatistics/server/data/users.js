@@ -4,9 +4,9 @@ var mongoose = require('mongoose');
 var usersSchema = mongoose.Schema({
     user_id: String,
     nickname: String,
+    profile_picture: String,
     last_save: Date,
-    mediaOverTime: Array,
-    followed_byOverTime: Array,
+    counts: Object,
     access_token: String
 });
 
