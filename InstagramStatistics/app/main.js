@@ -15,7 +15,13 @@ let initialSate = {
       timestamp: new Date()
     }
   },
-  showAbout: false
+  showAbout: false,
+  statistics: {
+    mediaOverTime: [],
+    followed_byOverTime: [],
+    followsOverTime: [],
+    topTen: []
+  }
 }
 //createstore
 let store = configureStore(initialSate)

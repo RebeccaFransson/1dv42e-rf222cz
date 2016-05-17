@@ -20,19 +20,13 @@ let actions = {
       tokens: tokens
     }
   },
-  /*
-  saveProfileDB: function(profile, idToken){
-    console.log('ajax');
-    $.ajax({
-      method: "POST",
-      url: "/saveProfile",
-      dataType: "json",
-      data: {
-        id: profile.id,
-        nickname: profile.nickname
-        }
-      })
-  },*/
+  saveStatistics: function(statistics){
+    return{
+      type: 'SAVE_STATISTICS',
+      counts: statistics.counts,
+      topTen: statistics.topTen
+    }
+  },
   logout: function(){
     return{
       type: 'LOGOUT'

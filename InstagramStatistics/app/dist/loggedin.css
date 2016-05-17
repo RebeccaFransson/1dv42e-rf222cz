@@ -19,7 +19,8 @@
 	transition-timing-function: ease-in;
 }
 .logout-btn:hover{
-  background-color: rgba(32, 32, 32, 0.8);
+  color: white;
+  background-color: rgba(255, 255, 255, 0.36);
 }
 
 
@@ -33,4 +34,9 @@
   padding: 50px;
   background-image: url('loading.gif');
   background-repeat: no-repeat;
+}
+
+/*Statistics wrapper*/
+.statistics-wrapper{
+  border: black solid 1px;
 }

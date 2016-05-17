@@ -32,6 +32,15 @@ export default function reducer(currState, action){
           profile: action.profile
         }
       });
+    case 'SAVE_STATISTICS':
+      return Object.assign({}, currState, {
+        statistics: {
+          mediaOverTime: action.counts.mediaOverTime,
+          followed_byOverTime: action.counts.followed_byOverTime,
+          followsOverTime: action.counts.followsOverTime,
+          topTen: action.topTen
+        }
+      });
     case 'LOGOUT':
       return Object.assign({}, currState, {
         user: {

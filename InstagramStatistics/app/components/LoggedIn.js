@@ -18,24 +18,16 @@ export default class LoggedIn extends React.Component{
         return;
       }
       this.props.dispatch(actions.saveProfile(profile, this.props.tokens));
-      this.handleSaveProfileToDB(profile).then(function(ja){
-        console.log(ja);
-      })
+      var that = this;
+      this.handleSaveProfileToDB(profile).then(function(data){
+        console.log(data);
+        that.props.dispatch(actions.saveStatistics(data));
+      });
     }.bind(this));
 
   }
 
   handleSaveProfileToDB(profile){
-    /*return fetch(url+'/saveProfile', {
-      data: JSON.stringify({profile: profile, access_token: this.props.tokens.accessToken}),
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('userToken')
-      },
-      dataType: "json",
-      contentType: "application/json",
-      method: 'POST',
-      cache: false
-    });*/
     return $.ajax({
         url: url+'/saveProfile',
         data: JSON.stringify(profile),
@@ -53,7 +45,7 @@ export default class LoggedIn extends React.Component{
     this.props.dispatch(actions.logout());
     //redirect
   }
-
+//.statistics.topTen[0].likes
   render() {
     if (this.props.profile) {
       return (
@@ -63,12 +55,14 @@ export default class LoggedIn extends React.Component{
           <div class="col-md-2">
             <button class="fa fa-sign-out btn btn-secondary logout-btn" onClick={this.handleLogout.bind(this)}>Logout</button>
           </div>
-
+          <div class="col-md-2"></div>
+          <Statistics statistics={this.props.statistics}/>
+          <div class="col-md-2"></div>
         </div>
       );
     } else {
       return (
-        <div class="col-md-12 loggedin-wrapper">
+        <div class="col-md-12 loggedin-top">
           <div class="col-md-2"></div>
           <h1 class="col-md-8">Loading profile...</h1>
           <div class="col-md-2"></div>
@@ -78,15 +72,23 @@ export default class LoggedIn extends React.Component{
   }
 };
 
-class loading extends React.Component{
+class Statistics extends React.Component{
   render(){
-    <div class="col-md-12 loading-scen">
-      <div class="col-md-4"></div>
-      <h3 class="col-md-4">
-        <div class="loader"></div>
-        Gathering information
-      </h3>
-      <div class="col-md-4"></div>
-    </div>
+    if(this.props.statistics.mediaOverTime.length == null){
+      return(
+          <h3 class="col-md-4">
+            <div class="loader"></div>
+            Gathering information
+          </h3>
+      );
+    }else{
+      console.log(this.props.statistics.topTen);
+        return(
+            <div class="col-md-8 statistics-wrapper">
+              {this.props.statistics.topTen}
+            </div>
+        );
+    }
+
   }
 }

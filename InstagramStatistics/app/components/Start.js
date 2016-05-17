@@ -64,7 +64,12 @@ https://api.instagram.com/oauth/authorize/?client_id=WIv6wHA65nPGI6XJI96JO6oHAYv
   }
   render(){
     if (this.props.user.tokens.idToken) {
-      return (<LoggedIn dispatch={this.props.dispatch} profile={this.props.user.profile} lock={this.lock} tokens={this.props.user.tokens}/>);
+      return (<LoggedIn
+        dispatch={this.props.dispatch}
+        profile={this.props.user.profile}
+        lock={this.lock}
+        tokens={this.props.user.tokens}
+        statistics={this.props.statistics}/>);
     } else {
       return (
         <div>
