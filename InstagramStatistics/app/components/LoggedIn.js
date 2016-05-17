@@ -49,15 +49,21 @@ export default class LoggedIn extends React.Component{
   render() {
     if (this.props.profile) {
       return (
-        <div class="col-md-12 loggedin-top">
-          <div class="col-md-2"></div>
-          <h1 class="col-md-8">Welcome {this.props.profile.nickname}</h1>
-          <div class="col-md-2">
-            <button class="fa fa-sign-out btn btn-secondary logout-btn" onClick={this.handleLogout.bind(this)}>Logout</button>
+        <div>
+          <div class="col-md-12 loggedin-top">
+            <div class="col-md-2"></div>
+            <h1 class="col-md-8">Welcome {this.props.profile.nickname}</h1>
+            <div class="col-md-2">
+              <button class="fa fa-sign-out btn btn-secondary logout-btn" onClick={this.handleLogout.bind(this)}>Logout</button>
+            </div>
           </div>
-          <div class="col-md-2"></div>
-          <Statistics statistics={this.props.statistics}/>
-          <div class="col-md-2"></div>
+          <div class="col-md-12">
+            <div class="col-md-3"></div>
+            <div class="col-md-6" id="statistics-wrapper">
+              <Statistics statistics={this.props.statistics}/>
+            </div>
+            <div class="col-md-3"></div>
+          </div>
         </div>
       );
     } else {
@@ -76,7 +82,7 @@ class Statistics extends React.Component{
   render(){
     if(this.props.statistics.mediaOverTime.length == null){
       return(
-          <h3 class="col-md-4">
+          <h3 class="col-md-6">
             <div class="loader"></div>
             Gathering information
           </h3>
@@ -84,8 +90,15 @@ class Statistics extends React.Component{
     }else{
       console.log(this.props.statistics.topTen);
         return(
-            <div class="col-md-8 statistics-wrapper">
-              {this.props.statistics.topTen}
+            <div id="statistics-background">
+              {this.props.statistics.topTen.map(function(image, index){
+                return (
+                    <li key={index} class="topTenPicture">
+                      <img src={image.picture}/>
+                      <span class="fa fa-heart">{image.likes}</span>
+                    </li>
+                )
+              })}
             </div>
         );
     }

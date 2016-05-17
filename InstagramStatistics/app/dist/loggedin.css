@@ -35,8 +35,3 @@
   background-image: url('loading.gif');
   background-repeat: no-repeat;
 }
-
-/*Statistics wrapper*/
-.statistics-wrapper{
-  border: black solid 1px;
-}

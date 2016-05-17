@@ -1,0 +1,16 @@
+#statistics-wrapper{
+  border: black solid 1px;
+}
+#statistics-background{
+  background: white;
+  margin: 30px;
+}
+.topTenPicture{
+  float: left;
+  list-style: none;
+  padding: 10px 41px 10px 41px;
+  width: 33%;
+}
+.topTenPicture img{
+  width: 100%;
+}
