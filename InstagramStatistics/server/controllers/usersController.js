@@ -20,8 +20,14 @@ function getUserInformation(req, res) {
 function getSavedUser(id) {
   return new Promise(function(resolve, reject){
     User.findOne({ user_id: id }, function (err, user) {
+      if (err) {
+        reject(err)
+      }
       resolve(user);
     });
+    /*User.find(function(err, data){
+      console.log(data);
+    })*/
   });
 }
 
@@ -32,57 +38,43 @@ function addUser(req, res) {
     console.log('start');
     getSavedUser(req.body.user_id).then(
       function(savedUser){
-      if(savedUser != undefined){
+      if(savedUser != null){
         console.log('finns sparad användare');
         //hämta statistik och skriv över
-        console.log(savedUser);
-        getAllStatistics(savedUser.identities[0].access_token, savedUser.mediaOverTime, savedUser.followed_byOverTime);
-        /*statisticsController.mediaAndFollowedBy(savedUser.identities[0].access_token, savedUser.mediaOverTime, savedUser.followed_byOverTime).then(
-          function(val){
-            console.log(val);
-          }
-        )*/
-
-        //Uppdatera existerande användare
-
-        //Spara existerande användare
-        /*user.save(function (err) {
-            if (err)
-                res.send(err);
-            else
-            console.log(user);
-                res.send(user);
-        });*/
-
+        //console.log(savedUser);
+        getAllStatistics(savedUser.access_token, savedUser.mediaOverTime, savedUser.followed_byOverTime)
+        .then(function(data){
+          var update = _.extend(data[0], {last_save: new Date()});
+          //Uppdatera existerande användare
+          savedUser.update({_id: savedUser._id}, {$set: update}, function (err, numAffected) {
+              if (err)
+                  res.send(err);
+              else
+                  res.send(savedUser);
+          });
+        });
       }else{
         //hämta statistik och spara ny user
         console.log('finns ingen saved user');
-        /*statisticsController.mediaAndFollowedBy(req.body.identities[0].access_token, [], []).then(
-          function(val){
-            console.log(val);
-          }
-        )*/
-        getAllStatistics(req.body.identities[0].access_token, [], [])
+        getAllStatistics(req.body.identities[0].access_token, [{count: 10, date: new Date()}], [])
         .then(function(data){
-          console.log(data[0].media);
-            //res.send(JSON.stringify(data));
-            //Skapa ny användare
-            var user = new User(_.extend({}, {
-              user_id: req.body.profile.user_id,
-              nickname: req.body.profile.nickname,
-              last_save: new Date(),
-              mediaOverTime: [],
-              followed_byOverTime: [],
-              access_token: req.body.identities[0].access_token
-            }));
-            //Spara ny användare
-            /*user.save(function (err) {
-                if (err)
-                    res.send(err);
-                else
-                console.log(user);
-                    res.send(user);
-            });*/
+          //Skapa ny användare
+          var user = new User(_.extend({}, {
+            user_id: req.body.user_id,
+            nickname: req.body.nickname,
+            last_save: new Date(),
+            mediaOverTime: data[0].media,
+            followed_byOverTime: data[0].followed_by,
+            access_token: req.body.identities[0].access_token
+          }));
+          //Spara ny användare
+          user.save(function (err) {
+              if (err){
+                  res.send(err);
+              }else{
+                  res.send(user);
+              }
+          });
           });
 
       }

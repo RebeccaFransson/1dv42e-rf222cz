@@ -5,6 +5,9 @@ var usersSchema = mongoose.Schema({
     user_id: String,
     nickname: String,
     last_save: Date,
+    mediaOverTime: Array,
+    followed_byOverTime: Array,
+    access_token: String
 });
 
-module.exports = mongoose.model("user", usersSchema);
+module.exports = mongoose.model('User', usersSchema, 'user');

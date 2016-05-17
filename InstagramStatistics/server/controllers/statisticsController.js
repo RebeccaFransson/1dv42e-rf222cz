@@ -6,7 +6,7 @@ module.exports = {
     console.log('inne i andra controllern');
   },
   mediaAndFollowedBy: function(token, media, followed_by){
-    console.log('hej');
+    console.log('mediaAndFollowedBy');
     return new Promise(function(resolve, reject){
       request('https://api.instagram.com/v1/users/self/?access_token='+token,
       function (error, response, body) {
