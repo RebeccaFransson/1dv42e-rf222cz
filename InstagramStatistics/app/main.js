@@ -16,6 +16,7 @@ let initialSate = {
     }
   },
   showAbout: false,
+  currentSlide: 0,
   statistics: {
     mediaOverTime: [],
     followed_byOverTime: [],

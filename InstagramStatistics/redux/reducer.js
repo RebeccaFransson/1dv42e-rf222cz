@@ -52,6 +52,22 @@ export default function reducer(currState, action){
           }
         }
       });
+    case 'TOGGLE_NEXT':
+      var next = currState.currentSlide + 1;
+      if (next > action.slideLength - 1) {
+        next = 0;
+      }
+      return Object.assign({}, currState, {
+        currentSlide: next
+      });
+    case 'TOGGLE_PREV':
+      var prev = currState.currentSlide - 1;
+      if (prev < 0) {
+        prev = action.slideLength - 1;
+      }
+      return Object.assign({}, currState, {
+        currentSlide: prev
+      });
     default:
       return currState;
   }

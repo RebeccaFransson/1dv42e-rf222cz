@@ -36,7 +36,6 @@ https://api.instagram.com/oauth/authorize/?client_id=WIv6wHA65nPGI6XJI96JO6oHAYv
   }
 
   getTokens(){
-    console.log(window.location);
     let tokens = sessionStorage.getItem('userTokens');
     let authHash = this.lock.parseHash(window.location.hash);
     if(tokens != null){

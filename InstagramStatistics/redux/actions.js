@@ -7,6 +7,18 @@ let actions = {
       showAbout: show
     }
   },
+  togglePrev: function(slideLength){
+    return{
+      type: 'TOGGLE_PREV',
+      slideLength: slideLength
+    }
+  },
+  toggleNext: function(slideLength){
+    return{
+      type: 'TOGGLE_NEXT',
+      slideLength: slideLength
+    }
+  },
   saveTokens: function(tokens){
     return{
       type: 'SAVE_TOKENS',

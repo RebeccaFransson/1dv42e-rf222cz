@@ -2,13 +2,13 @@
 var $ = require("jquery");
 
 import React from 'react';
-import actions from '../../redux/actions'
+import actions from '../../redux/actions';
+import StatisticsSlides from './StatisticsSlides';
 
 //const url = 'http://188.166.116.158:8000';//publik
 const url = 'http://localhost:27017';//lokal
 
 export default class LoggedIn extends React.Component{
-
 
   componentDidMount() {
     this.props.lock.getProfile(this.props.tokens.idToken, function (err, profile) {
@@ -20,7 +20,6 @@ export default class LoggedIn extends React.Component{
       this.props.dispatch(actions.saveProfile(profile, this.props.tokens));
       var that = this;
       this.handleSaveProfileToDB(profile).then(function(data, err){
-        console.log(data);
         that.props.dispatch(actions.saveStatistics(data));
       });
     }.bind(this));
@@ -58,8 +57,7 @@ export default class LoggedIn extends React.Component{
               <button class="fa fa-sign-out btn btn-secondary logout-btn" onClick={this.handleLogout.bind(this)}>Logout</button>
             </div>
           </div>
-
-            <Statistics statistics={this.props.statistics}/>
+            <Statistics statistics={this.props.statistics} dispatch={this.props.dispatch}/>
         </div>
       );
     } else {
@@ -75,8 +73,18 @@ export default class LoggedIn extends React.Component{
 };
 
 class Statistics extends React.Component{
+  constructor(){
+    super();
+    this.slides = ['TopTwelveSlide', 'MediaOverTimeSlide'];
+  }
+  togglePrev() {
+    this.props.dispatch(actions.togglePrev(this.slides.length));
+  }
+  toggleNext() {
+    this.props.dispatch(actions.toggleNext(this.slides.length));
+  }
+
   render(){
-    console.log(this.props.statistics.mediaOverTime.length);
     if(this.props.statistics.mediaOverTime.length < 1){
       return(
           <div class="col-md-12">
@@ -85,30 +93,24 @@ class Statistics extends React.Component{
           </div>
       );
     }else{
-      console.log(this.props.statistics.topTwelve);
         return(
           <div class="col-md-12">
-            <div class="col-md-3"><span class="fa fa-arrow-circle-left next-btn"/></div>
+            <div class="col-md-3"><span class="fa fa-arrow-circle-left " onClick={this.togglePrev.bind(this)}/></div>
 
             <div class="col-md-6">
               <div id="statistics-background">
-              <div id="statistics">
-                  {this.props.statistics.topTwelve.map(function(image, index){
-                    return (
-                        <li key={index} class="topTwelvePicture">
-                          <img src={image.url}/>
-                          <span class="fa fa-heart">{image.likes}</span>
-                        </li>
-                    )
-                  })}
-                </div>
+
+              <StatisticsSlides statistics={this.props.statistics} slides={this.slides}/>
+
               </div>
             </div>
 
-            <div class="col-md-3"><span class="fa fa-arrow-circle-right next-btn"/></div>
+            <div class="col-md-3"><span class="fa fa-arrow-circle-right" onClick={this.toggleNext.bind(this)}/></div>
           </div>
         );
     }
 
   }
 }
+/*<TopTwelveSlide statistics={this.props.statistics}/>
+<MediaOverTimeSlide/>*/

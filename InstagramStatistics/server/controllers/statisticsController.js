@@ -27,9 +27,11 @@ module.exports = {
     console.log('getTenMostLikedPictures');
     return new Promise(function(resolve, reject){
       var max_id = '';
-      request('https://api.instagram.com/v1/users/self/media/recent/?access_token='+token+'&max_id='+max_id,
+      var topTwelve = [];
+      //TODO: om instagram kan ge fler än 20 bilde -> while loop för att se om max_id finns
+      request('https://api.instagram.com/v1/users/self/media/recent/?access_token='+token+'&count=19&max_id='+max_id,
       function (error, response, body) {
-        var topTwelve = [];
+
         var responseArray = JSON.parse(body).data;
         //Räkna ut bilden med minst likes
 
