@@ -3,8 +3,11 @@
 }
 #statistics-background{
   background: white;
-  margin: 30px;
   padding: 25px;
+  border: 1px solid #ccc;
+  overflow-y: scroll;
+  height: 60vh;
+  width: 100%;
 }
 .topTwelvePicture{
   float: left;
@@ -19,4 +22,24 @@
 .topTwelvePicture span{
   font-size: 20px;
   padding: 5px 0 0 8px;
+}
+/*KNAPPAR*/
+.fa-arrow-circle-right, .fa-arrow-circle-left{
+  position: relative;
+  top: 100px;
+  padding: 0 50px 0 50px;
+  font-size: 131px;
+  color: rgba(255, 255, 255, 0.25);
+
+  transition: color 0.3s, padding 0.6s;
+  /*transition-property: all;
+	transition-duration: 0.5s;
+	transition-timing-function: ease-in;*/
+}
+.fa-arrow-circle-left{
+  float: right;
+}
+.fa-arrow-circle-right:hover, .fa-arrow-circle-left:hover{
+  padding: 0 55px 0 55px;
+  color: rgba(255, 255, 255, 0.5);
 }

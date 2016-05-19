@@ -19,7 +19,7 @@ export default class LoggedIn extends React.Component{
       }
       this.props.dispatch(actions.saveProfile(profile, this.props.tokens));
       var that = this;
-      this.handleSaveProfileToDB(profile).then(function(data){
+      this.handleSaveProfileToDB(profile).then(function(data, err){
         console.log(data);
         that.props.dispatch(actions.saveStatistics(data));
       });
@@ -44,8 +44,9 @@ export default class LoggedIn extends React.Component{
     sessionStorage.removeItem('userTokens');
     this.props.dispatch(actions.logout());
     //redirect
+    window.location.hash = '';
   }
-//.statistics.topTwelve[0].likes
+
   render() {
     if (this.props.profile) {
       return (
@@ -57,13 +58,8 @@ export default class LoggedIn extends React.Component{
               <button class="fa fa-sign-out btn btn-secondary logout-btn" onClick={this.handleLogout.bind(this)}>Logout</button>
             </div>
           </div>
-          <div class="col-md-12">
-            <div class="col-md-3"></div>
-            <div class="col-md-6" id="statistics-background">
-              <Statistics statistics={this.props.statistics}/>
-            </div>
-            <div class="col-md-3"></div>
-          </div>
+
+            <Statistics statistics={this.props.statistics}/>
         </div>
       );
     } else {
@@ -80,26 +76,37 @@ export default class LoggedIn extends React.Component{
 
 class Statistics extends React.Component{
   render(){
-    if(this.props.statistics.mediaOverTime.length == null){
+    console.log(this.props.statistics.mediaOverTime.length);
+    if(this.props.statistics.mediaOverTime.length < 1){
       return(
-          <h3 class="col-md-6">
+          <div class="col-md-12">
             <div class="loader"></div>
             Gathering information
-          </h3>
+          </div>
       );
     }else{
       console.log(this.props.statistics.topTwelve);
         return(
-          <div id="statistics">
-              {this.props.statistics.topTwelve.map(function(image, index){
-                return (
-                    <li key={index} class="topTwelvePicture">
-                      <img src={image.url}/>
-                      <span class="fa fa-heart">{image.likes}</span>
-                    </li>
-                )
-              })}
+          <div class="col-md-12">
+            <div class="col-md-3"><span class="fa fa-arrow-circle-left next-btn"/></div>
+
+            <div class="col-md-6">
+              <div id="statistics-background">
+              <div id="statistics">
+                  {this.props.statistics.topTwelve.map(function(image, index){
+                    return (
+                        <li key={index} class="topTwelvePicture">
+                          <img src={image.url}/>
+                          <span class="fa fa-heart">{image.likes}</span>
+                        </li>
+                    )
+                  })}
+                </div>
+              </div>
             </div>
+
+            <div class="col-md-3"><span class="fa fa-arrow-circle-right next-btn"/></div>
+          </div>
         );
     }
 

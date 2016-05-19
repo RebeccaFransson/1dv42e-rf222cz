@@ -32,9 +32,9 @@ function getSavedUser(id) {
 }
 
 function addUser(req, res) {
-
+  res.send(null);
   //hämta all statistik och skcika tillbaka
-
+/*
     console.log('start');
     getSavedUser(req.body.user_id).then(
       function(savedUser){
@@ -86,7 +86,7 @@ function addUser(req, res) {
 
       }
     });//then
-
+*/
 
 }
 function getAllStatistics(access_token, media, followed, follows){

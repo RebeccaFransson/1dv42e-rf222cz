@@ -15,7 +15,7 @@ export default class Login extends React.Component{
         <div class="col-md-2"></div>
         <div class="col-md-12">
         <div class="col-md-4"></div>
-          <span class="col-md-4 info">Very easy way to see and track your Instagram.
+          <span class="col-md-4 info">Very easy way to see an overview and track your Instagram.
           Just login with your Instagram-account - the app will to the rest!</span>
         <div class="col-md-4"></div>
         </div>
@@ -31,8 +31,3 @@ export default class Login extends React.Component{
     );
   }
 };
-/*
-<span class="fa fa-instagram pic-in-span"></span>
-Calculate
-<span class="fa fa-line-chart pic-in-span"></span>
-*/
