@@ -13,26 +13,7 @@ class Start extends React.Component{
 //kanske constructor?
   componentWillMount(){
     this.lock = new Auth0Lock('WIv6wHA65nPGI6XJI96JO6oHAYv2RuiV', 'ymafransson.eu.auth0.com');
-    //fullösning måste fixas
-    //console.log(sessionStorage.getItem('userToken'));
-    //if(sessionStorage.getItem('userToken')){
-      //console.log('inne');
     this.props.dispatch(actions.saveTokens(this.getTokens()));
-
-    //måste kolla om den är äldre än 2 dagar, om så - sätt ny storage
-    /*console.log(this.props.user);
-    var timestamp = new Date(this.props.user.token.timestamp);
-    timestamp.setDate(timestamp.getDate() + 5);
-    if(this.props.user.token.timestamp > timestamp.getTime()){
-
-https://api.instagram.com/oauth/authorize/?client_id=WIv6wHA65nPGI6XJI96JO6oHAYv2RuiV&redirect_uri=http://localhost:27017/&response_type=token
-
-    }
-    */
-    /*}else{
-      this.getIdToken();
-    }*/
-
   }
 
   getTokens(){

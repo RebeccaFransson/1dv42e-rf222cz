@@ -66,7 +66,6 @@ module.exports = {
           //Jämföra med andra bilder ta ut den som är minst och jämför med den nya
 
 
-
           //Skicka tillbaka array med tio populäraste
           resolve({topTwelve: topTwelve});
         }else{

@@ -3,7 +3,7 @@
   background: white;
   padding: 25px;
   border: 1px solid #ccc;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 60vh;
   width: 100%;
 }
