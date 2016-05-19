@@ -26,7 +26,6 @@ class StatisticsSlides extends React.Component{
 
       }
     });
-      console.log(slidesNodes);
     return(
       <div>
         {slidesNodes}
@@ -58,8 +57,12 @@ class TopTwelveSlide extends React.Component{
 
 class MediaOverTimeSlide extends React.Component{
   render(){
+    var classes = classNames({
+      'slide': true,
+      'slide--active': this.props.active
+    });
     return(
-      <div id="mediaOverTime">
+      <div className={classes} id="mediaOverTime">
           <h1>hej</h1>
         </div>
     );
