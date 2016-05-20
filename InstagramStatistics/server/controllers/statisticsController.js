@@ -14,7 +14,7 @@ module.exports = {
           media.push({count: JSON.parse(body).data.counts.media, date: new Date()});
           followed_by.push({count: JSON.parse(body).data.counts.followed_by, date: new Date()});
           follows.push({count: JSON.parse(body).data.counts.follows, date: new Date()});
-          resolve({media: media, followed_by: followed_by, follows: follows});
+          resolve({mediaOverTime: media, followed_byOverTime: followed_by, followsOverTime: follows});
         }else{
           console.log('error');
           reject(error);
@@ -67,7 +67,7 @@ module.exports = {
 
 
           //Skicka tillbaka array med tio populäraste
-          resolve({topTwelve: topTwelve});
+          resolve(topTwelve);
         }else{
           console.log('error');
           reject(error);

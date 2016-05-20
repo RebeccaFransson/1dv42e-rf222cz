@@ -5,7 +5,7 @@ var usersSchema = mongoose.Schema({
     user_id: String,
     nickname: String,
     profile_picture: String,
-    last_save: Date,
+    last_save: { type: Date, default: Date.now },
     counts: Object,
     topTwelve: Array,
     access_token: String

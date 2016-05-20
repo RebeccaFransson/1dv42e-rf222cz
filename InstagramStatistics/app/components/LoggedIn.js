@@ -20,6 +20,7 @@ export default class LoggedIn extends React.Component{
       this.props.dispatch(actions.saveProfile(profile, this.props.tokens));
       var that = this;
       this.handleSaveProfileToDB(profile).then(function(data, err){
+        console.log(data);
         that.props.dispatch(actions.saveStatistics(data));
       });
     }.bind(this));
@@ -85,6 +86,7 @@ class Statistics extends React.Component{
   }
 
   render(){
+    console.log(this.props);
     if(this.props.statistics.mediaOverTime.length < 1){
       return(
           <div class="col-md-12">
