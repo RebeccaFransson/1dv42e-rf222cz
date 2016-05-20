@@ -2,12 +2,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+var LineChart = require("react-chartjs").Line;
+import Chart from 'chart.js'
 
 class StatisticsSlides extends React.Component{
   render(){
     var that = this;
     var slidesNodes = this.props.slides.map(function (slideNode, index) {
-      var isActive = that.props.currentSlide === index;
+    var isActive = that.props.currentSlide === index;
       switch (slideNode) {
         case 'TopTwelveSlide':
           return (
@@ -16,7 +18,7 @@ class StatisticsSlides extends React.Component{
           break;
         case 'MediaOverTimeSlide':
           return (
-            <MediaOverTimeSlide active={isActive} key={index} />
+            <MediaOverTimeSlide active={isActive} key={index} media={that.props.statistics.mediaOverTime}/>
           );
           break;
         default:
@@ -56,16 +58,72 @@ class TopTwelveSlide extends React.Component{
 }
 
 class MediaOverTimeSlide extends React.Component{
+  hejsan(){
+    var ctx = document.getElementById("mediaOverTime");
+    if(ctx != null){
+      console.log(Chart);
+      var myChart = new Chart(ctx, {
+
+      data: {
+          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+          datasets: [{
+              label: '# of Votes',
+              data: [12, 19, 3, 5, 2, 3],
+              borderDash: [],
+              borderDashOffset: 0.0,
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  }
+              }]
+          }
+      }
+  });
+    }
+
+  }
   render(){
+  var chartData = {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3]
+        }]
+    };
+    var chartOptions = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+
     var classes = classNames({
       'slide': true,
       'slide--active': this.props.active
     });
-    return(
-      <div className={classes} id="mediaOverTime">
-          <h1>hej</h1>
+    if(this.props.media.length >= 1){
+      //this.hejsan();
+      //<LineChart data={chartData} options={chartOptions} width="700" height="300"/>
+      //<canvas className={classes} id="mediaOverTime" ></canvas>
+      return(
+        <div>
+        <LineChart data={chartData} options={chartOptions} width="400" height="400"/>
+
         </div>
-    );
+      );
+    }else{
+      return(
+        <h1>No data collected</h1>
+      )
+    }
+
   };
 }
 
