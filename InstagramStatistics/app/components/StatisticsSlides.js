@@ -58,34 +58,6 @@ class TopTwelveSlide extends React.Component{
 }
 
 class MediaOverTimeSlide extends React.Component{
-  hejsan(){
-    var ctx = document.getElementById("mediaOverTime");
-    if(ctx != null){
-      console.log(Chart);
-      var myChart = new Chart(ctx, {
-
-      data: {
-          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-          datasets: [{
-              label: '# of Votes',
-              data: [12, 19, 3, 5, 2, 3],
-              borderDash: [],
-              borderDashOffset: 0.0,
-          }]
-      },
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero:true
-                  }
-              }]
-          }
-      }
-  });
-    }
-
-  }
   render(){
   var chartData = {
         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
