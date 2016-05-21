@@ -2,8 +2,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-var LineChart = require("react-chartjs").Line;
+//var LineChart = require("react-chartjs").Pie;
 import Chart from 'chart.js'
+
 
 class StatisticsSlides extends React.Component{
   render(){
@@ -58,37 +59,52 @@ class TopTwelveSlide extends React.Component{
 }
 
 class MediaOverTimeSlide extends React.Component{
-  render(){
-  var chartData = {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3]
-        }]
-    };
-    var chartOptions = {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
+  hejsan(){
+    var ctx = document.getElementById("mediaOverTime");
+    if(ctx != null){
+      var data ={
+          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+          datasets: [{
+              label: '# of Votes',
+              data: [12, 19, 3, 5, 2, 3]
+          }]
+      }
+      var hej = new Chart(ctx.getContext("2d")).Line(data)
+      /*new Chart(ctx.getContext("2d"), {
+          type: 'bar',
+          data: {
+              labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+              datasets: [{
+                  label: '# of Votes',
+                  data: [12, 19, 3, 5, 2, 3]
+              }]
+          },
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              }
+          }
+      });*/
     }
+  }
+  render(){
 
     var classes = classNames({
       'slide': true,
       'slide--active': this.props.active
     });
     if(this.props.media.length >= 1){
-      //this.hejsan();
+      this.hejsan();
       //<LineChart data={chartData} options={chartOptions} width="700" height="300"/>
       //<canvas className={classes} id="mediaOverTime" ></canvas>
       return(
-        <div>
-        <LineChart data={chartData} options={chartOptions} width="400" height="400"/>
+        <canvas id="mediaOverTime" width="700" height="300" >
 
-        </div>
+        </canvas>
       );
     }else{
       return(

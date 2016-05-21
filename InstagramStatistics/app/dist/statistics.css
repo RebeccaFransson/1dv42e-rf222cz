@@ -48,7 +48,5 @@
 
 /*media*/
 #mediaOverTime{
-  background-color: #BF8F8F;
-  width: 100%;
-  height: 250px;
+  border: 1px solid;
 }
