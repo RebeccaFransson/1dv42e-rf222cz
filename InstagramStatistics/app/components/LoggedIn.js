@@ -76,7 +76,7 @@ export default class LoggedIn extends React.Component{
 class Statistics extends React.Component{
   constructor(){
     super();
-    this.slides = ['TopTwelveSlide', 'MediaOverTimeSlide'];
+    this.slides = ['TopTwelveSlide', 'MediaOverTimeSlide', 'Followed_byOverTimeSlide'];//TODO: gör auto
   }
   togglePrev() {
     this.props.dispatch(actions.togglePrev(this.slides.length));

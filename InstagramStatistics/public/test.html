@@ -1,0 +1,33 @@
+<div id="fooContainer">
+  <div class="foo"> Foo 1 </div>
+  <div class="foo"> Foo 2 </div>
+  <div class="foo"> Foo 3 </div>
+</div>
+
+<div class="hej" style="background-color: antiquewhite;height: 700px;">
+  <h1>hej</h1>
+</div>
+
+<div class="da" style="background-color: #6B4F2A;height: 500px;">
+  <h1>da</h1>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/scrollreveal.js/3.1.4/scrollreveal.min.js"></script>
+<script>
+console.log(pageYOffset);
+window.sr = ScrollReveal();
+var fooContainer = document.getElementById('fooContainer');
+sr.reveal('.foo', { container: fooContainer });
+sr.reveal('.hej', { duration: 1500, origin: 'bottom', distance    : '500px' });
+window.onscroll = function (e) {
+// called when the window is scrolled.
+if(pageYOffset > 200){
+  console.log('check');
+  sr.reveal('.da', { duration: 1500});
+
+}
+}
+
+</script>

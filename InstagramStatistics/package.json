@@ -25,7 +25,6 @@
     "mongoose": "^4.4.14",
     "node-persist": "0.0.11",
     "react": "^15.0.1",
-    "react-chartjs": "^0.7.3",
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
     "react-slick": "^0.12.2",

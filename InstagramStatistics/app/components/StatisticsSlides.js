@@ -2,7 +2,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-//var LineChart = require("react-chartjs").Pie;
 import Chart from 'chart.js'
 
 
@@ -22,6 +21,10 @@ class StatisticsSlides extends React.Component{
             <MediaOverTimeSlide active={isActive} key={index} media={that.props.statistics.mediaOverTime}/>
           );
           break;
+        case 'Followed_byOverTimeSlide':
+          return(
+            <Followed_byOverTimeSlide active={isActive} key={index} followed_by={that.props.statistics.followed_byOverTime}/>
+          );
         default:
         return (
           <TopTwelveSlide active={isActive} key={slideNode.id} topTwelve={that.props.statistics.topTwelve}/>
@@ -59,62 +62,81 @@ class TopTwelveSlide extends React.Component{
 }
 
 class MediaOverTimeSlide extends React.Component{
-  hejsan(){
-    var ctx = document.getElementById("mediaOverTime");
-    if(ctx != null){
-      var data ={
-          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-          datasets: [{
-              label: '# of Votes',
-              data: [12, 19, 3, 5, 2, 3]
-          }]
-      }
-      var hej = new Chart(ctx.getContext("2d")).Line(data)
-      /*new Chart(ctx.getContext("2d"), {
-          type: 'bar',
-          data: {
-              labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-              datasets: [{
-                  label: '# of Votes',
-                  data: [12, 19, 3, 5, 2, 3]
-              }]
-          },
-          options: {
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero:true
-                      }
-                  }]
-              }
-          }
-      });*/
-    }
-  }
   render(){
-
     var classes = classNames({
       'slide': true,
       'slide--active': this.props.active
     });
     if(this.props.media.length >= 1){
-      this.hejsan();
-      //<LineChart data={chartData} options={chartOptions} width="700" height="300"/>
-      //<canvas className={classes} id="mediaOverTime" ></canvas>
+      createChart('mediaOverTime', this.props.media);
       return(
         <canvas id="mediaOverTime" width="700" height="300" >
-
         </canvas>
       );
     }else{
       return(
         <h1>No data collected</h1>
       )
-    }
-
+    };
   };
-}
+};
 
+class Followed_byOverTimeSlide extends React.Component{
+  render(){
+    var classes = classNames({
+      'slide': true,
+      'slide--active': this.props.active
+    });
+    if(this.props.followed_by.length >= 1){
+      createChart('followed_byOverTime', this.props.followed_by);
+      return(
+        <div class={classes} >
+        <canvas id="followed_byOverTime" width="700" height="300"/>
+        </div>
+      );
+    }else{
+      return(
+        <h1>No data collected</h1>
+      )
+    };
+  };
+};
+
+function createChart(id, data){
+  //TODO:soertera per år & månad okcså
+  var ctx = document.getElementById(id);
+  //sätt data och labels i arrayser
+  var dataArray = [], labels = [];
+  Date.prototype.yyyymmdd = function() {
+    var yyyy = this.getFullYear().toString();
+    var mm = (this.getMonth()+1).toString(); // getMonth() är noll-baserad
+    var dd  = this.getDate().toString();
+    return yyyy +'-'+ (mm[1]?mm:"0"+mm[0]) +'-'+ (dd[1]?dd:"0"+dd[0]); // padding
+   };
+  for (var i = 0; i < data.length; i++) {
+    dataArray.push(data[i].count);
+    labels.push(new Date(data[i].date).yyyymmdd());
+  }
+  console.log(data);
+  if(ctx != null){
+    var chartData ={
+      labels: labels,
+      datasets: [
+          {
+              label: '# number of media',
+              fillColor: "rgba(255,221,134,0.49)",
+              strokeColor: "rgba(239,116,59,0.49)",
+              pointColor: "rgba(211,45,147,0.49)",
+              pointStrokeColor: "rgba(239,116,59,0.49)",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(220,220,220,1)",
+              data: dataArray
+          }
+        ]
+    }
+    new Chart(ctx.getContext("2d")).Line(chartData);
+  }
+}
 function mapStateToProps(state){
   return state;
 }
