@@ -130,6 +130,6 @@ function saveNewUser(req){
 
 function getAllStatistics(access_token, media, followed, follows){
   return Promise.all([statisticsController.mediaAndFollowedBy(access_token, media, followed, follows),
-                      statisticsController.getTwelveMostLikedPictures(access_token)])
+                      statisticsController.getThreeMostLikedPictures(access_token)])
 }
 module.exports = router;

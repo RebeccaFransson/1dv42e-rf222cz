@@ -23,8 +23,8 @@ module.exports = {
 
     });
   },
-  getTwelveMostLikedPictures: function(token){
-    console.log('getTenMostLikedPictures');
+  getThreeMostLikedPictures: function(token){
+    console.log('getThreeMostLikedPictures');
     return new Promise(function(resolve, reject){
       var max_id = '';
       var topTwelve = [];
@@ -41,7 +41,7 @@ module.exports = {
             topTwelve.sort(function(a, b){
               var x = a['likes']; var y = b['likes'];
               return ((x < y) ? -1 : ((x > y) ? 1 : 0))});
-            if(topTwelve.length < 12){
+            if(topTwelve.length < 3){
               topTwelve.push({
                 url: responseArray[i].images.thumbnail.url,
                 likes: responseArray[i].likes.count

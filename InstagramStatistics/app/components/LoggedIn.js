@@ -78,11 +78,9 @@ class Statistics extends React.Component{
     super();
     this.slides = ['TopTwelveSlide', 'MediaOverTimeSlide', 'Followed_byOverTimeSlide'];//TODO: gör auto
   }
-  togglePrev() {
-    this.props.dispatch(actions.togglePrev(this.slides.length));
-  }
+
   toggleNext() {
-    this.props.dispatch(actions.toggleNext(this.slides.length));
+    this.props.dispatch(actions.toggleNext('human'));
   }
 
   render(){
@@ -95,19 +93,21 @@ class Statistics extends React.Component{
           </div>
       );
     }else{
+        //
+        //id="statistics-background"
         return(
           <div class="col-md-12">
-            <div class="col-md-3"><span class="fa fa-arrow-circle-left " onClick={this.togglePrev.bind(this)}/></div>
+          <div class="col-md-3"></div>
 
             <div class="col-md-6">
-              <div id="statistics-background">
+              <div >
 
               <StatisticsSlides statistics={this.props.statistics} slides={this.slides}/>
 
               </div>
             </div>
 
-            <div class="col-md-3"><span class="fa fa-arrow-circle-right" onClick={this.toggleNext.bind(this)}/></div>
+            <div class="col-md-3"><span class="fa fa-arrow-circle-down" onClick={this.toggleNext.bind(this)}/></div>
           </div>
         );
     }

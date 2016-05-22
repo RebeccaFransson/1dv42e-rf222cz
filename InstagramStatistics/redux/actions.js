@@ -13,10 +13,10 @@ let actions = {
       slideLength: slideLength
     }
   },
-  toggleNext: function(slideLength){
+  toggleNext: function(who){
     return{
       type: 'TOGGLE_NEXT',
-      slideLength: slideLength
+      who: who
     }
   },
   saveTokens: function(tokens){

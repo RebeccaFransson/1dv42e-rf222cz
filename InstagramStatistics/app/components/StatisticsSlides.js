@@ -2,9 +2,79 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import Chart from 'chart.js'
+import Chart from 'chart.js';
+import $ from 'jquery';
+
+import actions from '../../redux/actions';
 
 
+
+class StatisticsSlides extends React.Component{
+  checkScroll(){
+    var that = this;
+    window.sr = ScrollReveal();
+    //window.onscroll = function (e) {
+      console.log(that.props.currentSlide);
+      if(that.props.currentSlide.who == 'human'){
+        that.props.dispatch(actions.toggleNext('human'));
+        switch (that.props.currentSlide.slide) {
+          case 1:
+            createChart('mediaOverTime', that.props.statistics.mediaOverTime);
+
+            $('html,body').animate({
+                scrollTop: $("#mediaOverTime").offset().top},
+                'slow');
+            that.props.dispatch(actions.toggleNext('cpu'));
+            break;
+          case 2:
+            createChart('followed_byOverTime', that.props.statistics.followed_byOverTime);
+
+            $('html,body').animate({
+                scrollTop: $("#followed_byOverTime").offset().top},
+                'slow');
+            that.props.dispatch(actions.toggleNext('cpu'));
+            break;
+          default:
+
+        }
+      }
+
+
+
+
+      console.log(pageYOffset);
+      /*if(pageYOffset == 200){
+        console.log('check');
+        createChart('mediaOverTime', that.props.statistics.mediaOverTime);
+        sr.reveal('#mediaOverTime', { duration: 1500});
+      }
+      if(pageYOffset > 400 && pageYOffset < 500){
+        console.log('check');
+        createChart('followed_byOverTime', that.props.statistics.followed_byOverTime);
+        sr.reveal('#followed_byOverTime', { duration: 1500});
+      }*/
+    //}
+  }
+  render(){
+    this.checkScroll();
+    return(
+      <div class="col-md-12">
+        <div class="col-md-12 info-square">
+          <TopTwelveSlide topTwelve={this.props.statistics.topTwelve}/>
+        </div>
+        <div class="col-md-12 info-square">
+          <canvas id="mediaOverTime" width="700" height="300" />
+        </div>
+        <div class="col-md-12 info-square">
+          <canvas id="followed_byOverTime" width="700" height="300"/>
+        </div>
+      </div>
+    );
+    //<Followed_byOverTimeSlide followed_by={this.props.statistics.followed_byOverTime}/>
+    //<MediaOverTimeSlide media={this.props.statistics.mediaOverTime}/>
+  }
+}
+/*
 class StatisticsSlides extends React.Component{
   render(){
     var that = this;
@@ -23,7 +93,7 @@ class StatisticsSlides extends React.Component{
           break;
         case 'Followed_byOverTimeSlide':
           return(
-            <Followed_byOverTimeSlide active={isActive} key={index} followed_by={that.props.statistics.followed_byOverTime}/>
+            <MediaOverTimeSlide active={isActive} key={index} media={that.props.statistics.mediaOverTime}/>
           );
         default:
         return (
@@ -39,15 +109,15 @@ class StatisticsSlides extends React.Component{
     );
   }
 }
-
+*/
 class TopTwelveSlide extends React.Component{
   render(){
-    var classes = classNames({
+    /*var classes = classNames({
       'slide': true,
       'slide--active': this.props.active
-    });
+    }); className={classes}*/
     return(
-      <div className={classes} id="topTwelve">
+      <div id="topTwelve">
         {this.props.topTwelve.map(function(image, index){
           return (
               <li key={index} class="topTwelvePicture">
@@ -63,14 +133,15 @@ class TopTwelveSlide extends React.Component{
 
 class MediaOverTimeSlide extends React.Component{
   render(){
-    var classes = classNames({
+    console.log(document.querySelector("#mediaOverTime"));
+    /*var classes = classNames({
       'slide': true,
       'slide--active': this.props.active
-    });
+    }); className={classes}*/
     if(this.props.media.length >= 1){
       createChart('mediaOverTime', this.props.media);
       return(
-        <canvas id="mediaOverTime" width="700" height="300" >
+        <canvas>
         </canvas>
       );
     }else{
@@ -83,14 +154,14 @@ class MediaOverTimeSlide extends React.Component{
 
 class Followed_byOverTimeSlide extends React.Component{
   render(){
-    var classes = classNames({
+    /*var classes = classNames({
       'slide': true,
       'slide--active': this.props.active
-    });
+    }); className={classes}*/
     if(this.props.followed_by.length >= 1){
       createChart('followed_byOverTime', this.props.followed_by);
       return(
-        <div class={classes} >
+        <div>
         <canvas id="followed_byOverTime" width="700" height="300"/>
         </div>
       );
@@ -117,7 +188,7 @@ function createChart(id, data){
     dataArray.push(data[i].count);
     labels.push(new Date(data[i].date).yyyymmdd());
   }
-  console.log(data);
+
   if(ctx != null){
     var chartData ={
       labels: labels,
@@ -134,7 +205,9 @@ function createChart(id, data){
           }
         ]
     }
-    new Chart(ctx.getContext("2d")).Line(chartData);
+
+    var hej = new Chart(ctx.getContext("2d")).Line(chartData);
+
   }
 }
 function mapStateToProps(state){

@@ -53,12 +53,12 @@ export default function reducer(currState, action){
         }
       });
     case 'TOGGLE_NEXT':
-      var next = currState.currentSlide + 1;
-      if (next > action.slideLength - 1) {
-        next = 0;
-      }
+      var next = currState.currentSlide.slide + 1;
       return Object.assign({}, currState, {
-        currentSlide: next
+        currentSlide: {
+          slide: next,
+          who: action.who
+        }
       });
     case 'TOGGLE_PREV':
       var prev = currState.currentSlide - 1;
