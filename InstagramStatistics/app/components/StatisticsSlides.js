@@ -12,162 +12,100 @@ import actions from '../../redux/actions';
 class StatisticsSlides extends React.Component{
   componentDidMount(){
     var that = this;
-    var controller = new ScrollMagic.Controller();
     window.sr = ScrollReveal();
-console.log(document.getElementById('mediaOverTime'));
-    // create a scene
-/*var hej = new ScrollMagic.Scene({
-        duration: 100,  // the scne should last for a scroll distance of 100px
-        triggerElement: '#mediaOverTime'      // start this scene after scrolling for 50px
-    })
-    hej
-    hej.addTo(controller); // assign the scene to the controller
-console.log(hej);*/
-var scene = new ScrollMagic.Scene({
-                  duration: 100,  // the scne should last for a scroll distance of 100px
-									triggerElement: "#mediaOverTime"
-								})
-								.setPin("#mediaOverTimeCanvas") // pins the element for the the scene's duration
-								.addTo(controller);
-console.log(that.props.currentSlide);
+
+sr.reveal('#mediaOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px' });
+createChart('mediaOverTimeCanvas', that.props.statistics.mediaOverTime);
+
+sr.reveal('#followsOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px'});
+createChart('followed_byOverTimeCanvas', that.props.statistics.followed_byOverTime);
+sr.reveal('#followed_byOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px'});
+createChart('followsOverTimeCanvas', that.props.statistics.followsOverTime);
     $(window).scroll(function() {
-      if(that.props.currentSlide == 0){
-        console.log(that.checkScrollElement('#mediaOverTime', this));
-        if(that.checkScrollElement('#mediaOverTime', this)){
-          createChart('mediaOverTimeCanvas', that.props.statistics.mediaOverTime);
-          that.props.dispatch(actions.toggleNext());
-          sr.reveal('#mediaOverTimeCanvas', { duration: 1500});
-        }
-      }else if(that.props.currentSlide == 1){
-        if(that.checkScrollElement('#followed_byOverTime', this)){
-          createChart('followed_byOverTimeCanvas', that.props.statistics.followed_byOverTime);
-          that.props.dispatch(actions.toggleNext());
-        }
+      switch (that.props.currentSlide) {
+        case 0:
+          if(that.checkScrollElement('#mediaOverTime', this)){
+            sr.reveal('#mediaOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px' });
+            //createChart('mediaOverTimeCanvas', that.props.statistics.mediaOverTime);
+            that.props.dispatch(actions.toggleNext());
+          }
+          break;
+        case 1:
+          if(that.checkScrollElement('#followed_byOverTime', this)){
+            //createChart('followed_byOverTimeCanvas', that.props.statistics.followed_byOverTime);
+            that.props.dispatch(actions.toggleNext());
+            //sr.reveal('#followed_byOverTime', { duration: 1000});
+          }
+          break;
+        case 2:
+          if(that.checkScrollElement('#followsOverTime', this)){
+            //createChart('followsOverTimeCanvas', that.props.statistics.followsOverTime);
+            that.props.dispatch(actions.toggleNext());
+            //sr.reveal('#followsOverTime', { duration: 1000});
+          }
+          break;
+        default:
+        //TODO: sista caset byt rikting på pilen för att ta upp användaren
       }
 
     });
-
-    /*window.onscroll = function (e) {
-      //console.log(that.props.currentSlide);
-      console.log(pageYOffset);
-
-}*/
-      /*if(that.props.currentSlide.who == 'human'){
-        //that.props.dispatch(actions.toggleNext('human'));
-        switch (that.props.currentSlide.slide) {
-          case 1:
-            createChart('mediaOverTime', that.props.statistics.mediaOverTime);
-
-            $('html,body').animate({
-                scrollTop: $("#mediaOverTime").offset().top},
-                'slow');
-                console.log('en scroll');
-            //that.props.dispatch(actions.toggleNext('cpu'));
-            break;
-          case 2:
-            createChart('followed_byOverTime', that.props.statistics.followed_byOverTime);
-
-            $('html,body').animate({
-                scrollTop: $("#followed_byOverTime").offset().top},
-                'slow');
-            //that.props.dispatch(actions.toggleNext('cpu'));
-            break;
-          default:
-
-        }
-      }
-
-*/
-
-
-      //console.log(pageYOffset);
-      /*if(pageYOffset == 200){
-        console.log('check');
-        createChart('mediaOverTime', that.props.statistics.mediaOverTime);
-        sr.reveal('#mediaOverTime', { duration: 1500});
-      }
-      if(pageYOffset > 400 && pageYOffset < 500){
-        console.log('check');
-        createChart('followed_byOverTime', that.props.statistics.followed_byOverTime);
-        sr.reveal('#followed_byOverTime', { duration: 1500});
-      }*/
-    //}
   }
 
   checkScrollElement(id, that){
-    var hT = $(id).offset().top,
-   hH = $(id).outerHeight(),
-   wH = $(window).height(),
-   wS = $(that).scrollTop();
-        return wS > (hT+hH-wH);
+    var hT = $(id).offset().top - 200,
+       hH = $(id).outerHeight(),
+       wH = $(window).height(),
+       wS = $(that).scrollTop();
+    return wS > (hT+hH-wH);
+  }
+
+  toggleNext() {
+    this.props.dispatch(actions.toggleNext());
   }
 
   render(){
-    //this.checkScroll();
+    var arrow;
+    console.log(this.props.currentSlide);
+    if (this.props.currentSlide == 3) {
+        arrow = <span class="fa fa-arrow-circle-up" onClick={this.toggleNext.bind(this)}/>;
+    } else {
+        arrow = <span class="fa fa-arrow-circle-down" onClick={this.toggleNext.bind(this)}/>;
+    }
+    console.log(arrow);
     return(
       <div class="col-md-12">
-        <div class="col-md-12 info-square">
-          <TopTwelveSlide topTwelve={this.props.statistics.topTwelve}/>
-        </div>
-        <div class="col-md-12 info-square" id="mediaOverTime">
-          <canvas id="mediaOverTimeCanvas" width="700" height="300" />
-        </div>
-        <div class="col-md-12 info-square" id="followed_byOverTime">
-          <canvas id="followed_byOverTimeCanvas" width="700" height="300"/>
-        </div>
-      </div>
-    );
-    //<Followed_byOverTimeSlide followed_by={this.props.statistics.followed_byOverTime}/>
-    //<MediaOverTimeSlide media={this.props.statistics.mediaOverTime}/>
-  }
-}
-/*
-class StatisticsSlides extends React.Component{
-  render(){
-    var that = this;
-    var slidesNodes = this.props.slides.map(function (slideNode, index) {
-    var isActive = that.props.currentSlide === index;
-      switch (slideNode) {
-        case 'TopTwelveSlide':
-          return (
-            <TopTwelveSlide active={isActive} key={index} topTwelve={that.props.statistics.topTwelve}/>
-          );
-          break;
-        case 'MediaOverTimeSlide':
-          return (
-            <MediaOverTimeSlide active={isActive} key={index} media={that.props.statistics.mediaOverTime}/>
-          );
-          break;
-        case 'Followed_byOverTimeSlide':
-          return(
-            <MediaOverTimeSlide active={isActive} key={index} media={that.props.statistics.mediaOverTime}/>
-          );
-        default:
-        return (
-          <TopTwelveSlide active={isActive} key={slideNode.id} topTwelve={that.props.statistics.topTwelve}/>
-        );
+        <div class="col-md-3"></div>
 
-      }
-    });
-    return(
-      <div>
-        {slidesNodes}
+          <div class="col-md-6">
+            <div class="col-md-12">
+              <div class="col-md-12 info-square">
+                <TopTwelveSlide topTwelve={this.props.statistics.topTwelve}/>
+              </div>
+              <div class="col-md-12 info-square" id="mediaOverTime">
+                <canvas id="mediaOverTimeCanvas" width="700" height="300" />
+              </div>
+              <div class="col-md-12 info-square" id="followed_byOverTime">
+                <canvas id="followed_byOverTimeCanvas" width="700" height="300"/>
+              </div>
+              <div class="col-md-12 info-square" id="followsOverTime">
+                <canvas id="followsOverTimeCanvas" width="700" height="300"/>
+              </div>
+            </div>
+          </div>
+
+        <div class="col-md-3">{arrow}</div>
       </div>
     );
   }
 }
-*/
+
 class TopTwelveSlide extends React.Component{
   render(){
-    /*var classes = classNames({
-      'slide': true,
-      'slide--active': this.props.active
-    }); className={classes}*/
     return(
       <div id="topTwelve">
         {this.props.topTwelve.map(function(image, index){
           return (
-              <li key={index} class="topTwelvePicture">
+              <li key={index} class="topThreePicture">
                 <img src={image.url}/>
                 <span class="fa fa-heart">{image.likes}</span>
               </li>
@@ -177,48 +115,6 @@ class TopTwelveSlide extends React.Component{
     );
   };
 }
-
-class MediaOverTimeSlide extends React.Component{
-  render(){
-    console.log(document.querySelector("#mediaOverTime"));
-    /*var classes = classNames({
-      'slide': true,
-      'slide--active': this.props.active
-    }); className={classes}*/
-    if(this.props.media.length >= 1){
-      createChart('mediaOverTime', this.props.media);
-      return(
-        <canvas>
-        </canvas>
-      );
-    }else{
-      return(
-        <h1>No data collected</h1>
-      )
-    };
-  };
-};
-
-class Followed_byOverTimeSlide extends React.Component{
-  render(){
-    /*var classes = classNames({
-      'slide': true,
-      'slide--active': this.props.active
-    }); className={classes}*/
-    if(this.props.followed_by.length >= 1){
-      createChart('followed_byOverTime', this.props.followed_by);
-      return(
-        <div>
-        <canvas id="followed_byOverTime" width="700" height="300"/>
-        </div>
-      );
-    }else{
-      return(
-        <h1>No data collected</h1>
-      )
-    };
-  };
-};
 
 function createChart(id, data){
   //TODO:soertera per år & månad okcså

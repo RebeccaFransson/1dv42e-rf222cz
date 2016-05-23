@@ -11,10 +11,8 @@ body{
   background: linear-gradient(135deg, rgba(80,104,200,1) 0%, rgba(152,56,192,0.51) 26%, rgba(155,56,190,0.49) 27%, rgba(211,45,147,0.49) 49%, rgba(239,116,59,0.49) 77%, rgba(255,221,134,0.49) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5068c8', endColorstr='#ffdd86', GradientType=1 );
 }
-/*#0d0d0d;*/
-.container{
-  /*background-image: url('background.jpg');*/
 
+.container{
   width: 100% !important;
   height: 100vh;
 }

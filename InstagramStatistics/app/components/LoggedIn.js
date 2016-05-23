@@ -53,7 +53,7 @@ export default class LoggedIn extends React.Component{
         <div>
           <div class="col-md-12 loggedin-top">
             <div class="col-md-2"></div>
-            <h1 class="col-md-8">Welcome {this.props.profile.nickname}</h1>
+            <h1 class="col-md-8">Instagram Statistics</h1>
             <div class="col-md-2">
               <button class="fa fa-sign-out btn btn-secondary logout-btn" onClick={this.handleLogout.bind(this)}>Logout</button>
             </div>
@@ -74,17 +74,8 @@ export default class LoggedIn extends React.Component{
 };
 
 class Statistics extends React.Component{
-  constructor(){
-    super();
-    this.slides = ['TopTwelveSlide', 'MediaOverTimeSlide', 'Followed_byOverTimeSlide'];//TODO: gör auto
-  }
-
-  toggleNext() {
-    this.props.dispatch(actions.toggleNext('human'));
-  }
-
   render(){
-    console.log(this.props);
+
     if(this.props.statistics.mediaOverTime.length < 1){
       return(
           <div class="col-md-12">
@@ -94,21 +85,10 @@ class Statistics extends React.Component{
       );
     }else{
         //
-        //id="statistics-background"
+        //Om det är sista sliden vänd på pilen
+
         return(
-          <div class="col-md-12">
-          <div class="col-md-3"></div>
-
-            <div class="col-md-6">
-
-
-              <StatisticsSlides statistics={this.props.statistics} slides={this.slides}/>
-
-              
-            </div>
-
-            <div class="col-md-3"><span class="fa fa-arrow-circle-down" onClick={this.toggleNext.bind(this)}/></div>
-          </div>
+            <StatisticsSlides statistics={this.props.statistics} slides={this.slides}/>
         );
     }
 

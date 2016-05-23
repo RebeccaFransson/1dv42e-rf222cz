@@ -1,28 +1,15 @@
 
 #statistics-background{
-  background: white;
+  background-color: #FAFAFA;
   padding: 25px;
   border: 1px solid #ccc;
   overflow-y: auto;
   height: 60vh;
   width: 100%;
 }
-.topTwelvePicture{
-  float: left;
-  list-style: none;
-  padding: 10px 41px 10px 41px;
-  width: 33%;
-  color: #4E4D4D;
-}
-.topTwelvePicture img{
-  width: 100%;
-}
-.topTwelvePicture span{
-  font-size: 20px;
-  padding: 5px 0 0 8px;
-}
+
 /*KNAPPAR*/
-.fa-arrow-circle-down{
+.fa-arrow-circle-down, .fa-arrow-circle-up{
   position: fixed;
   bottom: 25px;
   right: 100px;
@@ -36,16 +23,37 @@
   padding: 50px 0 30px 0;
   color: rgba(255, 255, 255, 0.5);
 }
-.slide{
-  display: none;
-}
-.slide--active{
-  display:block;
+.fa-arrow-circle-up:hover{
+  padding: 50px 0 70px 0;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 
 /*media*/
 .info-square{
   background-color: white;
-  margin-bottom: 300px;
+  padding: 200px 0;
+  margin: 100px 0;
+  border: 2px solid #EFEFEF;
+}
+.info-square canvas{
+  width: 85%;
+  margin: 0 50px;
+}
+/*TOPTHREE*/
+.topThreePicture{
+  float: left;
+  list-style: none;
+  padding: 10px 41px 10px 41px;
+  width: 33%;
+  color: #4E4D4D;
+}
+.topThreePicture img{
+  width: 100%;
+  border: 2px solid #ccc;
+  border-radius: 100%;
+}
+.topThreePicture span{
+  font-size: 20px;
+  padding: 5px 0 0 8px;
 }
