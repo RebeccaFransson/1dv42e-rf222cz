@@ -13,16 +13,37 @@ class StatisticsSlides extends React.Component{
   componentDidMount(){
     var that = this;
 
+    var isPinned = false;
+    //window.sr = ScrollReveal();
 
-sr.reveal('#topThree', { duration: 1000,  origin: 'bottom', distance    : '500px' });
-sr.reveal('#mediaOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px' });
-createChart('mediaOverTimeCanvas', that.props.statistics.mediaOverTime);
 
-sr.reveal('#followsOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px'});
-createChart('followed_byOverTimeCanvas', that.props.statistics.followed_byOverTime);
-sr.reveal('#followed_byOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px'});
-createChart('followsOverTimeCanvas', that.props.statistics.followsOverTime);
+    sr.reveal('#topThree', { duration: 1000,  origin: 'bottom', distance    : '500px' });
+    sr.reveal('#mediaOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px' });
+    createChart('mediaOverTimeCanvas', that.props.statistics.mediaOverTime);
+
+    sr.reveal('#followsOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px'});
+    createChart('followed_byOverTimeCanvas', that.props.statistics.followed_byOverTime);
+    sr.reveal('#followed_byOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px'});
+    createChart('followsOverTimeCanvas', that.props.statistics.followsOverTime);
+    var controller = new ScrollMagic.Controller();
+    var scene = null;
     $(window).scroll(function() {
+      //kolla om vi ska sätta fast profilen
+      var outerHeight = $('.loggedin-top').outerHeight(true);
+      if($(window).scrollTop() >= outerHeight){
+        let duration = $('.loggedin-bottom').outerHeight(true);
+        if(!isPinned){
+           scene = new ScrollMagic.Scene({triggerElement: ".profile"})
+  						.setPin(".profile")
+  						.addTo(controller);
+          isPinned = true;
+        }
+      }else{
+        //TODO: lossa pinnen
+        scene = null;
+        console.log('uppe igen');
+      }
+
       switch (that.props.currentSlide) {
         case 0:
           if(that.checkScrollElement('#mediaOverTime', this)){
@@ -53,7 +74,7 @@ createChart('followsOverTimeCanvas', that.props.statistics.followsOverTime);
   }
 
   checkScrollElement(id, that){
-    var hT = $(id).offset().top - 200,
+    var hT = $(id).offset().top,
        hH = $(id).outerHeight(),
        wH = $(window).height(),
        wS = $(that).scrollTop();
@@ -63,18 +84,25 @@ createChart('followsOverTimeCanvas', that.props.statistics.followsOverTime);
   toggleNext() {
     this.props.dispatch(actions.toggleNext());
   }
+  backToStart(){
+    console.log('denna');
+    $('html, body').animate({
+            scrollTop: 0
+        }, 800);
+    this.props.dispatch(actions.toggleNext());
+  }
 
   render(){
     var arrow;
     console.log(this.props.currentSlide);
     if (this.props.currentSlide == 3) {
-        arrow = <span class="fa fa-arrow-circle-up" onClick={this.toggleNext.bind(this)}/>;
+        arrow = <span class="fa fa-arrow-circle-up" onClick={this.backToStart.bind(this)}/>;
     } else {
         arrow = <span class="fa fa-arrow-circle-down" onClick={this.toggleNext.bind(this)}/>;
     }
 
     return(
-      <div class="col-md-12">
+      <div class="col-md-12 loggedin-bottom">
           <Profile profile={this.props.user.profile}/>
 
           <div class="col-md-6">
@@ -106,7 +134,7 @@ class TopTwelveSlide extends React.Component{
       <div id="topTwelve">
         {this.props.topTwelve.map(function(image, index){
           return (
-              <li key={index} class="topThreePicture">
+              <li key={index} class="topThreePicture" id={index}>
                 <img src={image.url}/>
                 <span class="fa fa-heart">{image.likes}</span>
               </li>
@@ -119,11 +147,8 @@ class TopTwelveSlide extends React.Component{
 
 class Profile extends React.Component{
   componentDidMount(){
-    var controller = new ScrollMagic.Controller();
     window.sr = ScrollReveal();
-    var scene = new ScrollMagic.Scene({triggerElement: ".profile"})
-            .setPin(".profile")
-            .addTo(controller);
+    sr.reveal('.profile', { duration: 1000,  origin: 'top', distance    : '500px' });
   }
   render(){
     console.log(this.props.profile);
