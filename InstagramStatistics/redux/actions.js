@@ -1,28 +1,23 @@
 "use strict";
 
 let actions = {
-  showAbout: function(show){
+  toggleNext: function(slides){
     return{
-      type: 'SHOW_ABOUT',
-      showAbout: show
+      type: 'TOGGLE_NEXT',
+      slides: slides
     }
   },
-  toggleNext: function(){
+  savetoken: function(token){
     return{
-      type: 'TOGGLE_NEXT'
+      type: 'SAVE_TOKEN',
+      token: token
     }
   },
-  saveTokens: function(tokens){
-    return{
-      type: 'SAVE_TOKENS',
-      tokens: tokens
-    }
-  },
-  saveProfile: function(profile, tokens){
+  saveProfile: function(profile, token){
     return{
       type: 'SAVE_PROFILE',
       profile: profile,
-      tokens: tokens
+      token: token
     }
   },
   saveStatistics: function(statistics){

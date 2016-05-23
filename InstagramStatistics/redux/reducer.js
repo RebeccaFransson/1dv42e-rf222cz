@@ -7,28 +7,17 @@ export default function reducer(currState, action){
     case 'SHOW_ABOUT':
       //Skapar nytt objekt med den gamla staten, ersätter gamla information med nya
       //På så sätt kan jag hålla koll på en gamla datan
-      return Object.assign({}, currState, {
-        showAbout: action.showAbout
-      });
 
-    case 'SAVE_TOKENS':
+    case 'SAVE_TOKEN':
       return Object.assign({}, currState, {
         user: {
-          tokens: {
-            idToken: action.tokens.idToken,
-            accessToken: action.tokens.accessToken,
-            timestamp: new Date()
-          }
+          token: action.token
         }
       });
     case 'SAVE_PROFILE':
       return Object.assign({}, currState, {
         user: {
-          tokens: {
-            idToken: action.tokens.idToken,
-            accessToken: action.tokens.accessToken,
-            timestamp: new Date()
-          },
+          token: action.token,
           profile: action.profile
         }
       });
@@ -45,17 +34,17 @@ export default function reducer(currState, action){
       return Object.assign({}, currState, {
         user: {
           profile: null,
-          tokens: {
-            idToken: null,
-            accessToken: null,
-            timestamp: new Date()
-          }
+          token: null
         }
       });
     case 'TOGGLE_NEXT':
-      var next = currState.currentSlide + 1;
+    console.log(action);
+      var next = action.slides.indexOf(currState.currentSlide) + 1;
+      if(next >= 3){//TODO: 0byt ut mer dynamiskt
+        next = 0;
+      }
       return Object.assign({}, currState, {
-        currentSlide: next
+        currentSlide: action.slides[next]
       });
     default:
       return currState;

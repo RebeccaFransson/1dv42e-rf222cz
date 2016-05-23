@@ -13,42 +13,42 @@ class Start extends React.Component{
 //kanske constructor?
   componentWillMount(){
     this.lock = new Auth0Lock('WIv6wHA65nPGI6XJI96JO6oHAYv2RuiV', 'ymafransson.eu.auth0.com');
-    this.props.dispatch(actions.saveTokens(this.getTokens()));
+    this.props.dispatch(actions.savetoken(this.getToken()));
   }
 
-  getTokens(){
-    let tokens = sessionStorage.getItem('userTokens');
+  getToken(){
+    let token = sessionStorage.getItem('userToken');
     let authHash = this.lock.parseHash(window.location.hash);
-    if(tokens != null){
+    if(token != null){
       console.log('skapa');
-      var accessToken = JSON.parse(tokens).accessToken;
-      var idToken = JSON.parse(tokens).idToken;
+      //var accessToken = JSON.parse(token).accessToken;
+      var idToken = JSON.parse(token);
     }else{
       console.log('skapa null');
-      var accessToken = null;
+      //var accessToken = null;
       var idToken = null;
     }
-    if (!tokens && authHash) {
+    if (!token && authHash) {
       if (authHash.id_token) {
         idToken = authHash.id_token;
-        accessToken = authHash.access_token;
-        let userTokens = JSON.stringify({idToken: idToken, accessToken: accessToken});
-        sessionStorage.setItem('userTokens', userTokens);
+        //accessToken = authHash.access_token;
+        //let usertoken = JSON.stringify({idToken: idToken});
+        sessionStorage.setItem('userToken', JSON.stringify(idToken));
       }
       if (authHash.error) {
         console.log("Error signing in", authHash);
         return null;
       }
     }
-    return {idToken: idToken, accessToken: accessToken};
+    return idToken;
   }
   render(){
-    if (this.props.user.tokens.idToken) {
+    if (this.props.user.token) {
       return (<LoggedIn
         dispatch={this.props.dispatch}
         profile={this.props.user.profile}
         lock={this.lock}
-        tokens={this.props.user.tokens}
+        token={this.props.user.token}
         statistics={this.props.statistics}/>);
     } else {
       return (

@@ -9,14 +9,10 @@ import configureStore from '../redux/store';
 let initialSate = {
   user: {
     profile: null,
-    tokens: {
-      idToken: null,
-      accessToken: null,
-      timestamp: new Date()
-    }
+    token: null
   },
   showAbout: false,
-  currentSlide: 0,
+  currentSlide: 'mediaOverTime',
   statistics: {
     mediaOverTime: [],
     followed_byOverTime: [],

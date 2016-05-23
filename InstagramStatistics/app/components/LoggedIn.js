@@ -5,19 +5,19 @@ import React from 'react';
 import actions from '../../redux/actions';
 import StatisticsSlides from './StatisticsSlides';
 
-//const url = 'http://188.166.116.158:8000';//publik
+//const url = 'http://188.166.116.158:27017';//publik
 const url = 'http://localhost:27017';//lokal
 
 export default class LoggedIn extends React.Component{
 
   componentDidMount() {
-    this.props.lock.getProfile(this.props.tokens.idToken, function (err, profile) {
+    this.props.lock.getProfile(this.props.token, function (err, profile) {
       if (err) {
         console.log(err);
         console.log("Error loading the Profile", err);
         return;
       }
-      this.props.dispatch(actions.saveProfile(profile, this.props.tokens));
+      this.props.dispatch(actions.saveProfile(profile, this.props.token));
       var that = this;
       this.handleSaveProfileToDB(profile).then(function(data, err){
         console.log(data);
@@ -33,15 +33,12 @@ export default class LoggedIn extends React.Component{
         data: JSON.stringify(profile),
         method: "POST",
         dataType: "json",
-        contentType: "application/json",
-        headers: {
-          'Authorization': 'Bearer ' + JSON.parse(sessionStorage.getItem('userTokens')).idToken
-        }
+        contentType: "application/json"
     })
   }
   handleLogout(e){
     e.preventDefault();
-    sessionStorage.removeItem('userTokens');
+    sessionStorage.removeItem('userToken');
     this.props.dispatch(actions.logout());
     //redirect
     window.location.hash = '';

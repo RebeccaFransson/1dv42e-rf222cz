@@ -11,22 +11,26 @@ import actions from '../../redux/actions';
 
 class StatisticsSlides extends React.Component{
   componentDidMount(){
-    var that = this;
-
     var isPinned = false;
-    //window.sr = ScrollReveal();
-
-
-    sr.reveal('#topThree', { duration: 1000,  origin: 'bottom', distance    : '500px' });
-    sr.reveal('#mediaOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px' });
-    createChart('mediaOverTimeCanvas', that.props.statistics.mediaOverTime);
-
-    sr.reveal('#followsOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px'});
-    createChart('followed_byOverTimeCanvas', that.props.statistics.followed_byOverTime);
-    sr.reveal('#followed_byOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px'});
-    createChart('followsOverTimeCanvas', that.props.statistics.followsOverTime);
     var controller = new ScrollMagic.Controller();
     var scene = null;
+
+    //Visa data när användaren scrollar ned
+    sr.reveal('#topThree', { duration: 1000,  origin: 'bottom', distance    : '500px' });
+
+    let colors = {fill: 'rgba(255,221,134,0.2)', stroke: 'rgba(239,116,59,0.49)', point: 'rgba(211,45,147,0.49)'}
+    sr.reveal('#mediaOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px' });
+    createChart('mediaOverTimeCanvas', this.props.statistics.mediaOverTime, colors);
+
+    colors = {fill: 'rgba(239,116,59,0.2)', stroke: 'rgba(211,45,147,0.49)', point: 'rgba(255,221,134,0.49)'}
+    sr.reveal('#followsOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px'});
+    createChart('followed_byOverTimeCanvas', this.props.statistics.followed_byOverTime, colors);
+
+    colors = {fill: 'rgba(211,45,147,0.2)', stroke: 'rgba(255,221,134,0.49)', point: 'rgba(239,116,59,0.49)'}
+    sr.reveal('#followed_byOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px'});
+    createChart('followsOverTimeCanvas', this.props.statistics.followsOverTime, colors);
+
+    var that = this;
     $(window).scroll(function() {
       //kolla om vi ska sätta fast profilen
       var outerHeight = $('.loggedin-top').outerHeight(true);
@@ -40,30 +44,26 @@ class StatisticsSlides extends React.Component{
         }
       }else{
         //TODO: lossa pinnen
+        //kanske med annan class*?
         scene = null;
         console.log('uppe igen');
       }
 
+
       switch (that.props.currentSlide) {
-        case 0:
+        case 'mediaOverTime':
           if(that.checkScrollElement('#mediaOverTime', this)){
-            //sr.reveal('#mediaOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px' });
-            //createChart('mediaOverTimeCanvas', that.props.statistics.mediaOverTime);
-            that.props.dispatch(actions.toggleNext());
+            that.props.dispatch(actions.toggleNext(that.getSlides()));
           }
           break;
-        case 1:
+        case 'followed_byOverTime':
           if(that.checkScrollElement('#followed_byOverTime', this)){
-            //createChart('followed_byOverTimeCanvas', that.props.statistics.followed_byOverTime);
-            that.props.dispatch(actions.toggleNext());
-            //sr.reveal('#followed_byOverTime', { duration: 1000});
+            that.props.dispatch(actions.toggleNext(that.getSlides()));
           }
           break;
-        case 2:
+        case 'followsOverTime':
           if(that.checkScrollElement('#followsOverTime', this)){
-            //createChart('followsOverTimeCanvas', that.props.statistics.followsOverTime);
-            that.props.dispatch(actions.toggleNext());
-            //sr.reveal('#followsOverTime', { duration: 1000});
+            that.props.dispatch(actions.toggleNext(that.getSlides()));
           }
           break;
         default:
@@ -72,7 +72,9 @@ class StatisticsSlides extends React.Component{
 
     });
   }
-
+  getSlides(){
+    return ['mediaOverTime', 'followed_byOverTime', 'followsOverTime'];
+  }
   checkScrollElement(id, that){
     var hT = $(id).offset().top,
        hH = $(id).outerHeight(),
@@ -82,20 +84,24 @@ class StatisticsSlides extends React.Component{
   }
 
   toggleNext() {
-    this.props.dispatch(actions.toggleNext());
+    this.props.dispatch(actions.toggleNext(this.getSlides()));
+    $('html, body').animate({
+        scrollTop: $("#"+this.props.currentSlide).offset().top
+    }, 2000);
   }
   backToStart(){
     console.log('denna');
     $('html, body').animate({
             scrollTop: 0
         }, 800);
-    this.props.dispatch(actions.toggleNext());
+    this.props.dispatch(actions.toggleNext(this.getSlides()));
   }
 
   render(){
     var arrow;
     console.log(this.props.currentSlide);
-    if (this.props.currentSlide == 3) {
+    console.log(this.getSlides().length-1);
+    if (this.props.currentSlide == this.getSlides()[this.getSlides().length-1]) {
         arrow = <span class="fa fa-arrow-circle-up" onClick={this.backToStart.bind(this)}/>;
     } else {
         arrow = <span class="fa fa-arrow-circle-down" onClick={this.toggleNext.bind(this)}/>;
@@ -108,7 +114,7 @@ class StatisticsSlides extends React.Component{
           <div class="col-md-6">
             <div class="col-md-12">
               <div class="col-md-12 info-square" id="topThree">
-                <TopTwelveSlide topTwelve={this.props.statistics.topTwelve}/>
+                <TopThreeSlide topTwelve={this.props.statistics.topTwelve}/>
               </div>
               <div class="col-md-12 info-square" id="mediaOverTime">
                 <canvas id="mediaOverTimeCanvas" width="700" height="300" />
@@ -128,13 +134,14 @@ class StatisticsSlides extends React.Component{
   }
 }
 
-class TopTwelveSlide extends React.Component{
+class TopThreeSlide extends React.Component{
   render(){
     return(
       <div id="topTwelve">
         {this.props.topTwelve.map(function(image, index){
           return (
-              <li key={index} class="topThreePicture" id={index}>
+              <li key={index} class="topThreePicture">
+              <span class="number">{index+1}.</span>
                 <img src={image.url}/>
                 <span class="fa fa-heart">{image.likes}</span>
               </li>
@@ -168,7 +175,7 @@ class Profile extends React.Component{
   };
 }
 
-function createChart(id, data){
+function createChart(id, data, colors){
   //TODO:soertera per år & månad okcså
   var ctx = document.getElementById(id);
   //sätt data och labels i arrayser
@@ -189,10 +196,10 @@ function createChart(id, data){
       labels: labels,
       datasets: [
           {
-              label: '# number of media',
-              fillColor: "rgba(255,221,134,0.49)",
-              strokeColor: "rgba(239,116,59,0.49)",
-              pointColor: "rgba(211,45,147,0.49)",
+              label: "My First dataset",
+              fillColor: colors.fill,
+              strokeColor: colors.stroke,
+              pointColor: colors.point,
               pointStrokeColor: "rgba(239,116,59,0.49)",
               pointHighlightFill: "#fff",
               pointHighlightStroke: "rgba(220,220,220,1)",

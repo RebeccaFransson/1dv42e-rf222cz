@@ -54,7 +54,8 @@ function getSavedStats(req, res) {
 
 function updateSavedUser(savedUser){
   console.log(new Date('Tue May 7 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'));
-  var testcount = {
+  //TEST-DATA om så önskas (Detta eftersom appliktionen börjar räkna från första datumet, och ni kanske vill ha lite exempeldata)
+  /*var testcount = {
     mediaOverTime:
    [ { date: new Date('Tue May 7 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
        count: 150 },
@@ -76,9 +77,10 @@ function updateSavedUser(savedUser){
        count: 250 },
      { date: new Date('Tue May 17 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
        count: 245 } ]
-  }
+  }*/
   return new Promise(function(resolve, reject){
-    getAllStatistics(savedUser.access_token, testcount.mediaOverTime, testcount.followed_byOverTime, testcount.followsOverTime)
+    //getAllStatistics(savedUser.access_token, testcount.mediaOverTime, testcount.followed_byOverTime, testcount.followsOverTime)
+    getAllStatistics(savedUser.access_token, savedUser.counts.mediaOverTime, savedUser.counts.followed_byOverTime, savedUser.counts.followsOverTime)
     .then(function(data){
 
       //Uppdatera existerande användare
