@@ -12,8 +12,9 @@ import actions from '../../redux/actions';
 class StatisticsSlides extends React.Component{
   componentDidMount(){
     var that = this;
-    window.sr = ScrollReveal();
 
+
+sr.reveal('#topThree', { duration: 1000,  origin: 'bottom', distance    : '500px' });
 sr.reveal('#mediaOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px' });
 createChart('mediaOverTimeCanvas', that.props.statistics.mediaOverTime);
 
@@ -25,7 +26,7 @@ createChart('followsOverTimeCanvas', that.props.statistics.followsOverTime);
       switch (that.props.currentSlide) {
         case 0:
           if(that.checkScrollElement('#mediaOverTime', this)){
-            sr.reveal('#mediaOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px' });
+            //sr.reveal('#mediaOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px' });
             //createChart('mediaOverTimeCanvas', that.props.statistics.mediaOverTime);
             that.props.dispatch(actions.toggleNext());
           }
@@ -71,14 +72,14 @@ createChart('followsOverTimeCanvas', that.props.statistics.followsOverTime);
     } else {
         arrow = <span class="fa fa-arrow-circle-down" onClick={this.toggleNext.bind(this)}/>;
     }
-    console.log(arrow);
+
     return(
       <div class="col-md-12">
-        <div class="col-md-3"></div>
+          <Profile profile={this.props.user.profile}/>
 
           <div class="col-md-6">
             <div class="col-md-12">
-              <div class="col-md-12 info-square">
+              <div class="col-md-12 info-square" id="topThree">
                 <TopTwelveSlide topTwelve={this.props.statistics.topTwelve}/>
               </div>
               <div class="col-md-12 info-square" id="mediaOverTime">
@@ -111,6 +112,32 @@ class TopTwelveSlide extends React.Component{
               </li>
           )
         })}
+      </div>
+    );
+  };
+}
+
+class Profile extends React.Component{
+  componentDidMount(){
+    var controller = new ScrollMagic.Controller();
+    window.sr = ScrollReveal();
+    var scene = new ScrollMagic.Scene({triggerElement: ".profile"})
+            .setPin(".profile")
+            .addTo(controller);
+  }
+  render(){
+    console.log(this.props.profile);
+    return(
+      <div class="col-md-3 ">
+      <div class="col-md-12 profile">
+        <div class="col-md-3"><img src={this.props.profile.picture} height="100" width="120"/></div>
+        <div class="col-md-9 nickname">{this.props.profile.nickname}</div>
+        <div class="col-md-12 bio"><span>{this.props.profile.name}</span>  {this.props.profile.bio}</div>
+        <div class="col-md-3 bio"><span>{this.props.profile.counts.media}</span> posts</div>
+        <div class="col-md-5 bio"><span>{this.props.profile.counts.followed_by}</span> followers</div>
+        <div class="col-md-4 bio"><span>{this.props.profile.counts.follows}</span> follows</div>
+      </div>
+
       </div>
     );
   };

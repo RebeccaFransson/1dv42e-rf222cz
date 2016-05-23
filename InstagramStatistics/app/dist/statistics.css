@@ -7,6 +7,28 @@
   height: 60vh;
   width: 100%;
 }
+/*profile*/
+.profile{
+    background-color: white;
+    border: 2px solid #EFEFEF;
+}
+.profile img{
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  margin: 24% 0;
+}
+.profile .nickname{
+  padding-top: 6%;
+  font-size: 27px;
+}
+.profile .bio{
+  padding-bottom: 8%;
+}
+.profile .bio span{
+  font-weight: 600;
+}
+
 
 /*KNAPPAR*/
 .fa-arrow-circle-down, .fa-arrow-circle-up{
@@ -32,8 +54,8 @@
 /*media*/
 .info-square{
   background-color: white;
-  padding: 200px 0;
-  margin: 100px 0;
+  padding: 100px 0;
+  margin: 0 0 200px 0;
   border: 2px solid #EFEFEF;
 }
 .info-square canvas{

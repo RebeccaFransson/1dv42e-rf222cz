@@ -84,15 +84,9 @@ class Statistics extends React.Component{
           </div>
       );
     }else{
-        //
-        //Om det är sista sliden vänd på pilen
-
         return(
             <StatisticsSlides statistics={this.props.statistics} slides={this.slides}/>
         );
     }
-
   }
 }
-/*<TopTwelveSlide statistics={this.props.statistics}/>
-<MediaOverTimeSlide/>*/
