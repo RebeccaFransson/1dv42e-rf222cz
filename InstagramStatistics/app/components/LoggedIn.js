@@ -100,11 +100,11 @@ class Statistics extends React.Component{
           <div class="col-md-3"></div>
 
             <div class="col-md-6">
-              <div >
+
 
               <StatisticsSlides statistics={this.props.statistics} slides={this.slides}/>
 
-              </div>
+              
             </div>
 
             <div class="col-md-3"><span class="fa fa-arrow-circle-down" onClick={this.toggleNext.bind(this)}/></div>

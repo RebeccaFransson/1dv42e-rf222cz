@@ -7,16 +7,9 @@ let actions = {
       showAbout: show
     }
   },
-  togglePrev: function(slideLength){
+  toggleNext: function(){
     return{
-      type: 'TOGGLE_PREV',
-      slideLength: slideLength
-    }
-  },
-  toggleNext: function(who){
-    return{
-      type: 'TOGGLE_NEXT',
-      who: who
+      type: 'TOGGLE_NEXT'
     }
   },
   saveTokens: function(tokens){

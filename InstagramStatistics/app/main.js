@@ -16,7 +16,7 @@ let initialSate = {
     }
   },
   showAbout: false,
-  currentSlide: {slide: 0, who: 'cpu'},
+  currentSlide: 0,
   statistics: {
     mediaOverTime: [],
     followed_byOverTime: [],
