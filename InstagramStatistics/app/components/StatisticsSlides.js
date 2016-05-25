@@ -113,7 +113,6 @@ class StatisticsSlides extends React.Component{
 
           <div class="col-md-6">
             <div class="col-md-12">
-
               <TopThreeSlide topThree={this.props.statistics.topThree}/>
               <div class="col-md-12 info-square" id="mediaOverTime">
                 <p>Posts</p>
@@ -194,6 +193,8 @@ function createChart(id, data, colors){
   }
 
   if(ctx != null){
+    console.log(labels);
+    console.log(dataArray);
     var chartData ={
       labels: labels,
       datasets: [
@@ -205,6 +206,7 @@ function createChart(id, data, colors){
               pointStrokeColor: "rgba(239,116,59,0.49)",
               pointHighlightFill: "#fff",
               pointHighlightStroke: "rgba(220,220,220,1)",
+              responsive: true,
               data: dataArray
           }
         ]

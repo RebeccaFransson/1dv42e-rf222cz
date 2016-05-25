@@ -6,7 +6,7 @@ var storage = require('node-persist');
 var statisticsController = require("./statisticsController");
 
 var router = require('express').Router();
-router.route('/saveProfile').post(getSavedStats);//.delete(deleteSchool);
+router.route('/saveProfile').post(getSavedStats);
 
 
 function getSavedUser(id) {
@@ -32,7 +32,7 @@ function getSavedStats(req, res) {
         var savedTimestamp = new Date(storage.getItem('savedUserStorage').last_save).getTime() + day;//lägger till en minut - test
         var nowTime = new Date().getTime();
 
-        if(savedTimestamp > nowTime){//Om ni vill lägga till testdata sätta denna till false
+        if(savedTimestamp > nowTime){//Om ni vill lägga till testdata sätta denna till false //savedTimestamp > nowTime
           //Hämtar sparad statistik till redan sparad användare och skickar tillbaka till klienten.
           console.log('tar från storgare');
           res.send(savedUser);
@@ -53,42 +53,28 @@ function getSavedStats(req, res) {
 }
 
 function updateSavedUser(savedUser){
-  console.log(new Date('Tue May 7 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'));
   //TEST-DATA om så önskas (Detta eftersom appliktionen börjar räkna från första datumet, och ni kanske vill ha lite exempeldata)
   /*var testcount = {
     mediaOverTime:
-   [ { date: new Date('Tue May 7 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 150 },
-     { date: new Date('Tue May 10 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 149 },
-     { date: new Date('Tue May 17 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 151 },
-     { date: new Date('Tue May 20 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 156 } ],
+   [ { date: new Date('Tue May 23 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+       count: 0 },
+     { date: new Date('Tue May 24 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+       count: 1 } ],
   followed_byOverTime:
-   [ { date: new Date('Tue May 7 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 170 },
-     { date: new Date('Tue May 10 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 177 },
-     { date: new Date('Tue May 17 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 187 },
-     { date: new Date('Tue May 20 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 201 } ],
+   [ { date: new Date('Tue May 23 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+       count: 0 },
+     { date: new Date('Tue May 24 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+       count: 2 } ],
   followsOverTime:
-   [ { date: new Date('Tue May 7 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 240 },
-     { date: new Date('Tue May 10 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 250 },
-     { date: new Date('Tue May 17 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 245 },
-     { date: new Date('Tue May 20 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 249 }  ]
+   [ { date: new Date('Tue May 23 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+       count: 0 },
+     { date: new Date('Tue May 24 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+       count: 0 } ]
   }*/
   return new Promise(function(resolve, reject){
     //getAllStatistics(savedUser.access_token, testcount.mediaOverTime, testcount.followed_byOverTime, testcount.followsOverTime)
     getAllStatistics(savedUser.access_token, savedUser.counts.mediaOverTime, savedUser.counts.followed_byOverTime, savedUser.counts.followsOverTime)
     .then(function(data){
-
       //Uppdatera existerande användare
       savedUser.counts = data[0];
       savedUser.topThree = data[1];
@@ -140,6 +126,7 @@ function saveNewUser(req){
     //getAllStatistics(req.body.identities[0].access_token, testcount.mediaOverTime, testcount.followed_byOverTime, testcount.followsOverTime)
     getAllStatistics(req.body.identities[0].access_token, [], [], [])
       .then(function(data){
+        console.log('save new user: ', req.body.nickname);
         //Skapa ny användare
         var user = new User(_.extend({}, {
           user_id: req.body.user_id,

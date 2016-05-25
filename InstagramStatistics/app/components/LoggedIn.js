@@ -51,7 +51,11 @@ export default class LoggedIn extends React.Component{
             <div class="col-md-2"></div>
             <h1 class="col-md-8">Instagram Statistics</h1>
             <div class="col-md-2">
-              <button class="fa fa-sign-out btn btn-secondary logout-btn" onClick={this.handleLogout.bind(this)}>Logout</button>
+              <div class="btn">
+                <button class="fa fa-sign-out btn btn-secondary" onClick={this.handleLogout.bind(this)}><span>Logout</span></button>
+                <br/>
+                <button class="fa fa-question btn btn-secondary info-btn" onClick={this.handleLogout.bind(this)}><span> Info</span></button>
+              </div>
             </div>
           </div>
             <Statistics statistics={this.props.statistics} dispatch={this.props.dispatch}/>

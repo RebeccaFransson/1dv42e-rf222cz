@@ -2,6 +2,7 @@
 var express = require("express");
 var bodyParser = require("body-parser")
 var mongoose = require("mongoose");
+var schedule = require('node-schedule');
 
 var path = require("path");
 
@@ -25,4 +26,14 @@ var MongoDB = mongoose.connect(mongoURI).connection;
 MongoDB.on('error', function(err) { console.log(err.message); });
 MongoDB.once('open', function() {
   console.log("mongodb connection open");
+});
+
+
+var rule = new schedule.RecurrenceRule();
+
+rule.second = 30;
+
+schedule.scheduleJob(rule, function(){
+    console.log(new Date());
+    console.log('Today is recognized by Rebecca Black!---------------------------');
 });
