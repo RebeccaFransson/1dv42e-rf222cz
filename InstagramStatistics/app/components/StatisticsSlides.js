@@ -1,19 +1,14 @@
 "use strict";
 import React from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import Chart from 'chart.js';
 import $ from 'jquery';
 
 import actions from '../../redux/actions';
 
-
-
 class StatisticsSlides extends React.Component{
   componentDidMount(){
     var isPinned = false;
-    var controller = new ScrollMagic.Controller();
-    var scene = null;
 
     //Visa data när användaren scrollar ned
     sr.reveal('#topThree', { duration: 1000,  origin: 'bottom', distance    : '500px' });
@@ -35,29 +30,32 @@ class StatisticsSlides extends React.Component{
       //kolla om vi ska sätta fast profilen
       var outerHeight = $('.loggedin-top').outerHeight(true);
       if($(window).scrollTop() >= outerHeight){
-        let duration = $('.loggedin-bottom').outerHeight(true);
-        if(!isPinned){
-           scene = new ScrollMagic.Scene({triggerElement: ".profile"})
-  						.setPin(".profile")
-  						.addTo(controller);
-          isPinned = true;
+        if(!$('.profile').hasClass('pinned')){
+            $('.profile').addClass('pinned');
         }
       }else{
-        //TODO: lossa pinnen
-        //kanske med annan class*?
-        scene = null;
-        console.log('uppe igen');
+        $('.profile').removeClass('pinned');
       }
 
+      //Om currentSlide inte är den första än, kolla om användaren är längt upp på sidan och sätt currentSlide t den första
+      if(that.props.currentSlide != that.getSlides()[0]){
+        if($(document).scrollTop() < $(window).height()){
+          console.log('sätt t första sliden');
+          that.props.dispatch(actions.toggleNext(that.getSlides()[0]));
+        }
+      }
+      //Om användaren ser den sista sliden sätt currentSlide till den sista för att visa knapp med pil-uppåt
+      if(that.checkScrollElement('#followed_byOverTime', this)){
+        console.log('sätter den till den sista');
+        if(that.props.currentSlide != that.getSlides()[that.getSlides().length-1]){
+          that.props.dispatch(actions.toggleNext(that.getSlides()[that.getSlides().length-1]));
+        }
+      }
 
+/*console.log('längst upp: ', that.props.currentSlide);
       switch (that.props.currentSlide) {
         case 'mediaOverTime':
           if(that.checkScrollElement('#mediaOverTime', this)){
-            that.props.dispatch(actions.toggleNext(that.getSlides()));
-          }
-          break;
-        case 'followed_byOverTime':
-          if(that.checkScrollElement('#followed_byOverTime', this)){
             that.props.dispatch(actions.toggleNext(that.getSlides()));
           }
           break;
@@ -66,14 +64,22 @@ class StatisticsSlides extends React.Component{
             that.props.dispatch(actions.toggleNext(that.getSlides()));
           }
           break;
+        case 'followed_byOverTime':
+          if(that.checkScrollElement('#followed_byOverTime', this)){
+            //that.props.dispatch(actions.toggleNext('end'));
+          }
+          break;
+        case 'end':
+          console.log('slut');
+          break;
         default:
         //TODO: sista caset byt rikting på pilen för att ta upp användaren
-      }
+      }*/
 
     });
   }
   getSlides(){
-    return ['mediaOverTime', 'followed_byOverTime', 'followsOverTime'];
+    return ['mediaOverTime', 'followsOverTime', 'followed_byOverTime']; //Viktigt att det är i samma ordning som slidens visas, se rad 18-30
   }
   checkScrollElement(id, that){
     var hT = $(id).offset().top,
@@ -84,27 +90,24 @@ class StatisticsSlides extends React.Component{
   }
 
   toggleNext() {
-    this.props.dispatch(actions.toggleNext(this.getSlides()));
-    $('html, body').animate({
-        scrollTop: $("#"+this.props.currentSlide).offset().top
-    }, 2000);
+    console.log('ett tryck!!!');
+    console.log(this.props.dispatch(actions.toggleNext(this.getSlides())));
+    console.log(this.props.currentSlide);
   }
   backToStart(){
-    console.log('denna');
     $('html, body').animate({
             scrollTop: 0
         }, 800);
-    this.props.dispatch(actions.toggleNext(this.getSlides()));
   }
 
   render(){
     var arrow;
-    console.log(this.props.currentSlide);
-    console.log(this.getSlides().length-1);
+    //console.log($(document).scrollTop());
     if (this.props.currentSlide == this.getSlides()[this.getSlides().length-1]) {
         arrow = <span class="fa fa-arrow-circle-up" onClick={this.backToStart.bind(this)}/>;
     } else {
-        arrow = <span class="fa fa-arrow-circle-down" onClick={this.toggleNext.bind(this)}/>;
+        //arrow = <span class="fa fa-arrow-circle-down" onClick={this.toggleNext.bind(this)}/>;
+        arrow = <span class="fa fa-arrow-circle-down"></span>;
     }
 
     return(
@@ -158,7 +161,7 @@ class Profile extends React.Component{
     sr.reveal('.profile', { duration: 1000,  origin: 'top', distance    : '500px' });
   }
   render(){
-    console.log(this.props.profile);
+    //console.log(this.props.profile);
     return(
       <div class="col-md-3 ">
       <div class="col-md-12 profile">

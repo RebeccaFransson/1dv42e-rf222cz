@@ -10,7 +10,7 @@ import actions from '../../redux/actions'
 const Auth0Lock = require('auth0-lock');
 
 class Start extends React.Component{
-//kanske constructor?
+
   componentWillMount(){
     this.lock = new Auth0Lock('WIv6wHA65nPGI6XJI96JO6oHAYv2RuiV', 'ymafransson.eu.auth0.com');
     this.props.dispatch(actions.savetoken(this.getToken()));

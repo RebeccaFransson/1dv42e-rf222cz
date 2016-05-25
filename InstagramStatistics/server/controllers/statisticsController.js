@@ -36,7 +36,7 @@ module.exports = {
         //Räkna ut bilden med minst likes
 
         if (!error && response.statusCode == 200) {
-          for (let i = 0; i < responseArray.length; i++) {
+          for (var i = 0; i < responseArray.length; i++) {
             //sortera topTwelve, kolla om nya är mer eller mindre än sista(minsta) värdet i arrayen såfall ersätt
             topTwelve.sort(function(a, b){
               var x = a['likes']; var y = b['likes'];

@@ -3,7 +3,7 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import logger from 'redux-logger';
 import reducer from './reducer';
 
-// TODO: lägga till extra
+// om så önskas kan extra-tillägg läggas till här, tex logger för development-mode
 let finalCreateStore = compose(
   applyMiddleware(logger())
 )(createStore);

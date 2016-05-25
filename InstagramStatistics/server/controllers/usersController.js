@@ -28,11 +28,11 @@ function getSavedStats(req, res) {
       if(savedUser != null){
         //TODO: kolla om saveduser är samma user som liggade in
         //Finns det redan sparad data? är den tillräckligt ny? använd den istället
-        let day = (60000*6)*24;
+        var day = (60000*6)*24;
         var savedTimestamp = new Date(storage.getItem('savedUserStorage').last_save).getTime() + day;//lägger till en minut - test
         var nowTime = new Date().getTime();
 
-        if(savedTimestamp > nowTime){
+        if(savedTimestamp > nowTime){//Om ni vill lägga till testdata sätta denna till false
           //Hämtar sparad statistik till redan sparad användare och skickar tillbaka till klienten.
           console.log('tar från storgare');
           res.send(savedUser);
@@ -60,23 +60,29 @@ function updateSavedUser(savedUser){
    [ { date: new Date('Tue May 7 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
        count: 150 },
      { date: new Date('Tue May 10 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 150 },
+       count: 149 },
      { date: new Date('Tue May 17 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 151 }],
+       count: 151 },
+     { date: new Date('Tue May 20 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+       count: 156 } ],
   followed_byOverTime:
    [ { date: new Date('Tue May 7 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
        count: 170 },
      { date: new Date('Tue May 10 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
        count: 177 },
      { date: new Date('Tue May 17 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 187 }],
+       count: 187 },
+     { date: new Date('Tue May 20 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+       count: 201 } ],
   followsOverTime:
    [ { date: new Date('Tue May 7 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
        count: 240 },
      { date: new Date('Tue May 10 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
        count: 250 },
      { date: new Date('Tue May 17 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
-       count: 245 } ]
+       count: 245 },
+     { date: new Date('Tue May 20 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+       count: 249 }  ]
   }*/
   return new Promise(function(resolve, reject){
     //getAllStatistics(savedUser.access_token, testcount.mediaOverTime, testcount.followed_byOverTime, testcount.followsOverTime)

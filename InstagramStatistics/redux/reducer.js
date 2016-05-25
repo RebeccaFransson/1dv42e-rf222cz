@@ -38,14 +38,19 @@ export default function reducer(currState, action){
         }
       });
     case 'TOGGLE_NEXT':
-    console.log(action);
-      var next = action.slides.indexOf(currState.currentSlide) + 1;
-      if(next >= 3){//TODO: 0byt ut mer dynamiskt
-        next = 0;
+      if(action.slides.constructor == Array){
+        var next = action.slides.indexOf(currState.currentSlide) + 1;
+        if(next >= action.slides.length){
+          next = 0;
+        }//Sätter den uträknade sliden
+        return Object.assign({}, currState, {
+          currentSlide: action.slides[next]
+        });
+      }else{//Sätter den inskickade sliden
+        return Object.assign({}, currState, {
+          currentSlide: action.slides
+        });
       }
-      return Object.assign({}, currState, {
-        currentSlide: action.slides[next]
-      });
     default:
       return currState;
   }
