@@ -5,8 +5,8 @@ import React from 'react';
 import actions from '../../redux/actions';
 import StatisticsSlides from './StatisticsSlides';
 
-//const url = 'http://188.166.116.158:8080';//publik
-const url = 'http://localhost:8080';//lokal
+const url = 'http://188.166.116.158:8080';//publik
+//const url = 'http://localhost:8080';//lokal
 
 export default class LoggedIn extends React.Component{
 
