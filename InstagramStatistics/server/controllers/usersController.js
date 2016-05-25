@@ -91,7 +91,7 @@ function updateSavedUser(savedUser){
 
       //Uppdatera existerande användare
       savedUser.counts = data[0];
-      savedUser.topTwelve = data[1];
+      savedUser.topThree = data[1];
       savedUser.last_save = new Date();
       savedUser.save(function (err) {
           if (err)
@@ -107,6 +107,37 @@ function updateSavedUser(savedUser){
 
 function saveNewUser(req){
   return new Promise(function(resolve, reject){
+    //Testdata för nya användare för att visa hur graferna kan ser ut
+    /*var testcount = {
+      mediaOverTime:
+     [ { date: new Date('Tue May 7 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+         count: 150 },
+       { date: new Date('Tue May 10 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+         count: 149 },
+       { date: new Date('Tue May 17 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+         count: 151 },
+       { date: new Date('Tue May 20 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+         count: 156 } ],
+    followed_byOverTime:
+     [ { date: new Date('Tue May 7 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+         count: 170 },
+       { date: new Date('Tue May 10 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+         count: 177 },
+       { date: new Date('Tue May 17 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+         count: 187 },
+       { date: new Date('Tue May 20 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+         count: 201 } ],
+    followsOverTime:
+     [ { date: new Date('Tue May 7 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+         count: 240 },
+       { date: new Date('Tue May 10 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+         count: 250 },
+       { date: new Date('Tue May 17 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+         count: 245 },
+       { date: new Date('Tue May 20 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+         count: 249 }  ]
+    }*/
+    //getAllStatistics(req.body.identities[0].access_token, testcount.mediaOverTime, testcount.followed_byOverTime, testcount.followsOverTime)
     getAllStatistics(req.body.identities[0].access_token, [], [], [])
       .then(function(data){
         //Skapa ny användare
@@ -120,7 +151,7 @@ function saveNewUser(req){
             followed_byOverTime: data[0].followed_byOverTime,
             followsOverTime: data[0].followsOverTime
           },
-          topTwelve: data[1],
+          topThree: data[1],
           access_token: req.body.identities[0].access_token
         }));
         //Spara ny användare

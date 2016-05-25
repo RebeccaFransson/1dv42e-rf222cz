@@ -17,7 +17,7 @@ let initialSate = {
     mediaOverTime: [],
     followed_byOverTime: [],
     followsOverTime: [],
-    topTwelve: []
+    topThree: []
   }
 }
 //createstore

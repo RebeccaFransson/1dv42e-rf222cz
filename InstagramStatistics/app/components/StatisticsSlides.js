@@ -40,13 +40,11 @@ class StatisticsSlides extends React.Component{
       //Om currentSlide inte är den första än, kolla om användaren är längt upp på sidan och sätt currentSlide t den första
       if(that.props.currentSlide != that.getSlides()[0]){
         if($(document).scrollTop() < $(window).height()){
-          console.log('sätt t första sliden');
           that.props.dispatch(actions.toggleNext(that.getSlides()[0]));
         }
       }
       //Om användaren ser den sista sliden sätt currentSlide till den sista för att visa knapp med pil-uppåt
       if(that.checkScrollElement('#followed_byOverTime', this)){
-        console.log('sätter den till den sista');
         if(that.props.currentSlide != that.getSlides()[that.getSlides().length-1]){
           that.props.dispatch(actions.toggleNext(that.getSlides()[that.getSlides().length-1]));
         }
@@ -102,10 +100,9 @@ class StatisticsSlides extends React.Component{
 
   render(){
     var arrow;
-    //console.log($(document).scrollTop());
-    if (this.props.currentSlide == this.getSlides()[this.getSlides().length-1]) {
+    if(this.props.currentSlide == this.getSlides()[this.getSlides().length-1]) {
         arrow = <span class="fa fa-arrow-circle-up" onClick={this.backToStart.bind(this)}/>;
-    } else {
+    }else{
         //arrow = <span class="fa fa-arrow-circle-down" onClick={this.toggleNext.bind(this)}/>;
         arrow = <span class="fa fa-arrow-circle-down"></span>;
     }
@@ -116,16 +113,18 @@ class StatisticsSlides extends React.Component{
 
           <div class="col-md-6">
             <div class="col-md-12">
-              <div class="col-md-12 info-square" id="topThree">
-                <TopThreeSlide topTwelve={this.props.statistics.topTwelve}/>
-              </div>
+
+              <TopThreeSlide topThree={this.props.statistics.topThree}/>
               <div class="col-md-12 info-square" id="mediaOverTime">
+                <p>Posts</p>
                 <canvas id="mediaOverTimeCanvas" width="700" height="300" />
               </div>
               <div class="col-md-12 info-square" id="followed_byOverTime">
+                <p>Followers</p>
                 <canvas id="followed_byOverTimeCanvas" width="700" height="300"/>
               </div>
               <div class="col-md-12 info-square" id="followsOverTime">
+                <p>Follows</p>
                 <canvas id="followsOverTimeCanvas" width="700" height="300"/>
               </div>
             </div>
@@ -140,8 +139,8 @@ class StatisticsSlides extends React.Component{
 class TopThreeSlide extends React.Component{
   render(){
     return(
-      <div id="topTwelve">
-        {this.props.topTwelve.map(function(image, index){
+      <div class="col-md-12 info-square" id="topThree">
+        {this.props.topThree.map(function(image, index){
           return (
               <li key={index} class="topThreePicture">
               <span class="number">{index+1}.</span>
@@ -150,6 +149,7 @@ class TopThreeSlide extends React.Component{
               </li>
           )
         })}
+        <p>Top pictures for your last 20 posts.</p>
       </div>
     );
   };
@@ -161,7 +161,6 @@ class Profile extends React.Component{
     sr.reveal('.profile', { duration: 1000,  origin: 'top', distance    : '500px' });
   }
   render(){
-    //console.log(this.props.profile);
     return(
       <div class="col-md-3 ">
       <div class="col-md-12 profile">
@@ -210,13 +209,12 @@ function createChart(id, data, colors){
           }
         ]
     }
-
-    var hej = new Chart(ctx.getContext("2d")).Line(chartData);
-
+    new Chart(ctx.getContext("2d")).Line(chartData);
   }
 }
+
+//Gör så att classen StatisticsSlides kommer åt allt i staten utan att få det från sin föräldrer.
 function mapStateToProps(state){
   return state;
 }
-
 export default connect(mapStateToProps)(StatisticsSlides);

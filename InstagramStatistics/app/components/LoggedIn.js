@@ -46,7 +46,7 @@ export default class LoggedIn extends React.Component{
   render() {
     if (this.props.profile) {
       return (
-        <div>
+        <div class="cont">
           <div class="col-md-12 loggedin-top">
             <div class="col-md-2"></div>
             <h1 class="col-md-8">Instagram Statistics</h1>
@@ -59,10 +59,17 @@ export default class LoggedIn extends React.Component{
       );
     } else {
       return (
-        <div class="col-md-12 loggedin-top">
-          <div class="col-md-2"></div>
-          <h1 class="col-md-8">Loading profile...</h1>
-          <div class="col-md-2"></div>
+        <div class="cont">
+          <div class="col-md-12 loggedin-top">
+            <div class="col-md-2"></div>
+            <h1 class="col-md-8">Instagram Statistics</h1>
+            <div class="col-md-2">
+              <button class="fa fa-sign-out btn btn-secondary logout-btn" onClick={this.handleLogout.bind(this)}>Logout</button>
+            </div>
+          </div>
+            <div class="col-md-12 loading">
+              Loading profile...
+            </div>
         </div>
       );
     }
@@ -74,10 +81,9 @@ class Statistics extends React.Component{
 
     if(this.props.statistics.mediaOverTime.length < 1){
       return(
-          <div class="col-md-12">
-            <div class="loader"></div>
-            Gathering information
-          </div>
+        <div class="col-md-12 loading">
+          Gathering information...
+        </div>
       );
     }else{
         return(

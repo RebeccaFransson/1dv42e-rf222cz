@@ -24,7 +24,7 @@ let actions = {
     return{
       type: 'SAVE_STATISTICS',
       counts: statistics.counts,
-      topTwelve: statistics.topTwelve
+      topThree: statistics.topThree
     }
   },
   logout: function(){

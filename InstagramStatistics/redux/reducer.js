@@ -27,7 +27,7 @@ export default function reducer(currState, action){
           mediaOverTime: action.counts.mediaOverTime,
           followed_byOverTime: action.counts.followed_byOverTime,
           followsOverTime: action.counts.followsOverTime,
-          topTwelve: action.topTwelve
+          topThree: action.topThree
         }
       });
     case 'LOGOUT':
