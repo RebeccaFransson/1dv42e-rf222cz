@@ -13,16 +13,16 @@ module.exports = {
       }
       for (var i = 0; i < users.length; i++) {
         var updateErr = that.updateSavedUser(users[i])
-        .then(function(user){
-          console.log('updated: ', user.nickname);
-        });
+          .then(function(user){
+            console.log(user.nickname);
+          });
       }
     })
   },
   getAllUsers: function(){
-    var day = (60000*60)*24;//(1min*60min)*24h = dag i millisekunder
-    //var minute = 60000;
-    var compareDate = new Date().getTime() - day;
+    //var day = (60000*60)*24;//(1min*60min)*24h = dag i millisekunder
+    var minute = 60000;
+    var compareDate = new Date().getTime() - minute;
     var usersNeedUpdate = [];
     return new Promise(function(resolve, reject){
       User.find({}, function (err, users) {
@@ -30,7 +30,7 @@ module.exports = {
           reject(err)
         }
         for (var i = 0; i < users.length; i++) {
-          if(new Date(users[i].last_save).getTime() < compareDate){
+          if(true){//new Date(users[i].last_save).getTime() < compareDate
             usersNeedUpdate.push(users[i]);
           }
         }
@@ -39,22 +39,27 @@ module.exports = {
     });
   },
 
-//Kunde tyvärr inte hitta något vis så jag kunde använda den gamla koden i usersController ska kolla på det sen
-  updateSavedUser: function(savedUser){
+  updateSavedUser: function(user){
+    //find one and update
     var that = this;
     return new Promise(function(resolve, reject){
-      that.getAllStatistics(savedUser.access_token, savedUser.counts.mediaOverTime, savedUser.counts.followed_byOverTime, savedUser.counts.followsOverTime)
+      that.getAllStatistics(user.access_token, user.counts.mediaOverTime, user.counts.followed_byOverTime, user.counts.followsOverTime)
       .then(function(data){
-        //Uppdatera existerande användare
-        savedUser.counts = data[0];
-        savedUser.topThree = data[1];
-        savedUser.last_save = new Date();
-        savedUser.save(function (err) {
-          if (err)
-              reject(err);
-          else
-              resolve(savedUser);
-        });
+        //Hitta och uppdatera existerande användare
+        User.findOne({'user_id': user.user_id}, function(err, savedUser){
+
+          savedUser.counts = counts;
+          savedUser.topThree = data[1];
+          savedUser.last_save = new Date();
+          savedUser.save(function (err) {
+            if (err)
+                reject(err);
+            else
+                resolve(savedUser);
+          });
+
+
+      });
       });
     });
   },

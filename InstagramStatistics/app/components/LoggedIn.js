@@ -20,7 +20,13 @@ export default class LoggedIn extends React.Component{
       this.props.dispatch(actions.saveProfile(profile, this.props.token));
       var that = this;
       this.handleSaveProfileToDB(profile).then(function(data, err){
-        that.props.dispatch(actions.saveStatistics(data));
+        console.log(err);
+        console.log(data);
+        if(err != 'success'){
+          console.log('the server did not respond');
+        }else{
+          that.props.dispatch(actions.saveStatistics(data));
+        }
       });
     }.bind(this));
 
