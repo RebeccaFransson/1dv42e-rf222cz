@@ -20,9 +20,9 @@ module.exports = {
     })
   },
   getAllUsers: function(){
-    //var day = (60000*60)*24;//(1min*60min)*24h = dag i millisekunder
-    var minute = 60000;
-    var compareDate = new Date().getTime() - minute;
+    var day = (60000*60)*24;//(1min*60min)*24h = dag i millisekunder
+    //var minute = 60000;
+    var compareDate = new Date().getTime() - day;
     var usersNeedUpdate = [];
     return new Promise(function(resolve, reject){
       User.find({}, function (err, users) {
@@ -30,7 +30,7 @@ module.exports = {
           reject(err)
         }
         for (var i = 0; i < users.length; i++) {
-          if(true){//new Date(users[i].last_save).getTime() < compareDate
+          if(new Date(users[i].last_save).getTime() < compareDate){//Kolla om den är äldre än en dag
             usersNeedUpdate.push(users[i]);
           }
         }
@@ -48,7 +48,7 @@ module.exports = {
         //Hitta och uppdatera existerande användare
         User.findOne({'user_id': user.user_id}, function(err, savedUser){
 
-          savedUser.counts = counts;
+          savedUser.counts = data[0];
           savedUser.topThree = data[1];
           savedUser.last_save = new Date();
           savedUser.save(function (err) {

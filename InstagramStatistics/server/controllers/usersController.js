@@ -31,21 +31,20 @@ function getSavedStats(req, res) {
         var day = (60000*60)*24;
         var savedTimestamp = new Date(savedUser.last_save).getTime() + day;//lägger till en minut - test
         var nowTime = new Date().getTime();
-        console.log(savedUser.last_save);
-        console.log(savedUser.counts.mediaOverTime);
         if(savedTimestamp > nowTime){//Om ni vill lägga till testdata sätta denna till false //savedTimestamp > nowTime
           //Hämtar sparad statistik till redan sparad användare och skickar tillbaka till klienten.
           console.log('tar från storgare');
           res.send(savedUser);
         }else{
-          console.log('hämtar från api');
           //Hämtar ny statistik till redan sparad användare och skriver över.
+          console.log('hämtar från api');
           updateSavedUser(savedUser).then(function(user){
             res.send(user);
           })
         }
       }else{
         //Hämtar statistik till redan ny användare och sparar användaren.
+        console.log('Skpar ny användare: ', req.body.nickname);
         saveNewUser(req).then(function(user){
           res.send(user);
         })

@@ -40,6 +40,7 @@
 
 /*KNAPPAR*/
 .fa-arrow-circle-down, .fa-arrow-circle-up{
+  cursor: pointer;
   position: fixed;
   bottom: 25px;
   right: 100px;

@@ -1,32 +1,36 @@
-<div id="fooContainer">
-  IS
-</div>
-
-<div class="hej" style="background-color: antiquewhite;height: 700px;">
-  <h1>hej</h1>
-</div>
-
-<div class="da" style="background-color: #6B4F2A;height: 500px;">
-  <h1>da</h1>
-</div>
-
 <link href="css.css" rel="stylesheet" />
 
-
-<script src="https://cdn.jsdelivr.net/scrollreveal.js/3.1.4/scrollreveal.min.js"></script>
-<script>
-console.log(pageYOffset);
-window.sr = ScrollReveal();
-var fooContainer = document.getElementById('fooContainer');
-sr.reveal('.foo', { container: fooContainer });
-sr.reveal('.hej', { duration: 1500, origin: 'bottom', distance    : '500px' });
-window.onscroll = function (e) {
-// called when the window is scrolled.
-if(pageYOffset > 200){
-  console.log('check');
-  sr.reveal('.da', { duration: 1500});
-
-}
-}
-
-</script>
+<div id="info" class="overlay">
+  <div class="popup">
+    <h2>Instagram Statistics</h2>
+    <div class="allContent">
+      <div class="content">
+        <h3>Top three</h3>
+        This funktionallity gets your 20 most recent media on your Instagram then makes a calculation on witch of your pictures has the most likes.
+        <br>
+        <br>
+        Top three can change over time but old top threes will not save in the database.
+      </div>
+      <div class="content">
+        <h3>Graphs</h3>
+        Your graphs will start out as nothing.
+        but when you log in, once a day or so, the app will update the data and the graphs will start to show.
+        <br>
+        <br>
+        <p>Not to worry!</p>
+        If your become inactive the app will still update your data, but only once a week!
+      </div>
+      <div class="content">
+        <h3>Examples</h3>
+        <img src="ExampleGraph.png">
+        <img src="ExampleGraph.png">
+        <img src="ExampleGraph.png">
+      </div>
+    </div>
+    <div class="allContent">
+      <h3>Development</h3>
+      Developed by Rebecca Fransson<br>
+      Created with: <b>Javascript</b> - <b>React</b> - <b>Redux</b> on the client-side and <b>Node.js</b> for the server-side.
+    </div>
+  </div>
+</div>

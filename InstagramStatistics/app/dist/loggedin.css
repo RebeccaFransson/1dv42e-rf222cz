@@ -25,6 +25,7 @@
   width: 80%;
   float: right;
   font-size: 25px;
+  cursor: pointer;
 
   transition-property: all;
   transition-duration: 0.2s;
@@ -46,6 +47,90 @@
 .btn button:hover{
   color: white;
   background-color: rgba(255, 255, 255, 0.36);
+}
+
+/*INFO*/
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  overflow-y: auto;
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 60%;
+  height: 80%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.popup h2 {
+  font-size: 3.5vw;
+  font-family: 'Grand Hotel', cursive;
+}
+.popup .content{
+  padding: 16px;
+  width: 33%;
+  float: left;
+  font-size: 2vh;
+}
+.popup .content img{
+  width: 100%;
+  margin: 13px 0;
+}
+.popup .content p{
+  margin: 6px 0;
+  font-weight: bolder;
+}
+.popup h3{
+  font-size: 5vh;
+  margin: 0;
+  margin-bottom: 7px;
+}
+.popup #close {
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 40px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+.popup #close:hover {
+  color: #9469AB;
+}
+.popup .content {
+  max-height: 50%;
+  overflow: auto;
+}
+.popup .bottomContent{
+  width: 60%;
+  float: left;
+}
+
+@media screen and (max-width: 700px){
+  .box{
+    width: 70%;
+  }
+  .popup{
+    width: 70%;
+  }
 }
 
 

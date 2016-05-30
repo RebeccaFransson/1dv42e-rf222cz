@@ -5,23 +5,20 @@ import React from 'react';
 import actions from '../../redux/actions';
 import StatisticsSlides from './StatisticsSlides';
 
-const url = 'http://188.166.116.158:8080';//publik
-//const url = 'http://localhost:8080';//lokal
+//const url = 'http://188.166.116.158:8080';//publik
+const url = 'http://localhost:8080';//lokal
 
 export default class LoggedIn extends React.Component{
 
   componentDidMount() {
     this.props.lock.getProfile(this.props.token, function (err, profile) {
       if (err) {
-        console.log(err);
         console.log("Error loading the Profile", err);
         return;
       }
       this.props.dispatch(actions.saveProfile(profile, this.props.token));
       var that = this;
       this.handleSaveProfileToDB(profile).then(function(data, err){
-        console.log(err);
-        console.log(data);
         if(err != 'success'){
           console.log('the server did not respond');
         }else{
@@ -48,6 +45,16 @@ export default class LoggedIn extends React.Component{
     //redirect
     window.location.hash = '';
   }
+  handleInfo(e){
+    console.log(e.target.id);
+    if(e.target.id == 'close'){
+      $('#info').css({'visibility':'hidden', 'opacity':'0', 'z-index': '0'})
+    }else{
+      $('#info').css({'visibility':'visible', 'opacity':'1', 'z-index': '100'})
+    }
+
+
+  }
 
   render() {
     if (this.props.profile) {
@@ -60,7 +67,45 @@ export default class LoggedIn extends React.Component{
               <div class="btn">
                 <button class="fa fa-sign-out btn btn-secondary" onClick={this.handleLogout.bind(this)}><span>Logout</span></button>
                 <br/>
-                <button class="fa fa-question btn btn-secondary info-btn" onClick={this.handleLogout.bind(this)}><span> Info</span></button>
+                <button class="fa fa-question btn btn-secondary info-btn" onClick={this.handleInfo.bind(this)}><span> Info</span></button>
+              </div>
+              <div id="info" class="overlay">
+                <div class="popup">
+                <div class="closebox">
+                <a id="close" onClick={this.handleInfo.bind(this)}>&times;</a>
+                </div>
+                  <h2>Instagram Statistics</h2>
+                  <div class="allContent">
+                    <div class="content">
+                      <h3>Top three</h3>
+                      This funktionallity gets your 20 most recent media on your Instagram then makes a calculation on which of your pictures has the most likes.
+                      <br/>
+                      <br/>
+                      Top three can change over time but old top threes will not save in the database.
+                    </div>
+                    <div class="content">
+                      <h3>Graphs</h3>
+                      Your graphs will start out as nothing.
+                      <br/>
+                      But when you log in, once a day or so, the app will update the data and the graphs will start to show.
+                      <br/>
+                      <br/>
+                      <p>Not to worry!</p>
+                      If your become inactive the app will still update your data, but only once a week!
+                    </div>
+                    <div class="content">
+                      <h3>Examples</h3>
+                      <img src="ExampleGraph3.png"/>
+                      <img src="ExampleGraph.png"/>
+                      <img src="ExampleGraph2.png"/>
+                    </div>
+                  </div>
+                  <div class="bottomContent">
+                    <h3>Development</h3>
+                    Developed by Rebecca Fransson<br/>
+                    Created with: <b>Javascript</b> - <b>React</b> - <b>Redux</b> on the client-side and <b>Node.js</b> for the server-side.
+                  </div>
+                </div>
               </div>
             </div>
           </div>

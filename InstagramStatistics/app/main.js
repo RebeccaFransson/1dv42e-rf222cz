@@ -12,7 +12,7 @@ let initialSate = {
     token: null
   },
   showAbout: false,
-  currentSlide: 'mediaOverTime',
+  currentSlide: 'topThree',
   statistics: {
     mediaOverTime: [],
     followed_byOverTime: [],

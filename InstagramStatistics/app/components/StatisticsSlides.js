@@ -38,33 +38,60 @@ class StatisticsSlides extends React.Component{
       }
 
       //Om currentSlide inte är den första än, kolla om användaren är längt upp på sidan och sätt currentSlide t den första
-      if(that.props.currentSlide != that.getSlides()[0]){
+      /*if(that.props.currentSlide != that.getSlides()[0]){
         if($(document).scrollTop() < $(window).height()){
           that.props.dispatch(actions.toggleNext(that.getSlides()[0]));
         }
+      }*/
+      //Om current är den sista sliden sätt till den första
+      if(that.checkScrollElement('#topThree', this)){
+        if(that.props.currentSlide == that.getSlides()[that.getSlides().length-1]){
+          console.log('------------sätt till första');
+          that.props.dispatch(actions.toggleNext(that.getSlides()[0]));
+        }
+      }
+      //Kollar om nästa data syns för användaren sätter så fall sätter ste till nästa slide
+      if(that.checkScrollElement('#mediaOverTime', this)){
+        if(that.props.currentSlide == 'topThree'){
+          console.log('---------sätt till media');
+          that.props.dispatch(actions.toggleNext(that.getSlides()));
+        }
+      }
+      if(that.checkScrollElement('#followed_byOverTime', this)){
+        if(that.props.currentSlide == 'mediaOverTime'){
+          console.log('---------sätt till follows');
+          that.props.dispatch(actions.toggleNext(that.getSlides()));
+        }
       }
       //Om användaren ser den sista sliden sätt currentSlide till den sista för att visa knapp med pil-uppåt
-      if(that.checkScrollElement('#followed_byOverTime', this)){
-        if(that.props.currentSlide != that.getSlides()[that.getSlides().length-1]){
-          that.props.dispatch(actions.toggleNext(that.getSlides()[that.getSlides().length-1]));
+      if(that.checkScrollElement('#followsOverTime', this)){
+        console.log('ser sista');
+        if(that.props.currentSlide == 'followed_byOverTime'){
+          console.log('ändrar sista');
+          that.props.dispatch(actions.toggleNext('end'));
         }
       }
 
-/*console.log('längst upp: ', that.props.currentSlide);
+      /*console.log('längst upp: ', that.props.currentSlide);
       switch (that.props.currentSlide) {
         case 'mediaOverTime':
           if(that.checkScrollElement('#mediaOverTime', this)){
+            console.log('togglar nästa');
             that.props.dispatch(actions.toggleNext(that.getSlides()));
           }
           break;
         case 'followsOverTime':
           if(that.checkScrollElement('#followsOverTime', this)){
+            console.log('togglar nästa');
             that.props.dispatch(actions.toggleNext(that.getSlides()));
           }
           break;
         case 'followed_byOverTime':
           if(that.checkScrollElement('#followed_byOverTime', this)){
-            //that.props.dispatch(actions.toggleNext('end'));
+            console.log('ingen toggel vänta på tryck upp');
+          }else{
+            console.log('toggla första igen');
+            that.props.dispatch(actions.toggleNext(that.getSlides()[0]));
           }
           break;
         case 'end':
@@ -77,7 +104,7 @@ class StatisticsSlides extends React.Component{
     });
   }
   getSlides(){
-    return ['mediaOverTime', 'followsOverTime', 'followed_byOverTime']; //Viktigt att det är i samma ordning som slidens visas, se rad 18-30
+    return ['topThree', 'mediaOverTime', 'followed_byOverTime', 'followsOverTime']; //Viktigt att det är i samma ordning som slidens visas, se rad 18-30
   }
   checkScrollElement(id, that){
     var hT = $(id).offset().top,
@@ -89,22 +116,26 @@ class StatisticsSlides extends React.Component{
 
   toggleNext() {
     console.log('ett tryck!!!');
-    console.log(this.props.dispatch(actions.toggleNext(this.getSlides())));
     console.log(this.props.currentSlide);
+    //console.log(this.props.dispatch(actions.toggleNext(this.getSlides())));
+    //console.log(this.props.currentSlide);
   }
   backToStart(){
     $('html, body').animate({
             scrollTop: 0
         }, 800);
+    //this.props.dispatch(actions.toggleNext(this.getSlides()[0]));
+    //går itne för då loopar den typ bara igenom alla sliddsen igen, suck
   }
 
   render(){
     var arrow;
-    if(this.props.currentSlide == this.getSlides()[this.getSlides().length-1]) {
+    console.log(this.getSlides()[this.getSlides().length-2]);
+    if(this.props.currentSlide == 'end') {
         arrow = <span class="fa fa-arrow-circle-up" onClick={this.backToStart.bind(this)}/>;
     }else{
-        //arrow = <span class="fa fa-arrow-circle-down" onClick={this.toggleNext.bind(this)}/>;
-        arrow = <span class="fa fa-arrow-circle-down"></span>;
+        arrow = <span class="fa fa-arrow-circle-down" onClick={this.toggleNext.bind(this)}/>;
+        //arrow = <span class="fa fa-arrow-circle-down"></span>;
     }
 
     return(
@@ -193,8 +224,6 @@ function createChart(id, data, colors){
   }
 
   if(ctx != null){
-    console.log(labels);
-    console.log(dataArray);
     var chartData ={
       labels: labels,
       datasets: [

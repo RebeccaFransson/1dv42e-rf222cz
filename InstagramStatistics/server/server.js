@@ -28,8 +28,10 @@ MongoDB.once('open', function() {
   console.log("mongodb connection open");
 
   var rule = new schedule.RecurrenceRule();
-  //rule.second = 30;
-  rule.hour = 12;//varje dag kl 12 på dagen
+  //Detta kommer ändras till en gång i veckan senare.
+  //Men behåller en gång i veckan för att funktionalliteten lätt kan vises
+  rule.hour = 11;//varje dag kl 12 på dagen
+  rule.minute = 59;//varje dag kl 12 på dagen
   schedule.scheduleJob(rule, function(){
       console.log(new Date());
       console.log('---Updating folloing people:---');
