@@ -1,0 +1,15 @@
+#a0-lock.a0-theme-default .a0-panel .a0-top-header{
+  background-color: #F7CBAA !important;
+  background: #F7CBAA !important;
+  -webkit-filter: brightness(1.2) !important;
+}
+#a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img{
+  -webkit-filter: brightness(10);
+  filter: brightness(10);
+}
+#a0-lock.a0-theme-default .a0-zocial span, #a0-lock.a0-theme-default a.a0-zocial, #a0-lock.a0-theme-default a.a0-zocial span{
+  background-color: #3897F0 !important;
+}
+#a0-lock.a0-theme-default .a0-zocial.a0-instagram{
+  background-color: #3287D8 !important;
+}

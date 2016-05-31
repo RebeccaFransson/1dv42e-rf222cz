@@ -2,8 +2,7 @@
 var express = require("express");
 var bodyParser = require("body-parser")
 var mongoose = require("mongoose");
-var schedule = require('node-schedule');
-
+var CronJob = require('cron').CronJob;
 var path = require("path");
 
 //controllers
@@ -20,21 +19,28 @@ app.listen(8080, function () {
     console.log("Started listening on port", 8080);
 });
 
-//connectar till min mongo-db
+//ansluter till min mongo-db
 var mongoURI = "mongodb://188.166.116.158:27017/ISDb";
 var MongoDB = mongoose.connect(mongoURI).connection;
 MongoDB.on('error', function(err) { console.log(err.message); });
 MongoDB.once('open', function() {
   console.log("mongodb connection open");
 
-  var rule = new schedule.RecurrenceRule();
-  //Detta kommer ändras till en gång i veckan senare.
-  //Men behåller en gång i veckan för att funktionalliteten lätt kan vises
-  rule.hour = 11;//varje dag kl 12 på dagen
-  rule.minute = 59;//varje dag kl 12 på dagen
-  schedule.scheduleJob(rule, function(){
-      console.log(new Date());
-      console.log('---Updating folloing people:---');
-      updateUsersController.checkForUpdate();
-  });
+  //en gång i veckan, varje måndag
+  /*new CronJob('* * * * * 1', function() {
+    console.log('-----Updating...-------');
+    updateUsersController.checkForUpdate();
+  }, function(){
+    console.log('-----Done updating!-------');
+  }, true, 'Europe/Stockholm');*/
+
+//test: en gång om dagen kl 11:59
+  new CronJob('0 59 11 * * *', function() {
+    console.log('-----Updating...-------');
+    console.log(new Date());
+    updateUsersController.checkForUpdate();
+  }, function(){
+    console.log('-----Done updating!-------');
+  }, true, 'Europe/Stockholm');
+
 });

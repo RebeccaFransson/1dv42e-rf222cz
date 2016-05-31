@@ -95,9 +95,9 @@ export default class LoggedIn extends React.Component{
                     </div>
                     <div class="content">
                       <h3>Examples</h3>
+                      <img src="ExampleGraph2.png"/>
                       <img src="ExampleGraph3.png"/>
                       <img src="ExampleGraph.png"/>
-                      <img src="ExampleGraph2.png"/>
                     </div>
                   </div>
                   <div class="bottomContent">
@@ -123,7 +123,7 @@ export default class LoggedIn extends React.Component{
             </div>
           </div>
             <div class="col-md-12 loading">
-              Loading profile...
+              Loading user profile...
             </div>
         </div>
       );

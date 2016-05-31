@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Chart from 'chart.js';
 import $ from 'jquery';
+import ScrollReveal from 'scrollreveal';
 
 import actions from '../../redux/actions';
 
@@ -45,72 +46,38 @@ class StatisticsSlides extends React.Component{
       }
       //Om current är den sista sliden sätt till den första
       if(that.checkScrollElement('#topThree', this)){
-        if(that.props.currentSlide == that.getSlides()[that.getSlides().length-1]){
-          console.log('------------sätt till första');
+        if(that.props.currentSlide == that.getSlides()[that.getSlides().length-1]){//sista sliden
           that.props.dispatch(actions.toggleNext(that.getSlides()[0]));
         }
       }
       //Kollar om nästa data syns för användaren sätter så fall sätter ste till nästa slide
       if(that.checkScrollElement('#mediaOverTime', this)){
-        if(that.props.currentSlide == 'topThree'){
-          console.log('---------sätt till media');
+        if(that.props.currentSlide == that.getSlides()[0]){//första sliden
           that.props.dispatch(actions.toggleNext(that.getSlides()));
         }
       }
       if(that.checkScrollElement('#followed_byOverTime', this)){
         if(that.props.currentSlide == 'mediaOverTime'){
-          console.log('---------sätt till follows');
           that.props.dispatch(actions.toggleNext(that.getSlides()));
         }
       }
       if(that.props.currentSlide != 'end'){
         //Om användaren ser den sista sliden sätt currentSlide till den sista för att visa knapp med pil-uppåt
         if(that.checkScrollElement('#followsOverTime', this)){
-          console.log('ser sista');
           if(that.props.currentSlide == 'followed_byOverTime'){
-            console.log('ändrar sista');
             that.props.dispatch(actions.toggleNext('end'));
           }
         }
       }
-
-
-      /*console.log('längst upp: ', that.props.currentSlide);
-      switch (that.props.currentSlide) {
-        case 'mediaOverTime':
-          if(that.checkScrollElement('#mediaOverTime', this)){
-            console.log('togglar nästa');
-            that.props.dispatch(actions.toggleNext(that.getSlides()));
-          }
-          break;
-        case 'followsOverTime':
-          if(that.checkScrollElement('#followsOverTime', this)){
-            console.log('togglar nästa');
-            that.props.dispatch(actions.toggleNext(that.getSlides()));
-          }
-          break;
-        case 'followed_byOverTime':
-          if(that.checkScrollElement('#followed_byOverTime', this)){
-            console.log('ingen toggel vänta på tryck upp');
-          }else{
-            console.log('toggla första igen');
-            that.props.dispatch(actions.toggleNext(that.getSlides()[0]));
-          }
-          break;
-        case 'end':
-          console.log('slut');
-          break;
-        default:
-        //TODO: sista caset byt rikting på pilen för att ta upp användaren
-      }*/
-
     });
   }
   getSlides(){
-    return ['topThree', 'mediaOverTime', 'followed_byOverTime', 'followsOverTime']; //Viktigt att det är i samma ordning som slidens visas, se rad 18-30
+    //Lätt att ändra, men måste vara i samma ordning som if-saterna under rad 47-71
+    return ['topThree', 'mediaOverTime', 'followed_byOverTime', 'followsOverTime'];
   }
-  //fixa denna så den är inom ett intervall! mellan window och document height
+
   checkScrollElement(id, that){
+    //Kollar om användaren ser ett visst element
     var hT = $(id).offset().top,
        hH = $(id).outerHeight(),
        wH = $(window).height(),
@@ -119,6 +86,8 @@ class StatisticsSlides extends React.Component{
   }
 
   toggleNext() {
+    //Hämtar höjden från top-rubriken och var elementet vi ska scrolla till är placerat
+    //Scrollar sedan till det elementet som är nästa i slidsen
     this.props.dispatch(actions.toggleNext(this.getSlides()));
     var elementTop = $('#'+this.props.currentSlide).offset().top,
        top = $('.loggedin-top').outerHeight();
@@ -127,6 +96,9 @@ class StatisticsSlides extends React.Component{
         }, 800);
   }
   backToStart(){
+    //Scrolalr uppåt, scrollen tar 800 millisek. Efter 800 milisek byter vitill den första sliden i state
+    //En timeout har satts för att scrollen tar 800 ms och om vi sätter staten till första sliden utan timeouten
+    // kommer det bli en konflikt med det som är i funtionen componentDidMount när ststen ändras när användaren scrolalr själv
     $('html, body').animate({
             scrollTop: 0
         }, 800);
@@ -134,8 +106,6 @@ class StatisticsSlides extends React.Component{
     setTimeout(function(){
        that.props.dispatch(actions.toggleNext(that.getSlides()[0]));
     }, 801);
-
-    //går itne för då loopar den typ bara igenom alla sliddsen igen, suck
   }
 
   render(){
@@ -197,6 +167,7 @@ class TopThreeSlide extends React.Component{
 
 class Profile extends React.Component{
   componentDidMount(){
+
     window.sr = ScrollReveal();
     sr.reveal('.profile', { duration: 1000,  origin: 'top', distance    : '500px' });
   }
