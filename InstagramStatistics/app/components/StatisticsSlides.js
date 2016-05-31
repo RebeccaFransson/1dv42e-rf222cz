@@ -38,11 +38,11 @@ class StatisticsSlides extends React.Component{
       }
 
       //Om currentSlide inte är den första än, kolla om användaren är längt upp på sidan och sätt currentSlide t den första
-      /*if(that.props.currentSlide != that.getSlides()[0]){
+      if(that.props.currentSlide != that.getSlides()[0]){
         if($(document).scrollTop() < $(window).height()){
           that.props.dispatch(actions.toggleNext(that.getSlides()[0]));
         }
-      }*/
+      }
       //Om current är den sista sliden sätt till den första
       if(that.checkScrollElement('#topThree', this)){
         if(that.props.currentSlide == that.getSlides()[that.getSlides().length-1]){
@@ -63,14 +63,17 @@ class StatisticsSlides extends React.Component{
           that.props.dispatch(actions.toggleNext(that.getSlides()));
         }
       }
-      //Om användaren ser den sista sliden sätt currentSlide till den sista för att visa knapp med pil-uppåt
-      if(that.checkScrollElement('#followsOverTime', this)){
-        console.log('ser sista');
-        if(that.props.currentSlide == 'followed_byOverTime'){
-          console.log('ändrar sista');
-          that.props.dispatch(actions.toggleNext('end'));
+      if(that.props.currentSlide != 'end'){
+        //Om användaren ser den sista sliden sätt currentSlide till den sista för att visa knapp med pil-uppåt
+        if(that.checkScrollElement('#followsOverTime', this)){
+          console.log('ser sista');
+          if(that.props.currentSlide == 'followed_byOverTime'){
+            console.log('ändrar sista');
+            that.props.dispatch(actions.toggleNext('end'));
+          }
         }
       }
+
 
       /*console.log('längst upp: ', that.props.currentSlide);
       switch (that.props.currentSlide) {
@@ -106,6 +109,7 @@ class StatisticsSlides extends React.Component{
   getSlides(){
     return ['topThree', 'mediaOverTime', 'followed_byOverTime', 'followsOverTime']; //Viktigt att det är i samma ordning som slidens visas, se rad 18-30
   }
+  //fixa denna så den är inom ett intervall! mellan window och document height
   checkScrollElement(id, that){
     var hT = $(id).offset().top,
        hH = $(id).outerHeight(),
@@ -115,16 +119,22 @@ class StatisticsSlides extends React.Component{
   }
 
   toggleNext() {
-    console.log('ett tryck!!!');
-    console.log(this.props.currentSlide);
-    //console.log(this.props.dispatch(actions.toggleNext(this.getSlides())));
-    //console.log(this.props.currentSlide);
+    this.props.dispatch(actions.toggleNext(this.getSlides()));
+    var elementTop = $('#'+this.props.currentSlide).offset().top,
+       top = $('.loggedin-top').outerHeight();
+    $('html, body').animate({
+            scrollTop: elementTop+top
+        }, 800);
   }
   backToStart(){
     $('html, body').animate({
             scrollTop: 0
         }, 800);
-    //this.props.dispatch(actions.toggleNext(this.getSlides()[0]));
+        var that = this;
+    setTimeout(function(){
+       that.props.dispatch(actions.toggleNext(that.getSlides()[0]));
+    }, 801);
+
     //går itne för då loopar den typ bara igenom alla sliddsen igen, suck
   }
 

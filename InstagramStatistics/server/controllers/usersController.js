@@ -95,18 +95,18 @@ function saveNewUser(req){
   return new Promise(function(resolve, reject){
     //Testdata för nya användare för att visa hur graferna kan ser ut
     /*var testcount = {
-      "followsOverTime" : [ {"count" : 0, "date" : new Date("2016-05-23T16:11:59.000Z") },
-                { "count" : 0, "date" : new Date("2016-05-24T16:11:59.000Z") },
-                { "count" : 0, "date" : new Date("2016-05-25T13:50:49.441Z") },
-                { "count" : 0, "date" : new Date("2016-05-26T13:50:49.441Z") } ],
-              "followed_byOverTime" : [ {"count" : 0,  "date" : new Date("2016-05-23T16:11:59.000Z") },
-                { "count" : 1, "date" : new Date("2016-05-24T16:11:59.000Z") },
-                { "count" : 3, "date" : new Date("2016-05-25T13:50:49.441Z") },
-                { "count" : 4, "date" : new Date("2016-05-26T13:50:49.441Z") } ],
-              "mediaOverTime" : [ { "count" : 0, "date" : new Date("2016-05-23T16:11:59.000Z") },
-                { "count" : 1, "date" : new Date("2016-05-24T16:11:59.000Z") },
-                { "count" : 2, "date" : new Date("2016-05-25T13:50:49.441Z") },
-                { "count" : 3, "date" : new Date("2016-05-26T13:50:49.441Z") }  ]
+      "followsOverTime" : [ {"count" : 0, "date" : new Date("2016-05-27T16:11:59.000Z") },
+                { "count" : 0, "date" : new Date("2016-05-28T16:11:59.000Z") },
+                { "count" : 0, "date" : new Date("2016-05-29T13:50:49.441Z") },
+                { "count" : 0, "date" : new Date("2016-05-30T13:50:49.441Z") } ],
+              "followed_byOverTime" : [ {"count" : 0,  "date" : new Date("2016-05-27T16:11:59.000Z") },
+                { "count" : 1, "date" : new Date("2016-05-28T16:11:59.000Z") },
+                { "count" : 3, "date" : new Date("2016-05-29T13:50:49.441Z") },
+                { "count" : 4, "date" : new Date("2016-05-30T13:50:49.441Z") } ],
+              "mediaOverTime" : [ { "count" : 0, "date" : new Date("2016-05-27T16:11:59.000Z") },
+                { "count" : 1, "date" : new Date("2016-05-28T16:11:59.000Z") },
+                { "count" : 2, "date" : new Date("2016-05-29T13:50:49.441Z") },
+                { "count" : 3, "date" : new Date("2016-05-30T13:50:49.441Z") }  ]
     }*/
     //getAllStatistics(req.body.identities[0].access_token, testcount.mediaOverTime, testcount.followed_byOverTime, testcount.followsOverTime)
     getAllStatistics(req.body.identities[0].access_token, [], [], [])

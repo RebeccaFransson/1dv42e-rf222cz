@@ -24,7 +24,7 @@
 .btn{
   width: 80%;
   float: right;
-  font-size: 25px;
+  font-size: 1vw;
   cursor: pointer;
 
   transition-property: all;
