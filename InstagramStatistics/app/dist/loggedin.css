@@ -140,13 +140,7 @@
   text-align: center;
   color: #484848;
 }
-.loading-scen h3{
-  color: white;
-  text-align: center;
-}
-.loader{
-  background-position: center;
-  padding: 50px;
-  background-image: url('loading.gif');
-  background-repeat: no-repeat;
+.loading p{
+  font-weight: 600;
+  color: #D05F5F;
 }

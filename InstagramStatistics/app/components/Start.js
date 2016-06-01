@@ -31,8 +31,6 @@ class Start extends React.Component{
     if (!token && authHash) {
       if (authHash.id_token) {
         idToken = authHash.id_token;
-        //accessToken = authHash.access_token;
-        //let usertoken = JSON.stringify({idToken: idToken});
         sessionStorage.setItem('userToken', JSON.stringify(idToken));
       }
       if (authHash.error) {
@@ -49,7 +47,8 @@ class Start extends React.Component{
         profile={this.props.user.profile}
         lock={this.lock}
         token={this.props.user.token}
-        statistics={this.props.statistics}/>);
+        statistics={this.props.statistics}
+        error={this.props.error}/>);
     } else {
       return (
         <div>
@@ -58,7 +57,6 @@ class Start extends React.Component{
     }
   }
 };
-//<About dispatch={this.props.dispatch} showAbout={this.props.showAbout}/>
 
 function mapStateToProps(state){
   return state;

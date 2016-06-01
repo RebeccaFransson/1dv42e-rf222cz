@@ -13,6 +13,7 @@ let initialSate = {
   },
   showAbout: false,
   currentSlide: 'topThree',
+  error: null,
   statistics: {
     mediaOverTime: [],
     followed_byOverTime: [],

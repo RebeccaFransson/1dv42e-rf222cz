@@ -4,10 +4,10 @@ Tar gamla staten, kopierar den och ändrar på kopian
 */
 export default function reducer(currState, action){
   switch (action.type) {
-    case 'SHOW_ABOUT':
-      //Skapar nytt objekt med den gamla staten, ersätter gamla information med nya
-      //På så sätt kan jag hålla koll på en gamla datan
-
+    case 'SET_ERROR':
+      return Object.assign({}, currState, {
+        error: action.error
+      });
     case 'SAVE_TOKEN':
       return Object.assign({}, currState, {
         user: {

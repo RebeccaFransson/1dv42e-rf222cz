@@ -1,6 +1,12 @@
 "use strict";
 
 let actions = {
+  setError: function(err){
+    return {
+      type: 'SET_ERROR',
+      error: err
+    }
+  },
   toggleNext: function(slides){
     return{
       type: 'TOGGLE_NEXT',

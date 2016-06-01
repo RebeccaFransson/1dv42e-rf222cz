@@ -10,34 +10,39 @@ const url = 'http://localhost:8080';//lokal
 
 export default class LoggedIn extends React.Component{
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.lock.getProfile(this.props.token, function (err, profile) {
       if (err) {
-        console.log("Error loading the Profile", err);
-        return;
+        that.props.dispatch(actions.setError('Error loading the Profile: '+err));
       }
       this.props.dispatch(actions.saveProfile(profile, this.props.token));
 
-      this.handleSaveProfileToDB(profile);
-      
-    }.bind(this));
+      var that = this;
+      this.handleSaveProfileToDB(profile)
+      .then(function(data){
+        that.props.dispatch(actions.saveStatistics(data));
 
+      })
+      .catch(function(err){
+        that.props.dispatch(actions.setError(err));
+      })
+
+    }.bind(this));
   }
 
-//Skickar
+  //Skickar användar information till servern och får data om användarens instagram tillbaka
   handleSaveProfileToDB(profile){
-    var that = this;
-    $.ajax({
-        url:        url+'/saveProfile',
-        data:       JSON.stringify(profile),
-        method:     "POST",
-        dataType:   "json",
-        contentType:"application/json",
-        success:    function (data) { that.props.dispatch(actions.saveStatistics(data)); },
-        error:      function (xhr, status, error) {
-                        console.log(xhr, status, error);
-                    }
-    })
+    return new Promise(function(resolve, reject){
+      $.ajax({
+          url:        url+'/saveProfile',
+          data:       JSON.stringify(profile),
+          method:     "POST",
+          dataType:   "json",
+          contentType:"application/json",
+          success:    function (data) { resolve(data) },
+          error:      function (xhr, status, error) { reject(xhr.responseText) }
+      })
+    });
   }
   handleLogout(e){
     e.preventDefault();
@@ -53,11 +58,10 @@ export default class LoggedIn extends React.Component{
     }else{
       $('#info').css({'visibility':'visible', 'opacity':'1', 'z-index': '100'})
     }
-
-
   }
 
   render() {
+    var that = this;
     if (this.props.profile) {
       return (
         <div class="cont">
@@ -110,7 +114,7 @@ export default class LoggedIn extends React.Component{
               </div>
             </div>
           </div>
-            <Statistics statistics={this.props.statistics} dispatch={this.props.dispatch}/>
+            <Statistics statistics={this.props.statistics} error={this.props.error} dispatch={this.props.dispatch}/>
         </div>
       );
     } else {
@@ -134,13 +138,22 @@ export default class LoggedIn extends React.Component{
 
 class Statistics extends React.Component{
   render(){
-
     if(this.props.statistics.mediaOverTime.length < 1){
-      return(
-        <div class="col-md-12 loading">
-          Gathering information...
-        </div>
-      );
+      console.log(this.props.error);
+      if(this.props.error != undefined){
+        return(
+          <div class="col-md-12 loading">
+            Following error from the server:
+            <p>{this.props.error}</p>
+          </div>
+        );
+      }else{
+        return(
+          <div class="col-md-12 loading">
+            Gathering information...
+          </div>
+        );
+      }
     }else{
         return(
             <StatisticsSlides statistics={this.props.statistics} slides={this.slides}/>
