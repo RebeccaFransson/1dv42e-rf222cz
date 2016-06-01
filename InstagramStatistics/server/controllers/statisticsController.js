@@ -2,9 +2,6 @@
 var request = require('request');
 
 module.exports = {
-  getAllLikes: function() {
-    console.log('inne i andra controllern');
-  },
   mediaAndFollowedBy: function(token, media, followed_by, follows){
     return new Promise(function(resolve, reject){
       request('https://api.instagram.com/v1/users/self/?access_token='+token,
@@ -15,8 +12,7 @@ module.exports = {
           follows.push({count: JSON.parse(body).data.counts.follows, date: new Date()});
           resolve({mediaOverTime: media, followed_byOverTime: followed_by, followsOverTime: follows});
         }else{
-          console.log('error');
-          reject(error);
+          reject('Couldnt get statistics: '+ error);
         }
       });
 
@@ -67,8 +63,7 @@ module.exports = {
           //Skicka tillbaka array med tio populäraste
           resolve(topThree);
         }else{
-          console.log('error');
-          reject(error);
+          reject('Couldnt get the top three pictures: ', error);
         }
       });
 

@@ -13,7 +13,7 @@ function getSavedUser(id) {
   return new Promise(function(resolve, reject){
     User.findOne({ user_id: id }, function (err, user) {
       if (err) {
-        reject(err)
+        reject('Couldnt find user: ',err);
       }
       resolve(user);
     });
@@ -23,10 +23,9 @@ function getSavedUser(id) {
 function getSavedStats(req, res) {
   storage.initSync();
   //Kollar om användaren finns i databasen
-  getSavedUser(req.body.user_id).then(
-    function(savedUser){
+  getSavedUser(req.body.user_id)
+    .then(function(savedUser){
       if(savedUser != null){
-        //TODO: kolla om saveduser är samma user som liggade in
         //Finns det redan sparad data? är den tillräckligt ny? använd den istället
         var day = (60000*60)*24;
         var savedTimestamp = new Date(savedUser.last_save).getTime() + day;//lägger till en minut - test
@@ -34,22 +33,25 @@ function getSavedStats(req, res) {
         if(savedTimestamp > nowTime){//Om ni vill lägga till testdata sätta denna till false //savedTimestamp > nowTime
           //Hämtar sparad statistik till redan sparad användare och skickar tillbaka till klienten.
           console.log('tar från storgare');
-          res.send(savedUser);
+          res.status(200).send(savedUser);
         }else{
           //Hämtar ny statistik till redan sparad användare och skriver över.
           console.log('hämtar från api');
-          updateSavedUser(savedUser).then(function(user){
-            res.send(user);
-          })
+          return updateSavedUser(savedUser);
         }
       }else{
         //Hämtar statistik till redan ny användare och sparar användaren.
-        console.log('Skpar ny användare: ', req.body.nickname);
-        saveNewUser(req).then(function(user){
-          res.send(user);
-        })
+        console.log('Skapar ny användare: ', req.body.nickname);
+        return saveNewUser(req);
       }
-  });
+    })
+    .then(function(user){
+      console.log('Allt gick bra');
+      res.status(200).send(user);
+    })
+    .catch(function(reason) {
+      res.status(500).send(reason);
+    });
 }
 
 function updateSavedUser(savedUser){
@@ -81,13 +83,17 @@ function updateSavedUser(savedUser){
       savedUser.last_save = new Date();
       savedUser.save(function (err) {
           if (err)
-              reject(err);
+              reject('Couldnt update saved user: '+err);
           else{
               storage.setItem('savedUserStorage', savedUser);
               resolve(savedUser);
           }
       });
-    });
+    })
+    .catch(
+      function(reason) {
+          reject('Problem getting statistics: '+ reason);
+      });
   });
 }
 
@@ -111,7 +117,6 @@ function saveNewUser(req){
     //getAllStatistics(req.body.identities[0].access_token, testcount.mediaOverTime, testcount.followed_byOverTime, testcount.followsOverTime)
     getAllStatistics(req.body.identities[0].access_token, [], [], [])
       .then(function(data){
-        console.log('save new user: ', req.body.nickname);
         //Skapa ny användare
         var user = new User(_.extend({}, {
           user_id: req.body.user_id,
@@ -129,17 +134,22 @@ function saveNewUser(req){
         //Spara ny användare
         user.save(function (err) {
             if (err)
-                reject(err);
+                reject('Couldnt save new user'+err);
             else{
                 storage.setItem('savedUserStorage', user);
                 resolve(user);
             }
         });
-      });
+      })
+      .catch(
+        function(reason) {
+            resolve('Couldnt get statistics: '+ reason);
+        });
     });
 }
 
 function getAllStatistics(access_token, media, followed, follows){
+  //Promise hämtar alla primises i Arrayn och skcikar tillbaka, errors fångas i första funktionen: getSavedStats()
   return Promise.all([statisticsController.mediaAndFollowedBy(access_token, media, followed, follows),
                       statisticsController.getThreeMostLikedPictures(access_token)])
 }

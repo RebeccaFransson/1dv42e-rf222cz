@@ -17,25 +17,26 @@ export default class LoggedIn extends React.Component{
         return;
       }
       this.props.dispatch(actions.saveProfile(profile, this.props.token));
-      var that = this;
-      this.handleSaveProfileToDB(profile).then(function(data, err){
-        if(err != 'success'){
-          console.log('the server did not respond');
-        }else{
-          that.props.dispatch(actions.saveStatistics(data));
-        }
-      });
+
+      this.handleSaveProfileToDB(profile);
+      
     }.bind(this));
 
   }
 
+//Skickar
   handleSaveProfileToDB(profile){
-    return $.ajax({
-        url: url+'/saveProfile',
-        data: JSON.stringify(profile),
-        method: "POST",
-        dataType: "json",
-        contentType: "application/json"
+    var that = this;
+    $.ajax({
+        url:        url+'/saveProfile',
+        data:       JSON.stringify(profile),
+        method:     "POST",
+        dataType:   "json",
+        contentType:"application/json",
+        success:    function (data) { that.props.dispatch(actions.saveStatistics(data)); },
+        error:      function (xhr, status, error) {
+                        console.log(xhr, status, error);
+                    }
     })
   }
   handleLogout(e){
