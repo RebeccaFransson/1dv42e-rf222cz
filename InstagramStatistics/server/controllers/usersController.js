@@ -26,11 +26,12 @@ function getSavedStats(req, res) {
   getSavedUser(req.body.user_id)
     .then(function(savedUser){
       if(savedUser != null){
-        //Finns det redan sparad data? är den tillräckligt ny? använd den istället
+        //Finns det redan sparad data som är nyare än en dag använd den istället
         var day = (60000*60)*24;
+        //var day = 60000;
         var savedTimestamp = new Date(savedUser.last_save).getTime() + day;//lägger till en minut - test
         var nowTime = new Date().getTime();
-        if(savedTimestamp > nowTime){//Om ni vill lägga till testdata sätta denna till false //savedTimestamp > nowTime
+        if(savedTimestamp > nowTime){//Om ni vill lägga till testdata sätta denna till false //savedTimestamp > nowTime*
           //Hämtar sparad statistik till redan sparad användare och skickar tillbaka till klienten.
           console.log('tar från storgare');
           res.status(200).send(savedUser);
@@ -58,19 +59,19 @@ function updateSavedUser(savedUser){
   //TEST-DATA om så önskas (Detta eftersom appliktionen börjar räkna från första datumet, och ni kanske vill ha lite exempeldata)
   /*var testcount = {
     mediaOverTime:
-   [ { date: new Date('Tue May 23 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+   [ { date: new Date('Tue May 02 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
        count: 0 },
-     { date: new Date('Tue May 24 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+     { date: new Date('Tue May 03 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
        count: 1 } ],
   followed_byOverTime:
-   [ { date: new Date('Tue May 23 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+   [ { date: new Date('Tue May 02 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
        count: 0 },
-     { date: new Date('Tue May 24 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+     { date: new Date('Tue May 03 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
        count: 2 } ],
   followsOverTime:
-   [ { date: new Date('Tue May 23 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+   [ { date: new Date('Tue May 02 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
        count: 0 },
-     { date: new Date('Tue May 24 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
+     { date: new Date('Tue May 03 2016 18:11:59 GMT+0200 (Västeuropa, sommartid)'),
        count: 0 } ]
   }*/
   return new Promise(function(resolve, reject){
@@ -83,7 +84,7 @@ function updateSavedUser(savedUser){
       savedUser.last_save = new Date();
       savedUser.save(function (err) {
           if (err)
-              reject('Couldnt update saved user: '+err);
+              reject('Unable to update saved user: '+err);
           else{
               storage.setItem('savedUserStorage', savedUser);
               resolve(savedUser);
@@ -92,7 +93,7 @@ function updateSavedUser(savedUser){
     })
     .catch(
       function(reason) {
-          reject('Problem getting statistics: '+ reason);
+          reject('Problem getting statistics, '+ reason);
       });
   });
 }
@@ -134,7 +135,7 @@ function saveNewUser(req){
         //Spara ny användare
         user.save(function (err) {
             if (err)
-                reject('Couldnt save new user'+err);
+                reject('Unable to save new user'+err);
             else{
                 storage.setItem('savedUserStorage', user);
                 resolve(user);
@@ -143,7 +144,7 @@ function saveNewUser(req){
       })
       .catch(
         function(reason) {
-            resolve('Couldnt get statistics: '+ reason);
+            resolve('Problem getting statistics, '+ reason);
         });
     });
 }

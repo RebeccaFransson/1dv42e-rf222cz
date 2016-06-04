@@ -5,19 +5,18 @@ import React from 'react';
 import actions from '../../redux/actions';
 import StatisticsSlides from './StatisticsSlides';
 
-//const url = 'http://188.166.116.158:8080';//publik
-const url = 'http://localhost:8080';//lokal
-
 export default class LoggedIn extends React.Component{
 
   componentWillMount() {
+    //hämtar användarprofilen från auth0
+    var that = this;
     this.props.lock.getProfile(this.props.token, function (err, profile) {
       if (err) {
         that.props.dispatch(actions.setError('Error loading the Profile: '+err));
       }
       this.props.dispatch(actions.saveProfile(profile, this.props.token));
 
-      var that = this;
+      //Hämtar information från servern och sparar den eller skriver ut error
       this.handleSaveProfileToDB(profile)
       .then(function(data){
         that.props.dispatch(actions.saveStatistics(data));
@@ -34,7 +33,7 @@ export default class LoggedIn extends React.Component{
   handleSaveProfileToDB(profile){
     return new Promise(function(resolve, reject){
       $.ajax({
-          url:        url+'/saveProfile',
+          url:        window.location.origin+'/saveProfile',
           data:       JSON.stringify(profile),
           method:     "POST",
           dataType:   "json",
@@ -44,6 +43,8 @@ export default class LoggedIn extends React.Component{
       })
     });
   }
+
+  //Loggar ut användaren
   handleLogout(e){
     e.preventDefault();
     sessionStorage.removeItem('userToken');
@@ -51,8 +52,9 @@ export default class LoggedIn extends React.Component{
     //redirect
     window.location.hash = '';
   }
+
+  //Visar och stänger info-rutan
   handleInfo(e){
-    console.log(e.target.id);
     if(e.target.id == 'close'){
       $('#info').css({'visibility':'hidden', 'opacity':'0', 'z-index': '0'})
     }else{
@@ -138,8 +140,10 @@ export default class LoggedIn extends React.Component{
 
 class Statistics extends React.Component{
   render(){
+    //Kollar om något error finns så fall skrivs det ut
+    //Annars skrivs en laddningsscen ut
+    //När statistics har blivit satt i staten visas slidesen
     if(this.props.statistics.mediaOverTime.length < 1){
-      console.log(this.props.error);
       if(this.props.error != undefined){
         return(
           <div class="col-md-12 loading">

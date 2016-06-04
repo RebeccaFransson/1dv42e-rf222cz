@@ -12,19 +12,20 @@ class StatisticsSlides extends React.Component{
     var isPinned = false;
 
     //Visa data när användaren scrollar ned
-    sr.reveal('#topThree', { duration: 1000,  origin: 'bottom', distance    : '500px' });
+    console.log('#'+this.getSlides()[0]);
+    sr.reveal('#'+this.getSlides()[0], { duration: 1000,  origin: 'bottom', distance    : '500px' });
 
     let colors = {fill: 'rgba(255,221,134,0.2)', stroke: 'rgba(239,116,59,0.49)', point: 'rgba(211,45,147,0.49)'}
-    sr.reveal('#mediaOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px' });
-    createChart('mediaOverTimeCanvas', this.props.statistics.mediaOverTime, colors);
-
-    colors = {fill: 'rgba(239,116,59,0.2)', stroke: 'rgba(211,45,147,0.49)', point: 'rgba(255,221,134,0.49)'}
-    sr.reveal('#followsOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px'});
-    createChart('followed_byOverTimeCanvas', this.props.statistics.followed_byOverTime, colors);
+    sr.reveal('#'+this.getSlides()[1], { duration: 1000,  origin: 'bottom', distance    : '500px' });
+    createChart(this.getSlides()[1]+'Canvas', this.props.statistics.mediaOverTime, colors);
 
     colors = {fill: 'rgba(211,45,147,0.2)', stroke: 'rgba(255,221,134,0.49)', point: 'rgba(239,116,59,0.49)'}
-    sr.reveal('#followed_byOverTime', { duration: 1000,  origin: 'bottom', distance    : '500px'});
-    createChart('followsOverTimeCanvas', this.props.statistics.followsOverTime, colors);
+    sr.reveal('#'+this.getSlides()[2], { duration: 1000,  origin: 'bottom', distance    : '500px'});
+    createChart(this.getSlides()[2]+'Canvas', this.props.statistics.followsOverTime, colors);
+
+    colors = {fill: 'rgba(239,116,59,0.2)', stroke: 'rgba(211,45,147,0.49)', point: 'rgba(255,221,134,0.49)'}
+    sr.reveal('#'+this.getSlides()[3], { duration: 1000,  origin: 'bottom', distance    : '500px'});
+    createChart(this.getSlides()[3]+'Canvas', this.props.statistics.followed_byOverTime, colors);
 
     var that = this;
     $(window).scroll(function() {
@@ -44,27 +45,26 @@ class StatisticsSlides extends React.Component{
           that.props.dispatch(actions.toggleNext(that.getSlides()[0]));
         }
       }
-      //Om current är den sista sliden sätt till den första
-      if(that.checkScrollElement('#topThree', this)){
+      //Kollar om nästa data syns för användaren sätter så fall sätter state till nästa slide
+      if(that.checkScrollElement('#'+that.getSlides()[0], this)){
         if(that.props.currentSlide == that.getSlides()[that.getSlides().length-1]){//sista sliden
           that.props.dispatch(actions.toggleNext(that.getSlides()[0]));
         }
       }
-      //Kollar om nästa data syns för användaren sätter så fall sätter ste till nästa slide
-      if(that.checkScrollElement('#mediaOverTime', this)){
+      if(that.checkScrollElement('#'+that.getSlides()[1], this)){
         if(that.props.currentSlide == that.getSlides()[0]){//första sliden
           that.props.dispatch(actions.toggleNext(that.getSlides()));
         }
       }
-      if(that.checkScrollElement('#followed_byOverTime', this)){
-        if(that.props.currentSlide == 'mediaOverTime'){
+      if(that.checkScrollElement('#'+that.getSlides()[2], this)){
+        if(that.props.currentSlide == that.getSlides()[1]){
           that.props.dispatch(actions.toggleNext(that.getSlides()));
         }
       }
       if(that.props.currentSlide != 'end'){
         //Om användaren ser den sista sliden sätt currentSlide till den sista för att visa knapp med pil-uppåt
         if(that.checkScrollElement('#followsOverTime', this)){
-          if(that.props.currentSlide == 'followed_byOverTime'){
+          if(that.props.currentSlide == that.getSlides()[2]){
             that.props.dispatch(actions.toggleNext('end'));
           }
         }

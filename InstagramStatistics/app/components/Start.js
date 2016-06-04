@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import LoggedIn from './LoggedIn';
 import Login from './Login';
-import About from './About';
 import actions from '../../redux/actions'
 
 const Auth0Lock = require('auth0-lock');
@@ -12,20 +11,18 @@ const Auth0Lock = require('auth0-lock');
 class Start extends React.Component{
 
   componentWillMount(){
+    //Uppgifter från mitt Auth0 konto för att kunna använda Auth0
     this.lock = new Auth0Lock('WIv6wHA65nPGI6XJI96JO6oHAYv2RuiV', 'ymafransson.eu.auth0.com');
     this.props.dispatch(actions.savetoken(this.getToken()));
   }
 
   getToken(){
+    //Hämtar användaren authentisierings uppgifter med hjälp utav Auth0
     let token = sessionStorage.getItem('userToken');
     let authHash = this.lock.parseHash(window.location.hash);
     if(token != null){
-      console.log('skapa');
-      //var accessToken = JSON.parse(token).accessToken;
       var idToken = JSON.parse(token);
     }else{
-      console.log('skapa null');
-      //var accessToken = null;
       var idToken = null;
     }
     if (!token && authHash) {
@@ -41,6 +38,7 @@ class Start extends React.Component{
     return idToken;
   }
   render(){
+    //Om användaren är inloggad så visar vi förstasidan, annars inloggningssidan
     if (this.props.user.token) {
       return (<LoggedIn
         dispatch={this.props.dispatch}

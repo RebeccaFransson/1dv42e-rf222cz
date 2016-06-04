@@ -5,21 +5,24 @@ var User = require('../data/users');
 var statisticsController = require("./statisticsController");
 
 module.exports = {
+  //Kollar vilka användare som behöver uppdaeras och uppdaerar dem
   checkForUpdate: function(){
     var that = this;
     this.getAllUsers().then(function(users, err){
       if (err) {
         console.log(err);
-      }
-      for (var i = 0; i < users.length; i++) {
-        var updateErr = that.updateSavedUser(users[i])
-          .then(function(user){
-            console.log(user.nickname);
-          });
+      }else{
+        for (var i = 0; i < users.length; i++) {
+          var updateErr = that.updateSavedUser(users[i])
+            .then(function(user){
+              console.log('---> '+user.nickname);
+            });
+        }
       }
     })
   },
   getAllUsers: function(){
+    //Hämtar ut alla användare som behöver en uppdatering
     var day = (60000*60)*24;//(1min*60min)*24h = dag i millisekunder
     //var minute = 60000;
     var compareDate = new Date().getTime() - day;
@@ -27,25 +30,25 @@ module.exports = {
     return new Promise(function(resolve, reject){
       User.find({}, function (err, users) {
         if (err) {
-          reject(err)
-        }
-        for (var i = 0; i < users.length; i++) {
-          if(new Date(users[i].last_save).getTime() < compareDate){//Kolla om den är äldre än en dag
-            usersNeedUpdate.push(users[i]);
+          console.log('Unable to find users');//Detta hamnar bara på serven så inget som användaren behöver se
+        }else{
+          for (var i = 0; i < users.length; i++) {
+            if(new Date(users[i].last_save).getTime() < compareDate){//Kolla om den är äldre än en dag
+              usersNeedUpdate.push(users[i]);
+            }
           }
+          resolve(usersNeedUpdate);
         }
-        resolve(usersNeedUpdate);
       });
     });
   },
 
   updateSavedUser: function(user){
-    //find one and update
+    //Hitta och uppdatera existerande användare
     var that = this;
     return new Promise(function(resolve, reject){
       that.getAllStatistics(user.access_token, user.counts.mediaOverTime, user.counts.followed_byOverTime, user.counts.followsOverTime)
       .then(function(data){
-        //Hitta och uppdatera existerande användare
         User.findOne({'user_id': user.user_id}, function(err, savedUser){
 
           savedUser.counts = data[0];
@@ -53,13 +56,11 @@ module.exports = {
           savedUser.last_save = new Date();
           savedUser.save(function (err) {
             if (err)
-                reject(err);
+                console.log('Unable to save user '+savedUser.nickname);
             else
                 resolve(savedUser);
           });
-
-
-      });
+        });
       });
     });
   },

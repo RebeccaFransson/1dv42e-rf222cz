@@ -26,21 +26,18 @@ MongoDB.on('error', function(err) { console.log(err.message); });
 MongoDB.once('open', function() {
   console.log("mongodb connection open");
 
-  //en gång i veckan, varje måndag
-  /*new CronJob('* * * * * 1', function() {
-    console.log('-----Updating...-------');
-    updateUsersController.checkForUpdate();
-  }, function(){
-    console.log('-----Done updating!-------');
-  }, true, 'Europe/Stockholm');*/
-
-//test: en gång om dagen kl 11:59
-  new CronJob('0 59 11 * * *', function() {
+  //en gång i veckan, varje måndag kl 23:59
+  new CronJob('0 59 23 * * 1', function() {
     console.log('-----Updating...-------');
     console.log(new Date());
     updateUsersController.checkForUpdate();
-  }, function(){
-    console.log('-----Done updating!-------');
-  }, true, 'Europe/Stockholm');
+  }, null, true, 'Europe/Stockholm');
 
+//test: en gång om dagen kl 08:00
+/*  new CronJob('0 0 8 * * *', function() {
+    console.log('-----Updating...-------');
+    console.log(new Date());
+    updateUsersController.checkForUpdate();
+  }, null, true, 'Europe/Stockholm');
+*/
 });

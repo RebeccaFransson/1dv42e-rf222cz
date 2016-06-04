@@ -2,6 +2,7 @@
 var request = require('request');
 
 module.exports = {
+  //Gör ett anrop till instagram-api och lägger sedan till de nya nummerna i arrayerna och skickar tillbaka arrayerna
   mediaAndFollowedBy: function(token, media, followed_by, follows){
     return new Promise(function(resolve, reject){
       request('https://api.instagram.com/v1/users/self/?access_token='+token,
@@ -12,23 +13,22 @@ module.exports = {
           follows.push({count: JSON.parse(body).data.counts.follows, date: new Date()});
           resolve({mediaOverTime: media, followed_byOverTime: followed_by, followsOverTime: follows});
         }else{
-          reject('Couldnt get statistics: '+ error);
+          reject("couldn't fetch from api: "+ error);
         }
       });
 
     });
   },
+
+  //Gör ett anrop till instagram-api och räknar sedan ut de tre bilderna med flest likes.
   getThreeMostLikedPictures: function(token){
     return new Promise(function(resolve, reject){
       var max_id = '';
       var topThree = [];
-      //TODO: om instagram kan ge fler än 20 bilde -> while loop för att se om max_id finns
       request('https://api.instagram.com/v1/users/self/media/recent/?access_token='+token+'&count=19&max_id='+max_id,
       function (error, response, body) {
 
         var responseArray = JSON.parse(body).data;
-        //Räkna ut bilden med minst likes
-
         if (!error && response.statusCode == 200) {
           for (var i = 0; i < responseArray.length; i++) {
             //sortera topThree, kolla om nya är mer eller mindre än sista(minsta) värdet i arrayen såfall ersätt
@@ -51,19 +51,16 @@ module.exports = {
               }
             }
           }
-          //Måste fråga en gång till och ändra max_id
+          //Sorterar array -> 1.2.3.
           topThree.sort(function(a, b){
             var x = a['likes']; var y = b['likes'];
             return ((x < y) ? 1 : ((x > y) ? -1 : 0))});
-          //console.log(topThree);
-          //Spara bilden och antal likes
-          //Jämföra med andra bilder ta ut den som är minst och jämför med den nya
 
 
           //Skicka tillbaka array med tio populäraste
           resolve(topThree);
         }else{
-          reject('Couldnt get the top three pictures: ', error);
+          reject("couldn't fetch the top three pictures: ", error);
         }
       });
 

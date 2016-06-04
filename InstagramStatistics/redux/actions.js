@@ -1,5 +1,5 @@
 "use strict";
-
+//Man kallar på en action som sedan tas vidare till reducern med hjälp utav arkitekturen readux.
 let actions = {
   setError: function(err){
     return {

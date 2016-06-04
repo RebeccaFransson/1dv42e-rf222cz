@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import Start from './components/Start';
-import About from './components/About';
 import configureStore from '../redux/store';
 
 let initialSate = {

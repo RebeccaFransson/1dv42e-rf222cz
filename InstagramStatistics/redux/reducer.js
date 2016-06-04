@@ -1,5 +1,6 @@
 "use strict";
 /*
+Kollar efter olika funktioner
 Tar gamla staten, kopierar den och ändrar på kopian
 */
 export default function reducer(currState, action){
