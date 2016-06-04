@@ -1,9 +1,11 @@
 body{
   background-color: #FAFAFA;
   font-family: 'Ubuntu', sans-serif;
+    min-width: 995px;
 }
 
 .container{
+
   width: 100% !important;
   height: 100vh;
   margin: 0;
