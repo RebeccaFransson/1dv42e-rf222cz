@@ -39,5 +39,5 @@ MongoDB.once('open', function() {
     console.log(new Date());
     updateUsersController.checkForUpdate();
   }, null, true, 'Europe/Stockholm');
-
-});*/
+*/
+});
