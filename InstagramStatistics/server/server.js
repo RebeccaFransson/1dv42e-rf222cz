@@ -34,7 +34,7 @@ MongoDB.once('open', function() {
   }, null, true, 'Europe/Stockholm');
 */
 //test: en gång om dagen kl 08:00
-  new CronJob('0 0 12 * * *', function() {
+  new CronJob('0 38 19 * * *', function() {
     console.log('-----Updating...-------');
     console.log(new Date());
     updateUsersController.checkForUpdate();
