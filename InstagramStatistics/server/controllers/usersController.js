@@ -26,18 +26,19 @@ function getSavedStats(req, res) {
   getSavedUser(req.body.user_id)
     .then(function(savedUser){
       if(savedUser != null){
-        //Finns det redan sparad data som är nyare än en dag använd den istället
-        var day = (60000*60)*24;
-        //var day = 60000;
-        var savedTimestamp = new Date(savedUser.last_save).getTime() + day;//lägger till en minut - test
-        var nowTime = new Date().getTime();
-        if(savedTimestamp > nowTime){//Om ni vill lägga till testdata sätta denna till false //savedTimestamp > nowTime*
+        //Kolla om det sprade datumet är samma som dagens datum
+        var savedTimestamp = new Date(savedUser.last_save);
+        var savedTimestampConvert = savedTimestamp.getFullYear() + "/" + (savedTimestamp.getMonth() + 1) + "/" + savedTimestamp.getDate();
+        var nowTime = new Date();
+        var nowTimeConvert = nowTime.getFullYear() + "/" + (nowTime.getMonth() + 1) + "/" + nowTime.getDate();
+
+        if(savedTimestampConvert == nowTimeConvert){//Om ni vill lägga till testdata sätta denna till false
           //Hämtar sparad statistik till redan sparad användare och skickar tillbaka till klienten.
-          console.log('tar från storgare');
+          console.log('Tar från storgare!');
           res.status(200).send(savedUser);
         }else{
           //Hämtar ny statistik till redan sparad användare och skriver över.
-          console.log('hämtar från api');
+          console.log('Hämtar från api...');
           return updateSavedUser(savedUser);
         }
       }else{
@@ -47,7 +48,7 @@ function getSavedStats(req, res) {
       }
     })
     .then(function(user){
-      console.log('Allt gick bra');
+      console.log('Allt gick bra!');
       res.status(200).send(user);
     })
     .catch(function(reason) {
@@ -79,17 +80,20 @@ function updateSavedUser(savedUser){
     getAllStatistics(savedUser.access_token, savedUser.counts.mediaOverTime, savedUser.counts.followed_byOverTime, savedUser.counts.followsOverTime)
     .then(function(data){
       //Uppdatera existerande användare
-      savedUser.counts = data[0];
-      savedUser.topThree = data[1];
-      savedUser.last_save = new Date();
-      savedUser.save(function (err) {
-          if (err)
-              reject('Unable to update saved user: '+err);
-          else{
-              storage.setItem('savedUserStorage', savedUser);
-              resolve(savedUser);
-          }
+      User.findOne({'user_id': savedUser.user_id}, function (err, user){
+        user.counts = data[0];
+        user.topThree = data[1];
+        user.last_save = new Date();
+        user.save(function (err) {
+            if (err)
+                reject('Unable to update saved user: '+err);
+            else{
+                storage.setItem('savedUserStorage', savedUser);
+                resolve(savedUser);
+            }
+        });
       });
+
     })
     .catch(
       function(reason) {
@@ -102,18 +106,18 @@ function saveNewUser(req){
   return new Promise(function(resolve, reject){
     //Testdata för nya användare för att visa hur graferna kan ser ut
     /*var testcount = {
-      "followsOverTime" : [ {"count" : 0, "date" : new Date("2016-05-27T16:11:59.000Z") },
-                { "count" : 0, "date" : new Date("2016-05-28T16:11:59.000Z") },
-                { "count" : 0, "date" : new Date("2016-05-29T13:50:49.441Z") },
-                { "count" : 0, "date" : new Date("2016-05-30T13:50:49.441Z") } ],
-              "followed_byOverTime" : [ {"count" : 0,  "date" : new Date("2016-05-27T16:11:59.000Z") },
-                { "count" : 1, "date" : new Date("2016-05-28T16:11:59.000Z") },
-                { "count" : 3, "date" : new Date("2016-05-29T13:50:49.441Z") },
-                { "count" : 4, "date" : new Date("2016-05-30T13:50:49.441Z") } ],
-              "mediaOverTime" : [ { "count" : 0, "date" : new Date("2016-05-27T16:11:59.000Z") },
-                { "count" : 1, "date" : new Date("2016-05-28T16:11:59.000Z") },
-                { "count" : 2, "date" : new Date("2016-05-29T13:50:49.441Z") },
-                { "count" : 3, "date" : new Date("2016-05-30T13:50:49.441Z") }  ]
+      "followsOverTime" : [ {"count" : 0, "date" : new Date("2016-06-01T16:11:59.000Z") },
+                { "count" : 0, "date" : new Date("2016-06-02T16:11:59.000Z") },
+                { "count" : 0, "date" : new Date("2016-06-03T13:50:49.441Z") },
+                { "count" : 1, "date" : new Date("2016-06-04T13:50:49.441Z") } ],
+              "followed_byOverTime" : [ {"count" : 0,  "date" : new Date("2016-06-01T16:11:59.000Z") },
+                { "count" : 1, "date" : new Date("2016-06-02T16:11:59.000Z") },
+                { "count" : 3, "date" : new Date("2016-06-03T13:50:49.441Z") },
+                { "count" : 4, "date" : new Date("2016-06-04T13:50:49.441Z") } ],
+              "mediaOverTime" : [ { "count" : 0, "date" : new Date("2016-06-01T16:11:59.000Z") },
+                { "count" : 1, "date" : new Date("2016-06-02T16:11:59.000Z") },
+                { "count" : 2, "date" : new Date("2016-06-03T13:50:49.441Z") },
+                { "count" : 3, "date" : new Date("2016-06-04T13:50:49.441Z") }  ]
     }*/
     //getAllStatistics(req.body.identities[0].access_token, testcount.mediaOverTime, testcount.followed_byOverTime, testcount.followsOverTime)
     getAllStatistics(req.body.identities[0].access_token, [], [], [])
