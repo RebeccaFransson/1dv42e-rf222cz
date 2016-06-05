@@ -56,6 +56,7 @@ class Start extends React.Component{
   }
 };
 
+//Denna react-komponenten får tag i all data på staten
 function mapStateToProps(state){
   return state;
 }
