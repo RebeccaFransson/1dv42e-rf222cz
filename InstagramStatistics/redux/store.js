@@ -5,7 +5,7 @@ import reducer from './reducer';
 
 // om så önskas kan extra-tillägg läggas till här, tex logger för development-mode
 let finalCreateStore = compose(
-  applyMiddleware(logger())
+  //applyMiddleware(logger())
 )(createStore);
 
 //Default på initialState

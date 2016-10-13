@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Chart from 'chart.js';
 import $ from 'jquery';
 import ScrollReveal from 'scrollreveal';
+import * as mCD from '../minimizeChartData';
 
 import actions from '../../redux/actions';
 
@@ -191,18 +192,29 @@ class Profile extends React.Component{
 function createChart(id, data, colors){
   //TODO:soertera per år & månad okcså
   var ctx = document.getElementById(id);
-  //sätt data och labels i arrayser
+  //sätt data och labels i arrayer
   var dataArray = [], labels = [];
-  Date.prototype.yyyymmdd = function() {
-    var yyyy = this.getFullYear().toString();
-    var mm = (this.getMonth()+1).toString(); // getMonth() är noll-baserad
-    var dd  = this.getDate().toString();
-    return yyyy +'-'+ (mm[1]?mm:"0"+mm[0]) +'-'+ (dd[1]?dd:"0"+dd[0]); // padding
-   };
-  for (var i = 0; i < data.length; i++) {
-    dataArray.push(data[i].count);
-    labels.push(new Date(data[i].date).yyyymmdd());
-  }
+  //prototyper
+  //Hur datum skrivs ut
+
+
+//Om det är mer data än för 20 dagar så gör vi om datan
+//Annars tar vi den hämtade
+  /*if(data.length > 20){
+    labels = mCD.getLablesWeeks(data, 1);
+    dataArray = mCD.getDataArrayWeeks(data, 1);
+  }else{
+    for (var i = 0; i < data.length; i++) {
+      dataArray.push(data[i].count);
+      let saveDate = yyyymmdd(new Date(data[i].date))
+      labels.push(saveDate);
+    }
+  }*/
+  labels = mCD.getLablesWeeks(data, 1);
+  dataArray = mCD.getDataArray();
+
+  console.log('data: '+dataArray);
+  console.log('lables:  '+labels);
 
   if(ctx != null){
     var chartData ={
